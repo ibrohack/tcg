@@ -30,7 +30,7 @@ public class ImplCardBD implements CardDAO {
     final String SQLMODIFICAR = "UPDATE Cards SET Name=?, Quality=?, Description=? WHERE CardId=?";
 
     public ImplCardBD() {
-        this.configFile = ResourceBundle.getBundle("configClase");
+        this.configFile = ResourceBundle.getBundle("configBD");
         this.driverBD = this.configFile.getString("Driver");
         this.urlBD = this.configFile.getString("Conn");
         this.userBD = this.configFile.getString("DBUser");
@@ -42,10 +42,10 @@ public class ImplCardBD implements CardDAO {
             Class.forName(this.driverBD);
             connection = DriverManager.getConnection(urlBD, this.userBD, this.passwordBD);
         } catch (ClassNotFoundException e) {
-            System.out.println("Error loading ");
+            System.out.println("Error loading driver");
             e.printStackTrace();
         } catch (SQLException e) {
-            System.out.println("Error al intentar abrir la BD");
+            System.out.println("Error opening database");
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
