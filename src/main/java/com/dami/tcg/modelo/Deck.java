@@ -1,25 +1,25 @@
 package com.dami.tcg.modelo;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Deck {
 	private int deckID;
 	private String title;
 	private String description;
-	private ArrayList<Card> aCard;
+	private HashMap<Integer, Integer> cards;
 	
 	public Deck() {
 		this.deckID = 0;
 		this.title = "";
 		this.description = "";
-		this.aCard = new ArrayList<Card>();
+		this.cards = new HashMap<Integer, Integer>();
 	}
 
-	public Deck(int deckID, String title, String description, ArrayList<Card> aCard) {
+	public Deck(int deckID, String title, String description, HashMap<Integer, Integer> cards) {
 		this.deckID = deckID;
 		this.title = title;
 		this.description = description;
-		this.aCard = aCard;
+		this.cards = cards;
 	}
 
 	public int getDeckID() {
@@ -40,15 +40,15 @@ public class Deck {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public ArrayList<Card> getaCard() {
-		return aCard;
+	public HashMap<Integer, Integer> getaCard() {
+		return cards;
 	}
-	public void setaCard(ArrayList<Card> aCard) {
-		this.aCard = aCard;
+	public void setaCard(HashMap<Integer, Integer> cards) {
+		this.cards = cards;
 	}
 	
 	@Override
 	public String toString() {
-		return "Deck [deckID=" + deckID + ", title=" + title + ", description=" + description + ", aCard=" + aCard+ "]";
+		return "Deck [deckID=" + deckID + ", title=" + title + ", description=" + description + ", cards=" + cards+ "]";
 	}
 }
