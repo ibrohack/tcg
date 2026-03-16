@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ImplCardDAO implements CardDAO {
+public class ImplCardBD implements CardDAO {
     // Attributes
     private Connection connection;
     private PreparedStatement statement;
@@ -29,7 +29,7 @@ public class ImplCardDAO implements CardDAO {
     final String SQLBORRAR = "DELETE FROM Cards WHERE CardId=?";
     final String SQLMODIFICAR = "UPDATE Cards SET Name=?, Quality=?, Description=? WHERE CardId=?";
 
-    public ImplCardDAO() {
+    public ImplCardBD() {
         this.configFile = ResourceBundle.getBundle("configClase");
         this.driverBD = this.configFile.getString("Driver");
         this.urlBD = this.configFile.getString("Conn");
