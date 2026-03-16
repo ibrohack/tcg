@@ -89,7 +89,7 @@ public class ImplCardBD implements CardDAO {
                 statement.close();
                 connection.close();
             } catch (SQLException e) {
-                System.out.println("Error al insertar equipo: " + e.getMessage());
+                System.out.println("Error inserting card: " + e.getMessage());
             }
         }
         return ok;
@@ -109,7 +109,7 @@ public class ImplCardBD implements CardDAO {
                 statement.close();
                 connection.close();
             } catch (SQLException e) {
-                System.out.println("Error al borrar equipo: " + e.getMessage());
+                System.out.println("Error deleting card: " + e.getMessage());
             }
         }
         return ok;
@@ -132,7 +132,7 @@ public class ImplCardBD implements CardDAO {
                 statement.close();
                 connection.close();
             } catch (SQLException e) {
-                System.out.println("Error al modificar equipo: " + e.getMessage());
+                System.out.println("Error updating card: " + e.getMessage());
             }
         }
         return ok;
@@ -153,7 +153,7 @@ public class ImplCardBD implements CardDAO {
             statement.close();
             connection.close();
         } catch (SQLException e) {
-            System.out.println("Error al obtener equipos: " + e.getMessage());
+            System.out.println("Error getting cards: " + e.getMessage());
         }
         return cards;
     }
@@ -177,7 +177,7 @@ public class ImplCardBD implements CardDAO {
             statement.close();
             connection.close();
         } catch (SQLException e) {
-            System.out.println("Error al obtener equipo por nombre: " + e.getMessage());
+            System.out.println("Error getting card by name: " + e.getMessage());
         }
         return card;
     }
