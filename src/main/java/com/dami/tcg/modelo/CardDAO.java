@@ -13,5 +13,5 @@ public interface CardDAO {
 
     public List<Card> queryAll();
 
-    public Card queryCard(int cardId);
+    public Card queryCard(String name);
 }
