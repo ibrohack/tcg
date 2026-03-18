@@ -6,7 +6,7 @@ import java.util.HashMap;
 public class Player {
 	private int playerId;
 	private String username;
-	private String passwore;
+	private String password;
 	private HashMap<Integer, Integer> cards;
 	private ArrayList<Deck> decks;
 	
@@ -35,26 +35,24 @@ public class Player {
 		this.username = username;
 	}
 	public final String getPasswore() {
-		return passwore;
+		return password;
 	}
-	public final void setPasswore(String passwore) {
-		this.passwore = passwore;
+	public final void setPasswore(String password) {
+		this.password = password;
 	}
 	
-	public Player(int playerId, String username, String passwore, HashMap<Integer, Integer> cards, ArrayList<Deck> decks) {
-		super();
+	public Player(int playerId, String username, String password, HashMap<Integer, Integer> cards, ArrayList<Deck> decks) {
 		this.playerId = playerId;
 		this.username = username;
-		this.passwore = passwore;
+		this.password = password;
 		this.cards = cards;
 		this.decks = decks;
 	}
 	public Player() {
-		super();
 	}
 	@Override
 	public String toString() {
-		return "Player [playerId=" + playerId + ", username=" + username + ", passwore=" + passwore + ", cards=" + cards
+		return "Player [playerId=" + playerId + ", username=" + username + ", password=" + password + ", cards=" + cards
 				+ ", decks=" + decks + "]";
 	}
 	

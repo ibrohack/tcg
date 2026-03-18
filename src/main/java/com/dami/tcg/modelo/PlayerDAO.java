@@ -1,5 +1,7 @@
 package com.dami.tcg.modelo;
 
+import java.util.HashMap;
+
 public interface PlayerDAO {
     public boolean checkPlayer(Player player);
 
@@ -10,4 +12,6 @@ public interface PlayerDAO {
     public boolean updatePlayer(Player player);
     
     public Player queryPlayer(int playerID);
+    
+    public HashMap<Integer,Integer> queryCardPlayer(int playerID);
 }
