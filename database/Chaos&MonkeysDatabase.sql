@@ -43,7 +43,7 @@ CREATE TABLE DecksCards (
     FOREIGN KEY (CardID) REFERENCES Cards(CardID)
 );
 
-INSERT INTO Cards (Name, Quality, Description) VALUES
+INSERT INTO Cards (CardName, Quality, CardDescription) VALUES
 ('Royal Mandrill', 'Legendary', 'A natural leader with vibrant facial colors and a fierce gaze.'),
 ('Common Marmoset', 'Common', 'Tiny, elusive, and has a great love for tropical fruits.'),
 ('Mountain Gorilla', 'Epic', 'Pure brute strength capable of uprooting entire trees.'),
@@ -191,7 +191,7 @@ DELIMITER ;
 
 
 -- Test Player Insert
-INSERT INTO Player (Username, Password) VALUES ('player1', 'pass1');
-INSERT INTO Player (Username, Password) VALUES ('player2', 'pass2');
+INSERT INTO Player (Username, PlayerPassword) VALUES ('player1', 'pass1');
+INSERT INTO Player (Username, PlayerPassword) VALUES ('player2', 'pass2');
 
 INSERT INTO PlayerCards (PlayerID, CardID) VALUES (1, 1);
