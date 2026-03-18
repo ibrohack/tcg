@@ -10,8 +10,8 @@ public interface PlayerDAO {
     public boolean deletePlayer(Player player);
 
     public boolean updatePlayer(Player player);
-    
+
     public Player queryPlayer(int playerID);
-    
-    public HashMap<Integer,Integer> queryCardPlayer(int playerID);
+
+    public HashMap<Integer, Integer> queryPlayerCards(int playerID);
 }

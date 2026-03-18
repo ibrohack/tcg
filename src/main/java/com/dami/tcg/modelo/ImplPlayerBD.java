@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
-public class ImplPlayerBD implements PlayerDAO{
+public class ImplPlayerBD implements PlayerDAO {
     // Attributes
     private Connection connection;
     private PreparedStatement statement;
@@ -22,15 +22,15 @@ public class ImplPlayerBD implements PlayerDAO{
     private String passwordBD;
 
     // SQL Statements
-    final String SQLSELECT = "SELECT * FROM Player WHERE playerId = ?";
+    final String SQLSELECT = "SELECT * FROM Player WHERE PlayerId = ?";
     final String SQLINSERT = "INSERT INTO Player VALUES (?,?,?)";
     final String SQLCONSULTA = "SELECT * FROM Player";
-    final String SQLBORRAR = "DELETE FROM Player WHERE playerId=?";
-    final String SQLMODIFICAR = "UPDATE Player SET password=? WHERE playerId=?";
-    final String SQLSELECTCARDS = "SELECT * FROM HAS WHERE playerId=?";
+    final String SQLBORRAR = "DELETE FROM Player WHERE PlayerId=?";
+    final String SQLMODIFICAR = "UPDATE Player SET PlayerPassword=? WHERE PlayerId=?";
+    final String SQLSELECTCARDS = "SELECT * FROM HAS WHERE PlayerId=?";
 
     public ImplPlayerBD() {
-        this.configFile = ResourceBundle.getBundle("configClase");
+        this.configFile = ResourceBundle.getBundle("configDB");
         this.driverBD = this.configFile.getString("Driver");
         this.urlBD = this.configFile.getString("Conn");
         this.userBD = this.configFile.getString("DBUser");
@@ -42,19 +42,19 @@ public class ImplPlayerBD implements PlayerDAO{
             Class.forName(this.driverBD);
             connection = DriverManager.getConnection(urlBD, this.userBD, this.passwordBD);
         } catch (ClassNotFoundException e) {
-            System.out.println("Error loading ");
+            System.out.println("Error loading driver");
             e.printStackTrace();
         } catch (SQLException e) {
-            System.out.println("Error al intentar abrir la BD");
+            System.out.println("Error opening database");
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-	@Override
-	public boolean checkPlayer(Player player) {
-		boolean existe = false;
+    @Override
+    public boolean checkPlayer(Player player) {
+        boolean existe = false;
         this.openConnection();
         try {
             statement = connection.prepareStatement(SQLSELECT);
@@ -68,36 +68,36 @@ public class ImplPlayerBD implements PlayerDAO{
             statement.close();
             connection.close();
         } catch (SQLException e) {
-            System.out.println("Error verifying card: " + e.getMessage());
+            System.out.println("Error verifying player: " + e.getMessage());
         }
         return existe;
-	}
+    }
 
-	@Override
-	public boolean insertPlayer(Player player) {
-		boolean ok = false;
+    @Override
+    public boolean insertPlayer(Player player) {
+        boolean ok = false;
         if (!checkPlayer(player)) {
             this.openConnection();
             try {
                 statement = connection.prepareStatement(SQLINSERT);
                 statement.setInt(1, player.getPlayerId());
                 statement.setString(2, player.getUsername());
-                statement.setString(3, player.getPasswore());
+                statement.setString(3, player.getPassword());
                 if (statement.executeUpdate() > 0) {
                     ok = true;
                 }
                 statement.close();
                 connection.close();
             } catch (SQLException e) {
-                System.out.println("Error inserting card: " + e.getMessage());
+                System.out.println("Error inserting player: " + e.getMessage());
             }
         }
         return ok;
-	}
+    }
 
-	@Override
-	public boolean deletePlayer(Player player) {
-		boolean ok = false;
+    @Override
+    public boolean deletePlayer(Player player) {
+        boolean ok = false;
         if (checkPlayer(player)) {
             this.openConnection();
             try {
@@ -109,20 +109,20 @@ public class ImplPlayerBD implements PlayerDAO{
                 statement.close();
                 connection.close();
             } catch (SQLException e) {
-                System.out.println("Error deleting card: " + e.getMessage());
+                System.out.println("Error deleting player: " + e.getMessage());
             }
         }
         return ok;
-	}
+    }
 
-	@Override
-	public boolean updatePlayer(Player player) {
-		boolean ok = false;
+    @Override
+    public boolean updatePlayer(Player player) {
+        boolean ok = false;
         if (checkPlayer(player)) {
             this.openConnection();
             try {
                 statement = connection.prepareStatement(SQLMODIFICAR);
-                statement.setString(1, player.getPasswore());
+                statement.setString(1, player.getPassword());
                 statement.setInt(2, player.getPlayerId());
                 if (statement.executeUpdate() > 0) {
                     ok = true;
@@ -130,54 +130,54 @@ public class ImplPlayerBD implements PlayerDAO{
                 statement.close();
                 connection.close();
             } catch (SQLException e) {
-                System.out.println("Error updating card: " + e.getMessage());
+                System.out.println("Error updating player: " + e.getMessage());
             }
         }
         return ok;
-	}
+    }
 
-	@Override
-	public Player queryPlayer(int playerID) {
-		Player player= null;
+    @Override
+    public Player queryPlayer(int playerId) {
+        Player player = null;
         this.openConnection();
         try {
-        	statement = connection.prepareStatement(SQLSELECT);
-            statement.setInt(1, player.getPlayerId());
+            statement = connection.prepareStatement(SQLSELECT);
+            statement.setInt(1, playerId);
             ResultSet resultado = statement.executeQuery();
             if (resultado.next()) {
                 player = new Player(
                         resultado.getInt("PlayerId"),
                         resultado.getString("Username"),
-                        resultado.getString("Password"),
-                        queryCardPlayer(playerID),
+                        resultado.getString("PlayerPassword"),
+                        queryPlayerCards(playerId),
                         null);
             }
             resultado.close();
             statement.close();
             connection.close();
         } catch (SQLException e) {
-            System.out.println("Error getting card by name: " + e.getMessage());
+            System.out.println("Error getting player by ID: " + e.getMessage());
         }
         return player;
-	}
+    }
 
-	@Override
-	public HashMap<Integer, Integer> queryCardPlayer(int playerID) {
-		HashMap<Integer,Integer> cards = new HashMap<Integer,Integer>();
-		this.openConnection();
+    @Override
+    public HashMap<Integer, Integer> queryPlayerCards(int playerID) {
+        HashMap<Integer, Integer> cards = new HashMap<Integer, Integer>();
+        this.openConnection();
         try {
-        	statement = connection.prepareStatement(SQLSELECTCARDS);
+            statement = connection.prepareStatement(SQLSELECTCARDS);
             statement.setInt(1, playerID);
             ResultSet resultado = statement.executeQuery();
-            while(resultado.next()) {
-            	cards.put(resultado.getInt("CardID"), resultado.getInt("quantity"));
+            while (resultado.next()) {
+                cards.put(resultado.getInt("CardID"), resultado.getInt("Quantity"));
             }
             resultado.close();
             statement.close();
             connection.close();
         } catch (SQLException e) {
-            System.out.println("Error getting card by name: " + e.getMessage());
+            System.out.println("Error getting cards of the player: " + e.getMessage());
         }
-		return null;
-	}
+        return cards;
+    }
 }
