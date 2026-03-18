@@ -23,11 +23,11 @@ public class ImplCardBD implements CardDAO {
     private String passwordBD;
 
     // SQL Statements
-    final String SQLSELECT = "SELECT * FROM Cards WHERE Name = ?";
+    final String SQLSELECT = "SELECT * FROM Cards WHERE CardName = ?";
     final String SQLINSERT = "INSERT INTO Cards VALUES (?,?,?)";
     final String SQLCONSULTA = "SELECT * FROM Cards";
     final String SQLBORRAR = "DELETE FROM Cards WHERE CardId=?";
-    final String SQLMODIFICAR = "UPDATE Cards SET Name=?, Quality=?, Description=? WHERE CardId=?";
+    final String SQLMODIFICAR = "UPDATE Cards SET CardName=?, Quality=?, CardDescription=? WHERE CardId=?";
 
     public ImplCardBD() {
         this.configFile = ResourceBundle.getBundle("configDB");
@@ -146,8 +146,8 @@ public class ImplCardBD implements CardDAO {
             statement = connection.prepareStatement(SQLCONSULTA);
             ResultSet resultado = statement.executeQuery();
             while (resultado.next()) {
-                cards.add(new Card(resultado.getInt("CardId"), resultado.getString("Name"),
-                        resultado.getString("Quality"), resultado.getString("Description")));
+                cards.add(new Card(resultado.getInt("CardId"), resultado.getString("CardName"),
+                        resultado.getString("Quality"), resultado.getString("CardDescription")));
             }
             resultado.close();
             statement.close();
@@ -169,9 +169,9 @@ public class ImplCardBD implements CardDAO {
             if (resultado.next()) {
                 card = new Card(
                         resultado.getInt("CardId"),
-                        resultado.getString("Name"),
+                        resultado.getString("CardName"),
                         resultado.getString("Quality"),
-                        resultado.getString("Description"));
+                        resultado.getString("CardDescription"));
             }
             resultado.close();
             statement.close();
