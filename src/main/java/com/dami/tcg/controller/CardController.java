@@ -38,11 +38,9 @@ public class CardController {
         return dao.queryCard(name);
     }
 
-    @GetMapping("/cards")
+    @GetMapping("/cards") // This method is called when the user navigates to the localhost:8080/cards URL
     public String listCards(Model model) {
-        Card card1 = new Card(1, "Goku", "Legendary", "Card of Goku");
-        List<Card> cards = new ArrayList<>();
-        cards.add(card1);
+        List<Card> cards = dao.queryAll();
         model.addAttribute("cards", cards);
         return "cards";
     }
