@@ -30,7 +30,7 @@ public class ImplCardBD implements CardDAO {
     final String SQLMODIFICAR = "UPDATE Cards SET Name=?, Quality=?, Description=? WHERE CardId=?";
 
     public ImplCardBD() {
-        this.configFile = ResourceBundle.getBundle("configBD");
+        this.configFile = ResourceBundle.getBundle("configDB");
         this.driverBD = this.configFile.getString("Driver");
         this.urlBD = this.configFile.getString("Conn");
         this.userBD = this.configFile.getString("DBUser");

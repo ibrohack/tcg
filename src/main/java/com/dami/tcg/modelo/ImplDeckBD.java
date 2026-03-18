@@ -3,13 +3,16 @@ package com.dami.tcg.modelo;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ImplDeckBD implements DeckDAO{
+public class ImplDeckBD implements DeckDAO {
 
-	// Attributes
+    // Attributes
     private Connection connection;
     private PreparedStatement statement;
 
@@ -22,11 +25,11 @@ public class ImplDeckBD implements DeckDAO{
     private String passwordBD;
 
     // SQL Statements
-    final String SQLSELECT = "SELECT * FROM Cards WHERE Name = ?";
-    final String SQLINSERT = "INSERT INTO Cards VALUES (?,?,?)";
-    final String SQLCONSULTA = "SELECT * FROM Cards";
-    final String SQLBORRAR = "DELETE FROM Cards WHERE CardId=?";
-    final String SQLMODIFICAR = "UPDATE Cards SET Name=?, Quality=?, Description=? WHERE CardId=?";
+    final String SQLSELECT = "SELECT * FROM Decks WHERE Name = ?";
+    final String SQLINSERT = "INSERT INTO Decks VALUES (?,?,?)";
+    final String SQLCONSULTA = "SELECT * FROM Decks";
+    final String SQLBORRAR = "DELETE FROM Decks WHERE DeckId=?";
+    final String SQLMODIFICAR = "UPDATE Decks SET Title=?, Description=? WHERE DeckId=?";
 
     public ImplDeckBD() {
         this.configFile = ResourceBundle.getBundle("configClase");
@@ -41,53 +44,142 @@ public class ImplDeckBD implements DeckDAO{
             Class.forName(this.driverBD);
             connection = DriverManager.getConnection(urlBD, this.userBD, this.passwordBD);
         } catch (ClassNotFoundException e) {
-            System.out.println("Error loading ");
+            System.out.println("Error loading driver");
             e.printStackTrace();
         } catch (SQLException e) {
-            System.out.println("Error al intentar abrir la BD");
+            System.out.println("Error opening database");
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-	
-	@Override
-	public boolean checkCard(Deck deck) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public boolean checkCard(Deck deck) {
+        boolean existe = false;
+        this.openConnection();
+        try {
+            statement = connection.prepareStatement(SQLSELECT);
+            statement.setInt(1, deck.getDeckID());
+            ResultSet resultado = statement.executeQuery();
 
-	@Override
-	public boolean insertDeck(Deck deck) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+            if (resultado.next()) {
+                existe = true;
+            }
+            resultado.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            System.out.println("Error verifying deck: " + e.getMessage());
+        }
+        return existe;
+    }
 
-	@Override
-	public boolean deleteDeck(Deck deck) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public boolean insertDeck(Deck deck) {
+        boolean ok = false;
+        if (!checkCard(deck)) {
+            this.openConnection();
+            try {
+                statement = connection.prepareStatement(SQLINSERT);
+                statement.setString(1, deck.getTitle());
+                statement.setString(2, deck.getDescription());
+                if (statement.executeUpdate() > 0) {
+                    ok = true;
+                }
+                statement.close();
+                connection.close();
+            } catch (SQLException e) {
+                System.out.println("Error inserting deck: " + e.getMessage());
+            }
+        }
+        return ok;
+    }
 
-	@Override
-	public boolean updateDeck(Deck deck) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public boolean deleteDeck(Deck deck) {
+        boolean ok = false;
+        if (checkCard(deck)) {
+            this.openConnection();
+            try {
+                statement = connection.prepareStatement(SQLBORRAR);
+                statement.setInt(1, deck.getDeckID());
+                if (statement.executeUpdate() > 0) {
+                    ok = true;
+                }
+                statement.close();
+                connection.close();
+            } catch (SQLException e) {
+                System.out.println("Error deleting deck: " + e.getMessage());
+            }
+        }
+        return ok;
+    }
 
-	@Override
-	public List<Deck> queryAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public boolean updateDeck(Deck deck) {
+        boolean ok = false;
+        if (checkCard(deck)) {
+            this.openConnection();
+            try {
+                statement = connection.prepareStatement(SQLMODIFICAR);
+                statement.setString(1, deck.getTitle());
+                statement.setString(2, deck.getDescription());
+                statement.setInt(3, deck.getDeckID());
+                if (statement.executeUpdate() > 0) {
+                    ok = true;
+                }
+                statement.close();
+                connection.close();
+            } catch (SQLException e) {
+                System.out.println("Error updating deck: " + e.getMessage());
+            }
+        }
+        return ok;
+    }
 
-	@Override
-	public Deck queryDeck(int deckId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public List<Deck> queryAll() {
+        List<Deck> decks = new ArrayList<>();
+        this.openConnection();
+        try {
+            statement = connection.prepareStatement(SQLCONSULTA);
+            ResultSet resultado = statement.executeQuery();
+            while (resultado.next()) {
+                decks.add(new Deck(resultado.getInt("DeckId"), resultado.getString("Title"),
+                        resultado.getString("Description"), new HashMap<Integer, Integer>()));
+            }
+            resultado.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            System.out.println("Error getting decks: " + e.getMessage());
+        }
+        return decks;
+    }
 
-	
-	
+    @Override
+    public Deck queryDeck(int deckId) {
+        Deck deck = null;
+        this.openConnection();
+        try {
+            statement = connection.prepareStatement(SQLSELECT);
+            statement.setInt(1, deckId);
+            ResultSet resultado = statement.executeQuery();
+            if (resultado.next()) {
+                deck = new Deck(
+                        resultado.getInt("DeckId"),
+                        resultado.getString("Title"),
+                        resultado.getString("Description"),
+                        new HashMap<Integer, Integer>());
+            }
+            resultado.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            System.out.println("Error getting deck by id: " + e.getMessage());
+        }
+        return deck;
+    }
+
 }
