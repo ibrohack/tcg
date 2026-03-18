@@ -22,11 +22,11 @@ public class ImplPlayerBD implements PlayerDAO {
     private String passwordBD;
 
     // SQL Statements
-    final String SQLSELECT = "SELECT * FROM Player WHERE PlayerId = ?";
-    final String SQLINSERT = "INSERT INTO Player VALUES (?,?,?)";
-    final String SQLCONSULTA = "SELECT * FROM Player";
-    final String SQLBORRAR = "DELETE FROM Player WHERE PlayerId=?";
-    final String SQLMODIFICAR = "UPDATE Player SET PlayerPassword=? WHERE PlayerId=?";
+    final String SQLSELECT = "SELECT * FROM Players WHERE PlayerId = ?";
+    final String SQLINSERT = "INSERT INTO Players VALUES (?,?,?)";
+    final String SQLCONSULTA = "SELECT * FROM Players";
+    final String SQLBORRAR = "DELETE FROM Players WHERE PlayerId=?";
+    final String SQLMODIFICAR = "UPDATE Players SET PlayerPassword=? WHERE PlayerId=?";
     final String SQLSELECTCARDS = "SELECT * FROM HAS WHERE PlayerId=?";
 
     public ImplPlayerBD() {
