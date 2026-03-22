@@ -7,8 +7,21 @@ public class Player {
 	private int playerId;
 	private String username;
 	private String password;
+	private int coins;
 	private HashMap<Integer, Integer> cards;
 	private ArrayList<Deck> decks;
+
+	public Player() {
+	}
+
+	public Player(int playerId, String username, String password, HashMap<Integer, Integer> cards,
+			ArrayList<Deck> decks) {
+		this.playerId = playerId;
+		this.username = username;
+		this.password = password;
+		this.cards = cards;
+		this.decks = decks;
+	}
 
 	public final HashMap<Integer, Integer> getCards() {
 		return cards;
@@ -50,16 +63,12 @@ public class Player {
 		this.password = password;
 	}
 
-	public Player(int playerId, String username, String password, HashMap<Integer, Integer> cards,
-			ArrayList<Deck> decks) {
-		this.playerId = playerId;
-		this.username = username;
-		this.password = password;
-		this.cards = cards;
-		this.decks = decks;
+	public final int getCoins() {
+		return coins;
 	}
 
-	public Player() {
+	public final void setCoins(int coins) {
+		this.coins = coins;
 	}
 
 	@Override
