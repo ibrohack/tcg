@@ -24,9 +24,9 @@ public class PlayerController {
 
     @PostMapping("/login")
     public String processLogin(@RequestParam String username,
-                               @RequestParam String password,
-                               HttpSession session,
-                               RedirectAttributes redirectAttributes) {
+            @RequestParam String password,
+            HttpSession session,
+            RedirectAttributes redirectAttributes) {
         Player player = dao.queryPlayerByUsername(username);
         if (player != null && player.getPassword().equals(password)) {
             session.setAttribute("loggedPlayer", player);
@@ -43,9 +43,9 @@ public class PlayerController {
 
     @PostMapping("/register")
     public String processRegister(@RequestParam String username,
-                                  @RequestParam String password,
-                                  @RequestParam String confirmPassword,
-                                  RedirectAttributes redirectAttributes) {
+            @RequestParam String password,
+            @RequestParam String confirmPassword,
+            RedirectAttributes redirectAttributes) {
         if (!password.equals(confirmPassword)) {
             redirectAttributes.addFlashAttribute("error", "Passwords do not match");
             return "redirect:/register";
@@ -61,6 +61,7 @@ public class PlayerController {
         Player newPlayer = new Player();
         newPlayer.setUsername(username);
         newPlayer.setPassword(password);
+        newPlayer.setCoins(100);
         boolean success = dao.insertPlayer(newPlayer);
 
         if (success) {
@@ -106,7 +107,7 @@ public class PlayerController {
 
     @GetMapping("/player")
     public String queryPlayer(Model model, HttpSession session,
-                              @RequestParam(required = false) Integer playerId) {
+            @RequestParam(required = false) Integer playerId) {
         Player player;
         if (playerId != null) {
             player = dao.queryPlayer(playerId);

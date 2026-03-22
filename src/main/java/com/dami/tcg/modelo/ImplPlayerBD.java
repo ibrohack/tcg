@@ -23,7 +23,7 @@ public class ImplPlayerBD implements PlayerDAO {
 
     // SQL Statements
     final String SQLSELECT = "SELECT * FROM Players WHERE PlayerId = ?";
-    final String SQLINSERT = "INSERT INTO Players VALUES (?,?,?)";
+    final String SQLINSERT = "INSERT INTO Players (Username, PlayerPassword, Coins) VALUES (?,?,?)";
     final String SQLCONSULTA = "SELECT * FROM Players";
     final String SQLBORRAR = "DELETE FROM Players WHERE PlayerId=?";
     final String SQLMODIFICAR = "UPDATE Players SET PlayerPassword=? WHERE PlayerId=?";
@@ -81,9 +81,9 @@ public class ImplPlayerBD implements PlayerDAO {
             this.openConnection();
             try {
                 statement = connection.prepareStatement(SQLINSERT);
-                statement.setInt(1, player.getPlayerId());
-                statement.setString(2, player.getUsername());
-                statement.setString(3, player.getPassword());
+                statement.setString(1, player.getUsername());
+                statement.setString(2, player.getPassword());
+                statement.setInt(3, player.getCoins());
                 if (statement.executeUpdate() > 0) {
                     ok = true;
                 }
