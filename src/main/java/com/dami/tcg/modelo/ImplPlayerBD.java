@@ -28,6 +28,7 @@ public class ImplPlayerBD implements PlayerDAO {
     final String SQLBORRAR = "DELETE FROM Players WHERE PlayerId=?";
     final String SQLMODIFICAR = "UPDATE Players SET PlayerPassword=? WHERE PlayerId=?";
     final String SQLSELECTCARDS = "SELECT * FROM HAS WHERE PlayerId=?";
+    final String SQLSELECTBYUSERNAME = "SELECT * FROM Players WHERE Username = ?";
 
     public ImplPlayerBD() {
         this.configFile = ResourceBundle.getBundle("configDB");
@@ -179,5 +180,31 @@ public class ImplPlayerBD implements PlayerDAO {
             System.out.println("Error getting cards of the player: " + e.getMessage());
         }
         return cards;
+    }
+
+    @Override
+    public Player queryPlayerByUsername(String username) {
+        Player player = null;
+        this.openConnection();
+        try {
+            statement = connection.prepareStatement(SQLSELECTBYUSERNAME);
+            statement.setString(1, username);
+            ResultSet resultado = statement.executeQuery();
+            if (resultado.next()) {
+                int playerId = resultado.getInt("PlayerId");
+                player = new Player(
+                        playerId,
+                        resultado.getString("Username"),
+                        resultado.getString("PlayerPassword"),
+                        queryPlayerCards(playerId),
+                        null);
+            }
+            resultado.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            System.out.println("Error getting player by username: " + e.getMessage());
+        }
+        return player;
     }
 }
