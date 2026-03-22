@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chaos and Monkeys - Player Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f4d125",
+                        "background-light": "#f8f8f5",
+                        "background-dark": "#221f10",
+                        "quality-common": "#94a3b8",
+                        "quality-rare": "#3b82f6",
+                        "quality-epic": "#a855f7",
+                        "quality-legendary": "#f4d125",
+                        "quality-mythic": "#f97316",
+                        "quality-arok": "#22d3ee",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Header / Top Nav -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-primary/20 px-6 lg:px-20 py-4 bg-background-light dark:bg-background-dark sticky top-0 z-50">
+<div class="flex items-center gap-4">
+<div class="size-8 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-slate-900 dark:text-slate-100 text-xl font-bold leading-tight tracking-[-0.015em]">Chaos and Monkeys</h2>
+</div>
+<div class="flex flex-1 justify-end gap-4 lg:gap-8 items-center">
+<nav class="hidden md:flex gap-6">
+<a class="text-primary font-bold text-sm" href="#">Dashboard</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium" href="#">Collection</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium" href="#">Shop</a>
+</nav>
+<div class="flex gap-2">
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-primary/10 text-slate-900 dark:text-primary transition-colors hover:bg-primary/20">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-primary/10 text-slate-900 dark:text-primary transition-colors hover:bg-primary/20">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+<div class="h-10 w-10 rounded-full bg-primary/20 border-2 border-primary overflow-hidden">
+<img alt="Player Avatar" data-alt="Cartoon monkey avatar for player profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAU_L28fgSKCCg8RUKmgifoUBeONlPgOxhoFvZjf7u2LiGLIRc9vnmTrpA9uHQfSq18d0xJtwMXG59YviMUmxWUgRIJdoNSf8MYqcRd2WpX2ftjfs4lDiqlGLsUr5iNkX4Iy2k5-nOCU5jI1tnAGYrHBK1IplwSciE2yS_84Us6bcHPMo5-URkfX5xEqWHlbbgHH6XR6ArXJtpWVTtw9oTR5Fp4tw57e53u_6t0OsLggxxV9_WqtfRvLawn-2mQaDLZf9ETTlwJU4u_"/>
+</div>
+</div>
+</header>
+<main class="flex-1 max-w-[1200px] mx-auto w-full px-6 py-8">
+<!-- Profile Section -->
+<section class="mb-12">
+<div class="bg-white dark:bg-primary/5 rounded-xl p-6 border border-slate-200 dark:border-primary/10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+<div class="flex items-center gap-6">
+<div class="relative">
+<div class="size-24 rounded-full bg-primary/30 flex items-center justify-center border-4 border-primary overflow-hidden shadow-lg shadow-primary/20">
+<img alt="Profile Character" class="size-full object-cover" data-alt="Pixel art monkey character avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARM5XlpOdiSCA-H5VLKokokf0zO_dckpsxmgzlh0SUacgSxikV1jYXM4fZNVyRcaULXad5V5HhMvMYbhJuAxRPQrG0xBluQAUp3T73Ok_R7erLQoCkHzHUMjID_56AfpY8B9WNJxgQtjfKDEqRYhn7jAvN7Nv6UHloCwa3fGo2UD2EFiXIgQxfkE97H8n36__ZlCkeXCqZLcpcexm-W0BFuZB3DNWIhaGEjfG92DypAuKMoPte8rT94Cw7GYL0uptce2f0Z22MWDsT"/>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-primary text-background-dark font-bold px-2 py-0.5 rounded-full text-xs border-2 border-background-dark">
+                                LVL 42
+                            </div>
+</div>
+<div>
+<h1 class="text-3xl font-bold text-slate-900 dark:text-slate-100">MonkeyMaster99</h1>
+<p class="text-slate-500 dark:text-slate-400 font-medium">Elite Primate Raider</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="bg-slate-100 dark:bg-background-dark border border-slate-200 dark:border-primary/20 rounded-lg px-6 py-3 flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1">database</span>
+<div>
+<p class="text-[10px] uppercase tracking-wider text-slate-500 font-bold">Balance</p>
+<p class="text-xl font-bold text-primary">2,500 <span class="text-sm">COINS</span></p>
+</div>
+</div>
+<button class="bg-primary hover:bg-primary/80 text-background-dark font-bold px-8 py-3 rounded-lg transition-all flex items-center gap-2 self-stretch">
+<span class="material-symbols-outlined">collections_bookmark</span>
+                            VIEW COLLECTION
+                        </button>
+</div>
+</div>
+</section>
+<!-- Decks & Stats Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+<!-- My Decks Section -->
+<div class="lg:col-span-2">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-2xl font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">style</span>
+                            My Decks
+                        </h2>
+<button class="text-primary font-bold text-sm hover:underline">View All</button>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+<!-- Deck 1 -->
+<div class="group relative overflow-hidden rounded-xl border border-slate-200 dark:border-primary/10 bg-white dark:bg-primary/5 p-3 hover:border-primary transition-all cursor-pointer">
+<div class="aspect-[3/4] rounded-lg mb-3 overflow-hidden bg-slate-200 dark:bg-primary/20">
+<img alt="Jungle Fury Deck" class="w-full h-full object-cover transition-transform group-hover:scale-110" data-alt="Lush green jungle with thick vines and foliage" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCATiFSWLho_XaiD5a7XJCOugSbeNJAOe_4PtE_Vp-44f9VgkVXHH3KcceCAWqZCwJWKlxP7GB52LANz2EQ_BgvBheWXi056zua7irmJ0jjl217fOSg7IYT3q168IXiCqGOS2_Co6jl5QX2MoIKpD0MURMSoaI3gWg_mHxXADwgKPajbSG77TVM3buVzjA4m1R-ZXOyKW1cjYBM1LPpOZTEap6HGlvIu0QHSMeeSxLSCZsUr00-pGZVHTNoxd7qDif1goNaAOITi-c1"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/80 to-transparent"></div>
+<div class="absolute bottom-6 left-6 right-6">
+<h3 class="text-white text-lg font-bold">Jungle Fury</h3>
+<p class="text-primary/80 text-xs font-medium">40 Cards • Aggro</p>
+</div>
+</div>
+</div>
+<!-- Deck 2 -->
+<div class="group relative overflow-hidden rounded-xl border border-slate-200 dark:border-primary/10 bg-white dark:bg-primary/5 p-3 hover:border-primary transition-all cursor-pointer">
+<div class="aspect-[3/4] rounded-lg mb-3 overflow-hidden bg-slate-200 dark:bg-primary/20">
+<img alt="Banana Blitz Deck" class="w-full h-full object-cover transition-transform group-hover:scale-110" data-alt="Bright yellow bananas pattern on dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbLyamaDIe4bY_JwsytErpXnAbr1Qy1JoIgsnkVlmB3q3enUIfZtxq8vu6US5GZ9CGm_mPYXoZvQdTH-kbs_tErjwPeNXQVlf1_DlfKuBe0lTls-rsH_utFFUCgkBk86G7ckjgw9Cojal_FUBxKedCFQmg1zD57YRLmROHYp45pLKG4uqLhveaeKLwNJoJfLrUWCWuWZlsMOipMmSPrQMaa9YttwfpcfWGDuSvWGHe5h3UDU_AmOO1sUs9UYebdgAcoPToNWUL3DJ3"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/80 to-transparent"></div>
+<div class="absolute bottom-6 left-6 right-6">
+<h3 class="text-white text-lg font-bold">Banana Blitz</h3>
+<p class="text-primary/80 text-xs font-medium">38 Cards • Speed</p>
+</div>
+</div>
+</div>
+<!-- Add New Deck -->
+<div class="group flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-300 dark:border-primary/20 bg-transparent p-3 hover:border-primary transition-all cursor-pointer min-h-[200px]">
+<span class="material-symbols-outlined text-4xl text-slate-400 dark:text-primary/40 group-hover:text-primary mb-2">add_circle</span>
+<p class="text-slate-500 dark:text-primary/60 font-bold group-hover:text-primary">New Deck</p>
+</div>
+</div>
+</div>
+<!-- Stats / Quick Nav -->
+<div class="space-y-4">
+<h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">query_stats</span>
+                        Season Progress
+                    </h2>
+<div class="bg-white dark:bg-primary/5 border border-slate-200 dark:border-primary/10 rounded-xl p-5">
+<div class="flex justify-between mb-2">
+<span class="text-sm font-bold">Ranked Tier: Silver III</span>
+<span class="text-sm text-primary">740 LP</span>
+</div>
+<div class="w-full bg-slate-200 dark:bg-primary/20 h-2 rounded-full mb-6">
+<div class="bg-primary h-full rounded-full" style="width: 65%;"></div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-3 bg-slate-50 dark:bg-background-dark rounded-lg border border-slate-100 dark:border-primary/5">
+<p class="text-[10px] uppercase font-bold text-slate-400">Win Rate</p>
+<p class="text-xl font-bold">58%</p>
+</div>
+<div class="p-3 bg-slate-50 dark:bg-background-dark rounded-lg border border-slate-100 dark:border-primary/5">
+<p class="text-[10px] uppercase font-bold text-slate-400">Matches</p>
+<p class="text-xl font-bold">142</p>
+</div>
+</div>
+</div>
+<div class="bg-primary text-background-dark rounded-xl p-5 flex items-center justify-between group cursor-pointer">
+<div>
+<p class="font-bold text-lg leading-tight">Claim Daily Reward</p>
+<p class="text-sm font-medium opacity-80">Refreshes in 4h 22m</p>
+</div>
+<span class="material-symbols-outlined text-4xl group-hover:scale-110 transition-transform">redeem</span>
+</div>
+</div>
+</div>
+<!-- Recent Cards Gallery -->
+<section>
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-2xl font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">cards</span>
+                        Recent Card Pulls
+                    </h2>
+<div class="flex gap-2">
+<button class="p-2 rounded-lg border border-slate-200 dark:border-primary/10 hover:bg-primary/10"><span class="material-symbols-outlined">filter_list</span></button>
+<button class="p-2 rounded-lg border border-slate-200 dark:border-primary/10 hover:bg-primary/10"><span class="material-symbols-outlined">sort</span></button>
+</div>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+<!-- Card 1: Legendary -->
+<div class="group bg-white dark:bg-background-dark rounded-xl border-2 border-quality-legendary overflow-hidden shadow-xl shadow-quality-legendary/10 transition-all hover:-translate-y-2">
+<div class="relative aspect-[2/3] p-1 bg-quality-legendary/10">
+<div class="h-full w-full rounded-lg overflow-hidden border border-quality-legendary/30">
+<img alt="Monkey General" class="w-full h-full object-cover" data-alt="Stoic monkey wearing military general attire" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDc2VbpjYhrSspptelUeRVHpbPWvbT9xqEZUI6mYRIrklNzD1FQhwF3JcBCU--js9MpsW2PEA9f2ULzxi1l12gZyVlCQJk2ASN_JSWbWfrFNmwkYm7-_PgyKDbz1lUxKHAyVnh1V8r_QlhAf_C0QtFhqKwK7np8aoWu_ygm3t29-qj2onFuPFjUUG4JXeNg6XJimzeQGG7N_EYLRPHOEhioSYtv34KwAVsO40t55xIgtAC_YIQxqiKB8QtIWQPjMsnpgsbB-0JHXU5O"/>
+<div class="absolute top-2 right-2 bg-quality-legendary text-background-dark text-[10px] font-black px-1.5 py-0.5 rounded italic">LEGENDARY</div>
+<div class="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-background-dark to-transparent">
+<div class="flex justify-between items-end">
+<div class="flex gap-1">
+<div class="size-6 rounded-full bg-red-600 flex items-center justify-center text-[10px] font-bold text-white shadow">8</div>
+<div class="size-6 rounded-full bg-blue-600 flex items-center justify-center text-[10px] font-bold text-white shadow">5</div>
+</div>
+<span class="text-quality-legendary font-bold">#042</span>
+</div>
+</div>
+</div>
+</div>
+<div class="p-3">
+<h4 class="font-bold text-sm truncate">General Grodd</h4>
+<p class="text-[10px] text-slate-500 dark:text-slate-400 line-clamp-2">Commanding Officer. Boosts all troop attack by +2.</p>
+</div>
+</div>
+<!-- Card 2: Rare -->
+<div class="group bg-white dark:bg-background-dark rounded-xl border border-quality-rare overflow-hidden transition-all hover:-translate-y-2">
+<div class="relative aspect-[2/3] p-1 bg-quality-rare/10">
+<div class="h-full w-full rounded-lg overflow-hidden border border-quality-rare/30">
+<img alt="Monkey Scout" class="w-full h-full object-cover" data-alt="Small agile monkey hanging from a tree branch" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBcTBhbJa2W4Drg5noOMgr2gUyd2w1y1HMPVGWg-HNDf3_DEHcAngoDJ_nKfw-JKW_Orj5v3Rkn1hYDxseGnCPxf3wcOo1Z3xZDn0dt2J6DfVMeFjN8LLFWudSQBNzX3pel3z6aqa6n2AHJtj2m7aJKz1PWuS8fyO5Z_hYqEE2HtXwjgwf8q9EuLBJCwzDOU91TIoKFU5wft_FumT9ONAmRMjVb_DzQ1dLJMMYGnHiravMIHPhzpDDZAe29Vml0xFZaiqDpMciafBF"/>
+<div class="absolute top-2 right-2 bg-quality-rare text-white text-[10px] font-black px-1.5 py-0.5 rounded italic">RARE</div>
+<div class="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-background-dark to-transparent">
+<div class="flex justify-between items-end">
+<div class="flex gap-1">
+<div class="size-6 rounded-full bg-red-600 flex items-center justify-center text-[10px] font-bold text-white shadow">4</div>
+<div class="size-6 rounded-full bg-blue-600 flex items-center justify-center text-[10px] font-bold text-white shadow">9</div>
+</div>
+<span class="text-quality-rare font-bold">#108</span>
+</div>
+</div>
+</div>
+</div>
+<div class="p-3">
+<h4 class="font-bold text-sm truncate">Vine Swinger</h4>
+<p class="text-[10px] text-slate-500 dark:text-slate-400 line-clamp-2">Jungle Infiltrator. Can bypass front-line defenses.</p>
+</div>
+</div>
+<!-- Card 3: Epic -->
+<div class="group bg-white dark:bg-background-dark rounded-xl border border-quality-epic overflow-hidden transition-all hover:-translate-y-2">
+<div class="relative aspect-[2/3] p-1 bg-quality-epic/10">
+<div class="h-full w-full rounded-lg overflow-hidden border border-quality-epic/30">
+<img alt="Monkey Sage" class="w-full h-full object-cover" data-alt="Old wise monkey with gray fur and spectacles" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6zZFPnPMcASrht7L3qCTOXtSYq7pfrTBarKvVg_DmJKYe4XVb91NV5k9C1ROpk6UnTngFVjp5f0ZfvbHZ2PswegFkSSfqKY5GZA60CMvXsxQJP-uD2zCd6bJSG4Xb2SLJlAKyEEla_mT-SwvCid_sPi0UANulaBwGSIpxaeqOfteDoFqruZtNAqkzDs7BOUcRSeiXFi8qVRm9crXJe1KIyi8-pHsJSF8kVeAvGTPA_l31nTsdlbS55LKerj8mOEOVRPbcDe2W4bc_"/>
+<div class="absolute top-2 right-2 bg-quality-epic text-white text-[10px] font-black px-1.5 py-0.5 rounded italic">EPIC</div>
+<div class="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-background-dark to-transparent">
+<div class="flex justify-between items-end">
+<div class="flex gap-1">
+<div class="size-6 rounded-full bg-red-600 flex items-center justify-center text-[10px] font-bold text-white shadow">2</div>
+<div class="size-6 rounded-full bg-blue-600 flex items-center justify-center text-[10px] font-bold text-white shadow">12</div>
+</div>
+<span class="text-quality-epic font-bold">#089</span>
+</div>
+</div>
+</div>
+</div>
+<div class="p-3">
+<h4 class="font-bold text-sm truncate">Elder Baboon</h4>
+<p class="text-[10px] text-slate-500 dark:text-slate-400 line-clamp-2">Mystic Advisor. Reduces the cost of next card by 2.</p>
+</div>
+</div>
+<!-- Card 4: Arok -->
+<div class="group bg-white dark:bg-background-dark rounded-xl border-2 border-quality-arok overflow-hidden shadow-lg shadow-quality-arok/20 transition-all hover:-translate-y-2">
+<div class="relative aspect-[2/3] p-1 bg-quality-arok/10">
+<div class="h-full w-full rounded-lg overflow-hidden border border-quality-arok/30">
+<img alt="Arok Ancient" class="w-full h-full object-cover" data-alt="Sturdy monkey standing in front of a pile of bananas" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwqTnmBPXs9bCQqYSvdy1b4LemX5-4spgd5bI2Gpu40G5haXKrPjbNvO_rxhU1HVTsEqYsJeTmeOmM7wGsLVdbkIstpuo6NVMp5aPZDaDkvmP_TCNPo6RQl00Yn0evUu5EI4UFN3VYuqLh647em07O6UH5aJfFUdHCpJkLBndipnsEWS0-lE9VmywBlkGx8hUi6L5-yJC7Qu4BaGa5plAlDHg_C9KYdwVH4DzielT5ohl-LCmTeMygoHIaGV6EoX0-Wl3mGCdamOjR"/>
+<div class="absolute top-2 right-2 bg-quality-arok text-background-dark text-[10px] font-black px-1.5 py-0.5 rounded italic">AROK</div>
+<div class="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-background-dark to-transparent">
+<div class="flex justify-between items-end">
+<div class="flex gap-1">
+<div class="size-6 rounded-full bg-red-600 flex items-center justify-center text-[10px] font-bold text-white shadow">10</div>
+<div class="size-6 rounded-full bg-blue-600 flex items-center justify-center text-[10px] font-bold text-white shadow">10</div>
+</div>
+<span class="text-quality-arok font-bold">#Σ99</span>
+</div>
+</div>
+</div>
+</div>
+<div class="p-3">
+<h4 class="font-bold text-sm truncate">Arok Guardian</h4>
+<p class="text-[10px] text-slate-500 dark:text-slate-400 line-clamp-2">Eternal Sentinel. Immune to all status effects.</p>
+</div>
+</div>
+<!-- Card 5: Common -->
+<div class="group bg-white dark:bg-background-dark rounded-xl border border-quality-common overflow-hidden transition-all hover:-translate-y-2">
+<div class="relative aspect-[2/3] p-1 bg-quality-common/10">
+<div class="h-full w-full rounded-lg overflow-hidden border border-quality-common/30">
+<img alt="Monkey Thrower" class="w-full h-full object-cover" data-alt="Monkey holding a large coconut ready to throw" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrwb8VffoORzh86fgWhlUOpZBX3Yu7i7nPVq1cYKCsH8YDPiAUIX5XCGHsUg50j2SXkgsnCGRG_tofwgIdV1dHqlurbr3JxsfEZ4dKoP4XE6AaMy9IJx3iosKCTHeUFOqlG3lzqVnU6Sy6xEpMjZ3o3i1LwuQVpm0C-rgmrVhi1Fv-V39tpzLIsNWh23O7UzcS7Wkgk_144-Jq-BQ_Rp1EjieOVxeR0uUqSPPOQsyNg_UEMVSIIpwzJJnF9fXsP8H4GLSIJCaaCJSq"/>
+<div class="absolute top-2 right-2 bg-quality-common text-white text-[10px] font-black px-1.5 py-0.5 rounded italic">COMMON</div>
+<div class="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-background-dark to-transparent">
+<div class="flex justify-between items-end">
+<div class="flex gap-1">
+<div class="size-6 rounded-full bg-red-600 flex items-center justify-center text-[10px] font-bold text-white shadow">5</div>
+<div class="size-6 rounded-full bg-blue-600 flex items-center justify-center text-[10px] font-bold text-white shadow">1</div>
+</div>
+<span class="text-quality-common font-bold">#232</span>
+</div>
+</div>
+</div>
+</div>
+<div class="p-3">
+<h4 class="font-bold text-sm truncate">Coconut Tosser</h4>
+<p class="text-[10px] text-slate-500 dark:text-slate-400 line-clamp-2">Ranged Artillery. Deals splash damage to neighbors.</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="border-t border-slate-200 dark:border-primary/10 py-8 px-6 lg:px-20 mt-12 bg-slate-50 dark:bg-background-dark/50">
+<div class="max-w-[1200px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-slate-500 dark:text-slate-400 text-sm">
+<div class="flex items-center gap-2">
+<div class="size-5 text-primary opacity-50">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z" fill="currentColor"></path>
+</svg>
+</div>
+<span>© 2024 Chaos and Monkeys TCG. All rights reserved.</span>
+</div>
+<div class="flex gap-8 font-medium">
+<a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="hover:text-primary transition-colors" href="#">Support</a>
+</div>
+</div>
+</footer>
+</div>
+</div>
+</body></html>

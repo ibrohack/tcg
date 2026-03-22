@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chaos and Monkeys - Deck Builder</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f4d125",
+                        "background-light": "#f8f8f5",
+                        "background-dark": "#221f10",
+                        "quality-common": "#94a3b8",
+                        "quality-rare": "#3b82f6",
+                        "quality-epic": "#a855f7",
+                        "quality-legendary": "#f59e0b",
+                        "quality-mythic": "#ef4444",
+                        "quality-arok": "#2dd4bf",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display min-h-screen">
+<div class="relative flex h-screen w-full flex-col overflow-hidden">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between border-b border-primary/20 px-6 py-4 bg-background-light dark:bg-background-dark">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3">
+<div class="size-8 bg-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-background-dark font-bold">blur_on</span>
+</div>
+<h1 class="text-xl font-bold tracking-tight">Chaos and Monkeys</h1>
+</div>
+<div class="relative hidden md:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+<input class="w-64 bg-slate-100 dark:bg-primary/10 border-none rounded-lg py-2 pl-10 pr-4 focus:ring-2 focus:ring-primary text-sm outline-none" placeholder="Search collection..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex items-center gap-2 bg-primary text-background-dark px-6 py-2 rounded-lg font-bold hover:brightness-110 transition-all">
+<span class="material-symbols-outlined">save</span>
+<span>Save Deck</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-primary/20 border border-primary/30 bg-cover" data-alt="User profile avatar with monkey icon" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBJczeQ97TzRVaCgkiq8dyRGVC8huYSoQcrbTtsqaAo8gsqps73gLOElrUePk9R4XpJGZWnxwA7eAKHQqw9pFUR2HDZzJvawE2DLOoiIq5Wjb7m4E_KcHxWoxBcWU7Ha4RkQFS_73lUedZxRSgmQRrBaFCX_0KBlpRohH89zp9exA8E7uD5O7yFNNwCWZMXSig1Bs83diZkXMuGF06RQC6IBlk_GkjPmbdBxPBURCxU-pHei3HKpr3uTjvjH00_Dbfz2bnnHy_JsKe6')"></div>
+</div>
+</header>
+<main class="flex flex-1 overflow-hidden">
+<!-- Left Side: Card Collection -->
+<div class="flex-1 flex flex-col border-r border-primary/10 bg-slate-50 dark:bg-background-dark/50">
+<!-- Filters Area -->
+<div class="p-4 border-b border-primary/10 flex flex-wrap gap-3">
+<button class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary text-background-dark font-medium text-sm">
+<span class="material-symbols-outlined text-sm">all_inclusive</span> All
+                </button>
+<button class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-200 dark:bg-primary/20 text-slate-700 dark:text-primary font-medium text-sm hover:bg-primary/30 transition-colors">
+<span class="material-symbols-outlined text-sm">diamond</span> Arok
+                </button>
+<button class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-200 dark:bg-primary/20 text-slate-700 dark:text-primary font-medium text-sm hover:bg-primary/30 transition-colors">
+<span class="material-symbols-outlined text-sm">auto_awesome</span> Mythic
+                </button>
+<button class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-200 dark:bg-primary/20 text-slate-700 dark:text-primary font-medium text-sm hover:bg-primary/30 transition-colors">
+<span class="material-symbols-outlined text-sm">star</span> Legendary
+                </button>
+<div class="ml-auto flex items-center gap-2">
+<span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Sort by:</span>
+<select class="bg-transparent border-none text-sm font-bold text-primary focus:ring-0 cursor-pointer">
+<option>Quality (High-Low)</option>
+<option>Cost (Low-High)</option>
+<option>Name</option>
+</select>
+</div>
+</div>
+<!-- Grid Scrollable -->
+<div class="flex-1 overflow-y-auto p-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+<!-- Card Item 1: Mythic -->
+<div class="flex flex-col gap-2 group cursor-pointer">
+<div class="relative aspect-[3/4] rounded-xl overflow-hidden border-2 border-transparent group-hover:border-quality-mythic transition-all bg-slate-800 shadow-xl">
+<div class="absolute inset-0 bg-cover bg-center opacity-70" data-alt="Illustration of a fiery monkey throwing bananas" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAxaxTRop8uoCKXiWCt3mYtxfJDILsuH19L8E4Adk8Gb8UVAjyWa6losSlNqzlyw7MFMCgnCtKD43EO-AIAhMZDEMkHFaM3pCXhGbq2HYQKIySrdzvd0qV6ptdJkMH5GgFNb1pbb8saPz-xdkmzZ3SKyKl9vw1rWlVCssOq8roAqsnY7uC0jsGZGFRTLuasEgjJICoJb5EGS9fQa0GNY0KTtNqEr1B8wfHLD2HsjebUZE3vDIXpyumbniGyky7eQueC9rZVH5KFmITn')"></div>
+<div class="absolute top-2 left-2 size-8 rounded-full bg-quality-mythic flex items-center justify-center font-bold text-white shadow-md">2</div>
+<div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+<div class="absolute bottom-3 left-3 right-3 text-white">
+<p class="text-[10px] font-bold uppercase tracking-widest text-quality-mythic">Mythic</p>
+<p class="text-sm font-bold leading-tight mb-1">Fire Monkey</p>
+<p class="text-[10px] text-slate-300 leading-tight line-clamp-2">Ignites nearby chaos sources when summoned.</p>
+</div>
+</div>
+</div>
+<!-- Card Item 2: Rare -->
+<div class="flex flex-col gap-2 group cursor-pointer">
+<div class="relative aspect-[3/4] rounded-xl overflow-hidden border-2 border-transparent group-hover:border-quality-rare transition-all bg-slate-800 shadow-xl">
+<div class="absolute inset-0 bg-cover bg-center opacity-70" data-alt="Exploding yellow banana bomb" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDERPlFw0tOU49DRr7RcDg3WwFHMabTuG7OAMl3jXpLNDzX3ijgM-zemo6HsU_FsHj8HWD6LAtWG-Q6Of4QxNY7LZKJwQ81SUqZYG8mTrJePRO7DKeDq8pPJ6bdXl0ad9Z0FO1Nu6G_f4TEYOfktJr6rwJV1XGyejcI-AKzoF6hBRpQSw7W-iKFcTrEji2OJaq2iOkgohwLqsU3IITkjb5ap7E0EQ-dMkHuIBrG9ntf_rpe2QQPPJ7o_id1suzfDnHSi1H9bP2lYuOt')"></div>
+<div class="absolute top-2 left-2 size-8 rounded-full bg-quality-rare flex items-center justify-center font-bold text-white shadow-md">3</div>
+<div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+<div class="absolute bottom-3 left-3 right-3 text-white">
+<p class="text-[10px] font-bold uppercase tracking-widest text-quality-rare">Rare</p>
+<p class="text-sm font-bold leading-tight mb-1">Banana Bomb</p>
+<p class="text-[10px] text-slate-300 leading-tight line-clamp-2">A high-velocity projectile that scales with agility.</p>
+</div>
+</div>
+</div>
+<!-- Card Item 3: Arok -->
+<div class="flex flex-col gap-2 group cursor-pointer">
+<div class="relative aspect-[3/4] rounded-xl overflow-hidden border-2 border-transparent group-hover:border-quality-arok transition-all bg-slate-800 shadow-xl ring-2 ring-quality-arok ring-offset-2 ring-offset-background-dark/50">
+<div class="absolute inset-0 bg-cover bg-center opacity-70" data-alt="Swirling purple magic vortex" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBLp9QVMqubp5N2tVYP3ySAuVIf_KVs9Y881S-M5kGw2g5F96Q2UruHr4VNxLOSlM_klaujHwP5FrzFUDHKXnmsd130EDEh9sNoOvsGtBSAP2L4S-MeHmuKtNEAM_vQji_3bXqBB0h1_nTjDB6Ygr-qKqvjsREy4pRXteMQAxQYwZGCf5nuXQkPgbSe54bjU-sOlsR6niYPLmxPiKe0OrnSlY7efY57uf6YmAK2mr9MSPSrwdCM2NDl2hVEEmxw96QFd55JkRJjI7NM')"></div>
+<div class="absolute top-2 left-2 size-8 rounded-full bg-quality-arok flex items-center justify-center font-bold text-background-dark shadow-md">5</div>
+<div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+<div class="absolute bottom-3 left-3 right-3 text-white">
+<p class="text-[10px] font-bold uppercase tracking-widest text-quality-arok">Arok</p>
+<p class="text-sm font-bold leading-tight mb-1">Chaos Vortex</p>
+<p class="text-[10px] text-slate-300 leading-tight line-clamp-2">Reshuffles all active effects in the current zone.</p>
+</div>
+</div>
+</div>
+<!-- Card Item 4: Epic -->
+<div class="flex flex-col gap-2 group cursor-pointer">
+<div class="relative aspect-[3/4] rounded-xl overflow-hidden border-2 border-transparent group-hover:border-quality-epic transition-all bg-slate-800 shadow-xl">
+<div class="absolute inset-0 bg-cover bg-center opacity-70" data-alt="Muscular silverback gorilla guard" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB6LxaoKoGVpicx_qmeDLLfIT9i6-qjILNjKM4edwqkquId_QNpdPWidzpqQtrbT5Qzu4tjfygf_SePdDmv8dPIf3Ts0o0N-vuXmlDborG4hoz78yuhybFDO89X7y0jYpw9SpQkdJDWTG9K1VW2NC-4ZO2DjAdQu_Qjcf5hPSsET0jT-ttYMPDawz7YOugfNooUX1Mh1-Skon1PRsz4ztjeW1jWDdnWbPZ6mDPtPjlVwJ9R_H82ZNCkB4Zd1ZCN2-yZCUx4jcVB2Ohm')"></div>
+<div class="absolute top-2 left-2 size-8 rounded-full bg-quality-epic flex items-center justify-center font-bold text-white shadow-md">4</div>
+<div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+<div class="absolute bottom-3 left-3 right-3 text-white">
+<p class="text-[10px] font-bold uppercase tracking-widest text-quality-epic">Epic</p>
+<p class="text-sm font-bold leading-tight mb-1">Primate Guard</p>
+<p class="text-[10px] text-slate-300 leading-tight line-clamp-2">Provides heavy protection to adjacent monkey cards.</p>
+</div>
+</div>
+</div>
+<!-- Card Item 5: Common -->
+<div class="flex flex-col gap-2 group cursor-pointer">
+<div class="relative aspect-[3/4] rounded-xl overflow-hidden border-2 border-transparent group-hover:border-quality-common transition-all bg-slate-800 shadow-xl">
+<div class="absolute inset-0 bg-cover bg-center opacity-70" data-alt="Golden mystical energy sparks" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCPlF30M-zbM7Tzgf68DBeTdOhVToyMTbVYsDifoCjrelud3tGFOTUEMvokukINZ7WP_iQ5IJtThkGeoWkUS_5HB7NC04PegJLxUAsO49ag-aJTjnMfkvH_NOYnMiSUyxnaeQpuEWOHzsr_scPHXR1DnCcZrhubhQr1qVocqxX20TOtZU4ueaSbwxR6ExRW3tHgtZKwZaLfGaM9XLKdyHn28_fHmkMXsDASOlm1oZGzVtVpGmsPEeN5fVEjmvfhyupm6mb1tcdcBHHp')"></div>
+<div class="absolute top-2 left-2 size-8 rounded-full bg-quality-common flex items-center justify-center font-bold text-white shadow-md">1</div>
+<div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+<div class="absolute bottom-3 left-3 right-3 text-white">
+<p class="text-[10px] font-bold uppercase tracking-widest text-quality-common">Common</p>
+<p class="text-sm font-bold leading-tight mb-1">Quick Strike</p>
+<p class="text-[10px] text-slate-300 leading-tight line-clamp-2">A basic swift action with minimal cost.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Side: Current Deck -->
+<aside class="w-80 md:w-96 bg-background-light dark:bg-background-dark flex flex-col">
+<div class="p-6 border-b border-primary/10">
+<div class="flex items-center justify-between mb-2">
+<h2 class="text-xl font-bold">Current Deck</h2>
+<span class="bg-primary/20 text-primary px-2 py-1 rounded text-sm font-bold">12/30</span>
+</div>
+<p class="text-xs text-slate-500 uppercase font-bold tracking-widest">Collection Builder</p>
+</div>
+<!-- Mana Curve Chart -->
+<div class="p-6 border-b border-primary/10">
+<h3 class="text-xs font-bold text-slate-500 uppercase mb-4 tracking-widest">Cost Distribution</h3>
+<div class="flex items-end justify-between h-20 gap-1 px-2">
+<div class="flex-1 flex flex-col items-center gap-2">
+<div class="w-full bg-primary/40 rounded-t-sm h-[30%]"></div>
+<span class="text-[10px] font-bold">1</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2">
+<div class="w-full bg-primary rounded-t-sm h-[80%]"></div>
+<span class="text-[10px] font-bold">2</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2">
+<div class="w-full bg-primary/70 rounded-t-sm h-[60%]"></div>
+<span class="text-[10px] font-bold">3</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2">
+<div class="w-full bg-primary/50 rounded-t-sm h-[40%]"></div>
+<span class="text-[10px] font-bold">4</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2">
+<div class="w-full bg-primary/30 rounded-t-sm h-[20%]"></div>
+<span class="text-[10px] font-bold">5</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2">
+<div class="w-full bg-primary/10 rounded-t-sm h-[10%]"></div>
+<span class="text-[10px] font-bold">6+</span>
+</div>
+</div>
+</div>
+<!-- Card List -->
+<div class="flex-1 overflow-y-auto">
+<div class="divide-y divide-primary/5">
+<!-- Deck Entry: Mythic -->
+<div class="p-4 hover:bg-primary/5 flex items-center gap-3 transition-colors">
+<div class="size-10 bg-quality-mythic/20 rounded-lg flex items-center justify-center font-bold text-quality-mythic">2</div>
+<div class="flex-1">
+<h4 class="text-sm font-bold">Fire Monkey</h4>
+<p class="text-[10px] uppercase text-quality-mythic font-bold">Mythic • 2 Cost</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold text-slate-400">2/3</span>
+<button class="size-6 rounded bg-slate-200 dark:bg-slate-700 flex items-center justify-center hover:bg-primary/50">
+<span class="material-symbols-outlined text-sm">remove</span>
+</button>
+</div>
+</div>
+<!-- Deck Entry: Rare -->
+<div class="p-4 hover:bg-primary/5 flex items-center gap-3 transition-colors">
+<div class="size-10 bg-quality-rare/20 rounded-lg flex items-center justify-center font-bold text-quality-rare">3</div>
+<div class="flex-1">
+<h4 class="text-sm font-bold">Banana Bomb</h4>
+<p class="text-[10px] uppercase text-quality-rare font-bold">Rare • 3 Cost</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold text-slate-400">3/3</span>
+<button class="size-6 rounded bg-slate-200 dark:bg-slate-700 flex items-center justify-center hover:bg-primary/50">
+<span class="material-symbols-outlined text-sm">remove</span>
+</button>
+</div>
+</div>
+<!-- Deck Entry: Arok -->
+<div class="p-4 hover:bg-primary/5 flex items-center gap-3 transition-colors">
+<div class="size-10 bg-quality-arok/20 rounded-lg flex items-center justify-center font-bold text-quality-arok border border-quality-arok/30">5</div>
+<div class="flex-1">
+<h4 class="text-sm font-bold">Chaos Vortex</h4>
+<p class="text-[10px] uppercase text-quality-arok font-bold">Arok • 5 Cost</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold text-slate-400">1/1</span>
+<button class="size-6 rounded bg-slate-200 dark:bg-slate-700 flex items-center justify-center hover:bg-primary/50">
+<span class="material-symbols-outlined text-sm">remove</span>
+</button>
+</div>
+</div>
+<!-- Deck Entry: Common -->
+<div class="p-4 hover:bg-primary/5 flex items-center gap-3 transition-colors">
+<div class="size-10 bg-quality-common/20 rounded-lg flex items-center justify-center font-bold text-quality-common">1</div>
+<div class="flex-1">
+<h4 class="text-sm font-bold">Quick Strike</h4>
+<p class="text-[10px] uppercase text-quality-common font-bold">Common • 1 Cost</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold text-slate-400">2/3</span>
+<button class="size-6 rounded bg-slate-200 dark:bg-slate-700 flex items-center justify-center hover:bg-primary/50">
+<span class="material-symbols-outlined text-sm">remove</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Summary -->
+<div class="p-6 bg-slate-100 dark:bg-background-dark border-t border-primary/20">
+<div class="flex justify-between items-center mb-4">
+<span class="text-xs font-bold text-slate-500 uppercase">Average Cost</span>
+<span class="text-lg font-bold text-primary">2.8</span>
+</div>
+<button class="w-full py-3 bg-primary/10 border border-primary text-primary rounded-lg font-bold hover:bg-primary hover:text-background-dark transition-all">
+                    Clear All Cards
+                </button>
+</div>
+</aside>
+</main>
+</div>
+</body></html>
