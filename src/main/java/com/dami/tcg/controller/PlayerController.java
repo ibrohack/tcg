@@ -10,6 +10,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.dami.tcg.modelo.*;
 
 import jakarta.servlet.http.HttpSession;
+import org.mindrot.jbcrypt.BCrypt;
+import java.util.regex.Pattern;
 
 @Controller
 public class PlayerController {
@@ -28,7 +30,7 @@ public class PlayerController {
             HttpSession session,
             RedirectAttributes redirectAttributes) {
         Player player = dao.queryPlayerByUsername(username);
-        if (player != null && player.getPassword().equals(password)) {
+        if (player != null && BCrypt.checkpw(password, player.getPassword())) {
             session.setAttribute("loggedPlayer", player);
             return "redirect:/player";
         }
@@ -51,6 +53,13 @@ public class PlayerController {
             return "redirect:/register";
         }
 
+        // Strong password regex pattern
+        String passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!_\\-]).{8,}$";
+        if (!Pattern.matches(passwordPattern, password)) {
+            redirectAttributes.addFlashAttribute("error", "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.");
+            return "redirect:/register";
+        }
+
         // Check if username already exists
         Player existing = dao.queryPlayerByUsername(username);
         if (existing != null) {
@@ -60,7 +69,7 @@ public class PlayerController {
 
         Player newPlayer = new Player();
         newPlayer.setUsername(username);
-        newPlayer.setPassword(password);
+        newPlayer.setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
         newPlayer.setCoins(100);
         boolean success = dao.insertPlayer(newPlayer);
 
