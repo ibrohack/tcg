@@ -206,19 +206,12 @@ public class PlayerController {
 
                 String newFileName = player.getPlayerId() + extension;
 
-                // Save to src/main/resources (for development persistent storage)
-                Path devPath = Paths.get("src/main/resources/static/images/players");
-                if (!Files.exists(devPath)) {
-                    Files.createDirectories(devPath);
+                // Save to external directory 'data/player-images'
+                Path uploadPath = Paths.get("data/player-images");
+                if (!Files.exists(uploadPath)) {
+                    Files.createDirectories(uploadPath);
                 }
-                Files.copy(profilePicture.getInputStream(), devPath.resolve(newFileName), StandardCopyOption.REPLACE_EXISTING);
-
-                // Save to target/classes (for immediate availability without restart)
-                Path targetPath = Paths.get("target/classes/static/images/players");
-                if (!Files.exists(targetPath)) {
-                    Files.createDirectories(targetPath);
-                }
-                Files.copy(profilePicture.getInputStream(), targetPath.resolve(newFileName), StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(profilePicture.getInputStream(), uploadPath.resolve(newFileName), StandardCopyOption.REPLACE_EXISTING);
 
                 changesMade = true;
             } catch (IOException e) {
@@ -243,22 +236,13 @@ public class PlayerController {
         String[] extensions = {".png", ".jpg", ".jpeg", ".webp", ".gif"};
         
         try {
-            File targetDir = new File("target/classes/static/images/players");
-            if (targetDir.exists() && targetDir.isDirectory()) {
+            // Check external directory 'data/player-images'
+            File uploadDir = new File("data/player-images");
+            if (uploadDir.exists() && uploadDir.isDirectory()) {
                 for (String ext : extensions) {
-                    File f = new File(targetDir, player.getPlayerId() + ext);
+                    File f = new File(uploadDir, player.getPlayerId() + ext);
                     if (f.exists()) {
-                        player.setAvatarUrl("/images/players/" + player.getPlayerId() + ext);
-                        return;
-                    }
-                }
-            }
-            File devDir = new File("src/main/resources/static/images/players");
-            if (devDir.exists() && devDir.isDirectory()) {
-                for (String ext : extensions) {
-                    File f = new File(devDir, player.getPlayerId() + ext);
-                    if (f.exists()) {
-                        player.setAvatarUrl("/images/players/" + player.getPlayerId() + ext);
+                        player.setAvatarUrl("/player-images/" + player.getPlayerId() + ext);
                         return;
                     }
                 }
