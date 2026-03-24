@@ -14,6 +14,8 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
     <link rel="icon" type="image/x-icon" href="/images/favicon3.ico">
+    <link th:if="${loadImageCrop}" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css"/>
+    <script th:if="${loadImageCrop}" src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
     <script src="/js/tailwind-config.js"></script>
 </head>
 
@@ -72,10 +74,13 @@
             <div class="flex items-center gap-3">
                 <div
                     class="h-10 w-10 rounded-full bg-primary/20 border-2 border-primary overflow-hidden flex items-center justify-center">
-                    <img th:if="${session.loggedPlayer.avatarUrl != null}" th:src="${session.loggedPlayer.avatarUrl}" alt="Avatar" class="h-full w-full object-cover">
-                    <span th:unless="${session.loggedPlayer.avatarUrl != null}" class="material-symbols-outlined text-primary">person</span>
+                    <img th:if="${session.loggedPlayer.avatarUrl != null}" th:src="${session.loggedPlayer.avatarUrl}"
+                        alt="Avatar" class="h-full w-full object-cover">
+                    <span th:unless="${session.loggedPlayer.avatarUrl != null}"
+                        class="material-symbols-outlined text-primary">person</span>
                 </div>
-                <a th:href="@{/profile/edit}" class="text-sm font-bold text-slate-100 hidden lg:inline hover:text-primary transition-colors"
+                <a th:href="@{/profile/edit}"
+                    class="text-sm font-bold text-slate-100 hidden lg:inline hover:text-primary transition-colors"
                     th:text="${session.loggedPlayer.username}">Player</a>
             </div>
             <a th:href="@{/logout}"
@@ -123,6 +128,7 @@
         </div>
     </div>
     <script th:if="${loadPasswordScript}" th:src="@{/js/password-toggle.js}"></script>
+    <script th:if="${loadImageCrop}" th:src="@{/js/image-crop.js}"></script>
 </footer>
 
 </html>

@@ -64,7 +64,8 @@ public class PlayerController {
         // Strong password regex pattern
         String passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!_\\-]).{8,}$";
         if (!Pattern.matches(passwordPattern, password)) {
-            redirectAttributes.addFlashAttribute("error", "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.");
+            redirectAttributes.addFlashAttribute("error",
+                    "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.");
             return "redirect:/register";
         }
 
@@ -168,7 +169,8 @@ public class PlayerController {
             HttpSession session, RedirectAttributes redirectAttributes) {
 
         Player loggedPlayer = (Player) session.getAttribute("loggedPlayer");
-        if (loggedPlayer == null) return "redirect:/login";
+        if (loggedPlayer == null)
+            return "redirect:/login";
 
         Player player = dao.queryPlayer(loggedPlayer.getPlayerId());
         boolean changesMade = false;
@@ -186,7 +188,8 @@ public class PlayerController {
 
             String passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!_\\-]).{8,}$";
             if (!Pattern.matches(passwordPattern, newPassword)) {
-                redirectAttributes.addFlashAttribute("error", "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.");
+                redirectAttributes.addFlashAttribute("error",
+                        "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.");
                 return "redirect:/profile/edit";
             }
 
@@ -211,7 +214,8 @@ public class PlayerController {
                 if (!Files.exists(uploadPath)) {
                     Files.createDirectories(uploadPath);
                 }
-                Files.copy(profilePicture.getInputStream(), uploadPath.resolve(newFileName), StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(profilePicture.getInputStream(), uploadPath.resolve(newFileName),
+                        StandardCopyOption.REPLACE_EXISTING);
 
                 changesMade = true;
             } catch (IOException e) {
@@ -230,19 +234,20 @@ public class PlayerController {
     }
 
     private void populatePlayerWithAvatar(Player player) {
-        if (player == null) return;
-        
+        if (player == null)
+            return;
+
         player.setAvatarUrl(null); // Clear previous
-        String[] extensions = {".png", ".jpg", ".jpeg", ".webp", ".gif"};
-        
+        String[] extensions = { ".png", ".jpg", ".jpeg", ".webp", ".gif" };
+
         try {
             // Check external directory 'data/player-images'
-            File uploadDir = new File("data/player-images");
+            File uploadDir = new File("data/images/players");
             if (uploadDir.exists() && uploadDir.isDirectory()) {
                 for (String ext : extensions) {
                     File f = new File(uploadDir, player.getPlayerId() + ext);
                     if (f.exists()) {
-                        player.setAvatarUrl("/player-images/" + player.getPlayerId() + ext);
+                        player.setAvatarUrl("/images/players/" + player.getPlayerId() + ext);
                         return;
                     }
                 }
