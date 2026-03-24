@@ -7,7 +7,7 @@ public class Deck {
 	private String title;
 	private String description;
 	private HashMap<Integer, Integer> cards;
-	
+
 	public Deck() {
 		this.deckID = 0;
 		this.title = "";
@@ -25,30 +25,38 @@ public class Deck {
 	public int getDeckID() {
 		return deckID;
 	}
+
 	public void setDeckID(int deckID) {
 		this.deckID = deckID;
 	}
+
 	public String getTitle() {
 		return title;
 	}
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
 	public String getDescription() {
 		return description;
 	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public HashMap<Integer, Integer> getaCard() {
+
+	public HashMap<Integer, Integer> getCards() {
 		return cards;
 	}
-	public void setaCard(HashMap<Integer, Integer> cards) {
+
+	public void setCards(HashMap<Integer, Integer> cards) {
 		this.cards = cards;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Deck [deckID=" + deckID + ", title=" + title + ", description=" + description + ", cards=" + cards+ "]";
+		return "Deck [deckID=" + deckID + ", title=" + title + ", description=" + description + ", cards=" + cards
+				+ "]";
 	}
 }

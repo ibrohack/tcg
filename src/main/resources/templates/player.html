@@ -23,8 +23,10 @@
                             <div class="relative">
                                 <div
                                     class="size-24 rounded-full bg-primary/30 flex items-center justify-center border-4 border-primary overflow-hidden shadow-lg shadow-primary/20">
-                                    <img th:if="${player.avatarUrl != null}" th:src="${player.avatarUrl}" alt="Avatar" class="h-full w-full object-cover">
-                                    <span th:unless="${player.avatarUrl != null}" class="material-symbols-outlined text-primary text-4xl">person</span>
+                                    <img th:if="${player.avatarUrl != null}" th:src="${player.avatarUrl}" alt="Avatar"
+                                        class="h-full w-full object-cover">
+                                    <span th:unless="${player.avatarUrl != null}"
+                                        class="material-symbols-outlined text-primary text-4xl">person</span>
                                 </div>
                             </div>
                             <div>
@@ -51,7 +53,8 @@
                                 <span class="material-symbols-outlined text-primary">style</span>
                                 My Decks
                             </h2>
-                            <button class="text-primary font-bold text-sm hover:underline">View All</button>
+                            <a th:href="@{/deckcheck}" class="text-primary font-bold text-sm hover:underline">View
+                                Decks</a>
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                             <!-- Add New Deck -->
