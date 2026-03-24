@@ -14,30 +14,7 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
     <link rel="icon" type="image/x-icon" href="/images/favicon3.ico">
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#f4d125",
-                        "background-light": "#f8f8f5",
-                        "background-dark": "#221f10",
-                        "card-common": "#94a3b8",
-                        "card-rare": "#3b82f6",
-                        "card-epic": "#a855f7",
-                        "card-legendary": "#f97316",
-                        "card-mythic": "#ef4444",
-                        "card-arok": "#2dd4bf",
-                    },
-                    fontFamily: {
-                        "display": ["Space Grotesk", "sans-serif"]
-                    },
-                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
-                },
-            },
-        }
-    </script>
+    <script src="/js/tailwind-config.js"></script>
 </head>
 
 <!-- ==================== NAVBAR FRAGMENT ==================== -->
@@ -95,10 +72,11 @@
             <div class="flex items-center gap-3">
                 <div
                     class="h-10 w-10 rounded-full bg-primary/20 border-2 border-primary overflow-hidden flex items-center justify-center">
-                    <span class="material-symbols-outlined text-primary">person</span>
+                    <img th:if="${session.loggedPlayer.avatarUrl != null}" th:src="${session.loggedPlayer.avatarUrl}" alt="Avatar" class="h-full w-full object-cover">
+                    <span th:unless="${session.loggedPlayer.avatarUrl != null}" class="material-symbols-outlined text-primary">person</span>
                 </div>
-                <span class="text-sm font-bold text-slate-100 hidden lg:inline"
-                    th:text="${session.loggedPlayer.username}">Player</span>
+                <a th:href="@{/profile/edit}" class="text-sm font-bold text-slate-100 hidden lg:inline hover:text-primary transition-colors"
+                    th:text="${session.loggedPlayer.username}">Player</a>
             </div>
             <a th:href="@{/logout}"
                 class="flex items-center gap-2 bg-primary/10 border border-primary/30 text-primary px-4 py-2 rounded-lg font-bold text-sm hover:bg-primary hover:text-background-dark transition-all">
@@ -144,6 +122,7 @@
             <a class="hover:text-primary transition-colors" href="#">Support</a>
         </div>
     </div>
+    <script th:if="${loadPasswordScript}" th:src="@{/js/password-toggle.js}"></script>
 </footer>
 
 </html>
