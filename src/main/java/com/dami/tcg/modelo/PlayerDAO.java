@@ -16,4 +16,6 @@ public interface PlayerDAO {
     public HashMap<Integer, Integer> queryPlayerCards(int playerID);
 
     public Player queryPlayerByUsername(String username);
+    
+    public boolean addCard(Player player, Card card);
 }
