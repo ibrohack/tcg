@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="dark" lang="en" xmlns:th="http://www.thymeleaf.org">
+<html th:with="loadPasswordScript=true" class="dark" lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="~{fragments/layout :: head('Chaos and Monkeys - Login')}">
     <meta charset="utf-8">
@@ -7,7 +7,8 @@
 </head>
 
 <body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
-    <div class="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark overflow-x-hidden">
+    <div
+        class="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark overflow-x-hidden">
         <div class="layout-container flex h-full grow flex-col">
 
             <!-- Navbar -->
@@ -24,29 +25,39 @@
                 <!-- Login Container -->
                 <div class="relative w-full max-w-md">
                     <!-- Decorative border glow -->
-                    <div class="absolute -inset-[2px] bg-gradient-to-tr from-primary/40 via-primary/5 to-primary/40 rounded-xl blur-[1px] opacity-30"></div>
+                    <div
+                        class="absolute -inset-[2px] bg-gradient-to-tr from-primary/40 via-primary/5 to-primary/40 rounded-xl blur-[1px] opacity-30">
+                    </div>
 
-                    <div class="relative bg-background-dark/80 backdrop-blur-2xl border border-primary/10 p-8 md:p-12 rounded-xl shadow-2xl shadow-primary/5 overflow-hidden">
+                    <div
+                        class="relative bg-background-dark/80 backdrop-blur-2xl border border-primary/10 p-8 md:p-12 rounded-xl shadow-2xl shadow-primary/5 overflow-hidden">
                         <!-- Top glow line -->
-                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/30 to-transparent"></div>
+                        <div
+                            class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/30 to-transparent">
+                        </div>
 
                         <!-- Header -->
                         <div class="mb-10 text-center">
                             <div class="inline-block px-3 py-1 mb-4 border border-primary/20 bg-primary/5 rounded">
-                                <span class="text-[10px] font-black italic uppercase tracking-[0.2em] text-primary">Access Terminal</span>
+                                <span
+                                    class="text-[10px] font-black italic uppercase tracking-[0.2em] text-primary">LOGIN</span>
                             </div>
-                            <h1 class="text-4xl md:text-5xl font-bold tracking-tighter text-slate-100 mb-2">Enter the Jungle</h1>
-                            <p class="text-slate-400 text-sm max-w-md mx-auto">Authenticate your primal identity to access your collection and decks.</p>
+                            <h1 class="text-4xl md:text-5xl font-bold tracking-tighter text-slate-100 mb-2">Enter the
+                                Jungle</h1>
+                            <p class="text-slate-400 text-sm max-w-md mx-auto">Authenticate your primal identity to
+                                access your collection and decks.</p>
                         </div>
 
                         <!-- Error message -->
-                        <div th:if="${error}" class="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm font-medium text-center">
+                        <div th:if="${error}"
+                            class="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm font-medium text-center">
                             <span class="material-symbols-outlined text-sm align-middle mr-1">error</span>
                             <span th:text="${error}">Invalid credentials</span>
                         </div>
 
                         <!-- Success message (e.g. after registration) -->
-                        <div th:if="${success}" class="mb-6 p-4 bg-green-500/10 border border-green-500/30 rounded-lg text-green-400 text-sm font-medium text-center">
+                        <div th:if="${success}"
+                            class="mb-6 p-4 bg-green-500/10 border border-green-500/30 rounded-lg text-green-400 text-sm font-medium text-center">
                             <span class="material-symbols-outlined text-sm align-middle mr-1">check_circle</span>
                             <span th:text="${success}">Success</span>
                         </div>
@@ -55,27 +66,36 @@
                         <form th:action="@{/login}" method="post" class="space-y-6">
                             <!-- Username -->
                             <div class="space-y-2">
-                                <label class="block text-[10px] uppercase tracking-widest font-bold text-primary/70 ml-1">Username</label>
+                                <label
+                                    class="block text-[10px] uppercase tracking-widest font-bold text-primary/70 ml-1">Username</label>
                                 <div class="group relative">
                                     <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                        <span class="material-symbols-outlined text-primary/40 group-focus-within:text-primary transition-colors">person</span>
+                                        <span
+                                            class="material-symbols-outlined text-primary/40 group-focus-within:text-primary transition-colors">person</span>
                                     </div>
                                     <input name="username"
                                         class="w-full bg-background-dark border border-primary/10 focus:border-primary/50 focus:ring-1 focus:ring-primary/20 text-slate-100 pl-12 pr-4 py-4 rounded-lg transition-all font-mono text-sm placeholder:text-slate-600"
-                                        placeholder="YOUR_USERNAME" type="text" required />
+                                        placeholder="player_username" type="text" required />
                                 </div>
                             </div>
 
                             <!-- Password -->
                             <div class="space-y-2">
-                                <label class="block text-[10px] uppercase tracking-widest font-bold text-primary/70 ml-1">Password</label>
+                                <label
+                                    class="block text-[10px] uppercase tracking-widest font-bold text-primary/70 ml-1">Password</label>
                                 <div class="group relative">
                                     <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                        <span class="material-symbols-outlined text-primary/40 group-focus-within:text-primary transition-colors">lock</span>
+                                        <span
+                                            class="material-symbols-outlined text-primary/40 group-focus-within:text-primary transition-colors">lock</span>
                                     </div>
                                     <input name="password"
                                         class="w-full bg-background-dark border border-primary/10 focus:border-primary/50 focus:ring-1 focus:ring-primary/20 text-slate-100 pl-12 pr-4 py-4 rounded-lg transition-all font-mono text-sm placeholder:text-slate-600"
                                         placeholder="••••••••••••" type="password" required />
+                                    <div class="absolute inset-y-0 right-0 pr-4 flex items-center">
+                                        <button
+                                            class="material-symbols-outlined text-slate-600 hover:text-primary transition-colors"
+                                            type="button">visibility</button>
+                                    </div>
                                 </div>
                             </div>
 
@@ -84,7 +104,9 @@
                                 <button type="submit"
                                     class="group relative w-full bg-primary text-background-dark py-5 rounded-lg font-bold uppercase tracking-[0.15em] text-sm overflow-hidden transition-all hover:shadow-[0_0_30px_rgba(244,209,37,0.3)] active:scale-[0.98]">
                                     <span class="relative z-10">Enter the Jungle</span>
-                                    <div class="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out"></div>
+                                    <div
+                                        class="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out">
+                                    </div>
                                 </button>
                             </div>
                         </form>
@@ -92,7 +114,9 @@
                         <!-- Register link -->
                         <div class="mt-8 pt-8 border-t border-primary/5 text-center">
                             <p class="text-xs text-slate-500">
-                                Not cataloged yet? <a th:href="@{/register}" class="text-primary font-bold hover:underline underline-offset-4">JOIN THE JUNGLE</a>
+                                Not cataloged yet? <a th:href="@{/register}"
+                                    class="text-primary font-bold hover:underline underline-offset-4">JOIN THE
+                                    JUNGLE</a>
                             </p>
                         </div>
                     </div>
