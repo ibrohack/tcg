@@ -14,4 +14,6 @@ public interface CardDAO {
     public List<Card> queryAll();
 
     public Card queryCard(String name);
+    
+    public Card queryRandomCard();
 }
