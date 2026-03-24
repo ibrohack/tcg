@@ -10,6 +10,7 @@ public class Player {
 	private int coins;
 	private HashMap<Integer, Integer> cards;
 	private ArrayList<Deck> decks;
+	private String avatarUrl; // Transient field to store profile picture URL
 
 	public Player() {
 	}
@@ -21,6 +22,14 @@ public class Player {
 		this.password = password;
 		this.cards = cards;
 		this.decks = decks;
+	}
+
+	public final String getAvatarUrl() {
+		return avatarUrl;
+	}
+
+	public final void setAvatarUrl(String avatarUrl) {
+		this.avatarUrl = avatarUrl;
 	}
 
 	public final HashMap<Integer, Integer> getCards() {

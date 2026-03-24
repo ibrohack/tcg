@@ -69,10 +69,11 @@
             <div class="flex items-center gap-3">
                 <div
                     class="h-10 w-10 rounded-full bg-primary/20 border-2 border-primary overflow-hidden flex items-center justify-center">
-                    <span class="material-symbols-outlined text-primary">person</span>
+                    <img th:if="${session.loggedPlayer.avatarUrl != null}" th:src="${session.loggedPlayer.avatarUrl}" alt="Avatar" class="h-full w-full object-cover">
+                    <span th:unless="${session.loggedPlayer.avatarUrl != null}" class="material-symbols-outlined text-primary">person</span>
                 </div>
-                <span class="text-sm font-bold text-slate-100 hidden lg:inline"
-                    th:text="${session.loggedPlayer.username}">Player</span>
+                <a th:href="@{/profile/edit}" class="text-sm font-bold text-slate-100 hidden lg:inline hover:text-primary transition-colors"
+                    th:text="${session.loggedPlayer.username}">Player</a>
             </div>
             <a th:href="@{/logout}"
                 class="flex items-center gap-2 bg-primary/10 border border-primary/30 text-primary px-4 py-2 rounded-lg font-bold text-sm hover:bg-primary hover:text-background-dark transition-all">
