@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -16,6 +17,9 @@ import com.dami.tcg.modelo.Card;
 import com.dami.tcg.modelo.ImplCardBD;
 import com.dami.tcg.modelo.ImplPlayerBD;
 import com.dami.tcg.modelo.PlayerDAO;
+
+import org.springframework.ui.Model;
+
 import com.dami.tcg.modelo.CardDAO;
 
 @Controller
@@ -38,6 +42,21 @@ public class ShopController {
 			playerDao.addCard(null, card);
 		}
 		return "pack";
+	}
+	
+	@GetMapping("/shop")
+	public String showShop(Model model) {
+		ArrayList<Card> cards = new ArrayList<Card>();
+		Card card;
+		for(int i = 0; i<3; i++) {
+			card = cardDao.queryRandomCard();
+			while(i<0 && cards.contains(card)) {
+				card = cardDao.queryRandomCard();
+			}
+			cards.add(card);
+			model.addAttribute("cards",cards);
+		}
+		return "shop";
 	}
 
 }

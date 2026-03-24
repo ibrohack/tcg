@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chaos and Monkeys - Primal Exchange</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-container": "#443a00",
+              "surface-tint": "#f4d125",
+              "on-tertiary-fixed": "#001f25",
+              "on-surface": "#e9e2d1",
+              "on-tertiary-fixed-variant": "#004e5a",
+              "on-primary-fixed": "#221b00",
+              "tertiary": "#a855f7",
+              "surface-bright": "#221f10",
+              "inverse-surface": "#e9e2d1",
+              "secondary-fixed": "#f6e298",
+              "outline": "#4c4733",
+              "error": "#ffb4ab",
+              "surface-dim": "#110f08",
+              "surface-variant": "#383529",
+              "secondary-container": "#1d4ed8",
+              "primary": "#f4d125",
+              "on-secondary-fixed": "#221b00",
+              "tertiary-fixed-dim": "#40d8f2",
+              "secondary-fixed-dim": "#d9c67e",
+              "surface-container": "#231f15",
+              "on-error": "#690005",
+              "surface-container-low": "#1e1b11",
+              "primary-fixed-dim": "#e7c511",
+              "on-surface-variant": "#cfc6ac",
+              "on-tertiary-container": "#f3e8ff",
+              "surface": "#161309",
+              "surface-container-highest": "#383529",
+              "inverse-primary": "#6f5d00",
+              "on-secondary": "#ffffff",
+              "on-primary-fixed-variant": "#544600",
+              "surface-container-high": "#2d2a1f",
+              "tertiary-fixed": "#a2eeff",
+              "background": "#221f10",
+              "secondary": "#3b82f6",
+              "tertiary-container": "#7e22ce",
+              "on-secondary-fixed-variant": "#53460a",
+              "on-error-container": "#ffdad6",
+              "surface-container-lowest": "#0b0a04",
+              "on-background": "#e9e2d1",
+              "on-primary-container": "#f4d125",
+              "primary-fixed": "#ffe165",
+              "inverse-on-surface": "#343025",
+              "on-tertiary": "#ffffff",
+              "error-container": "#93000a",
+              "outline-variant": "#322f20",
+              "on-primary": "#221f10",
+              "on-secondary-container": "#dbeafe"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Space Grotesk"],
+              "label": ["Space Grotesk"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .text-glow {
+            text-shadow: 0 0 10px rgba(244, 209, 37, 0.4);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body min-h-screen pb-32 selection:bg-primary selection:text-on-primary">
+<!-- TopAppBar -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-6 py-4 bg-[#221f10]/80 backdrop-blur-xl shadow-xl">
+<div class="flex items-center gap-4">
+<span class="text-xl font-black text-[#f4d125] italic font-headline">Chaos and Monkeys</span>
+<div class="h-4 w-[1px] bg-outline-variant mx-2 hidden md:block"></div>
+<h1 class="font-['Space_Grotesk'] uppercase tracking-[0.05em] text-[10px] font-bold text-[#f4d125] hidden md:block">Primal Exchange</h1>
+</div>
+<div class="flex items-center gap-3 bg-surface-container px-4 py-2 rounded-lg border border-primary/10">
+<span class="material-symbols-outlined text-[#f4d125] text-lg" data-icon="monetization_on">monetization_on</span>
+<span class="text-[#f4d125] font-black font-headline tracking-tighter text-lg">1,250</span>
+</div>
+</nav>
+<main class="max-w-7xl mx-auto px-6 pt-24 space-y-12">
+<!-- Section Header: Primal Exchange -->
+<header class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-primary/5 pb-6">
+<div>
+<span class="text-[10px] font-black uppercase tracking-[0.2em] text-primary/60 block mb-2">Marketplace</span>
+<h2 class="text-4xl md:text-6xl font-black font-headline text-primary tracking-tighter uppercase italic">Primal Exchange</h2>
+</div>
+<div class="text-right">
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant block">Inventory Reset In</span>
+<span class="text-xl font-mono font-bold text-primary">14:22:05</span>
+</div>
+</header>
+<!-- Daily Reward: Large Hero Bento -->
+<section>
+<div class="relative overflow-hidden rounded-xl bg-surface-container-low border border-primary/20 p-8 flex flex-col md:flex-row items-center gap-8 shadow-[0_0_50px_rgba(244,209,37,0.05)]">
+<!-- Background Glow Decor -->
+<div class="absolute -top-24 -right-24 w-64 h-64 bg-primary/10 blur-[100px] rounded-full"></div>
+<div class="absolute -bottom-24 -left-24 w-64 h-64 bg-tertiary/5 blur-[100px] rounded-full"></div>
+<div class="relative w-full md:w-1/3 aspect-[3/4] rounded-lg overflow-hidden group shadow-2xl ring-2 ring-primary/30">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Glowy mystical TCG pack floating in jungle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWei9OZbiPaue_sadVGMg3L-vvixfALuQTpaL072cYoRmJUruKGZ1m9rnWilqma5cvHWFXVrftLjijziUVGaXMp7bK6rG1iWBJPFv32-zGzihpqRwpggsp052x_CmJA4yBd-P3YEdhPhLsBzyTtGoZcfr0qcvoxwE1oV8HwDyyazIOfPQWsizmc0XTiMr9w7HM_3IY-xIaO4FVIkOtXoNKTCslBy-mdE4wEqM7ZYcH00QxysXnqHWyor15cDKeXc9hs6EByYhHRLk"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-7xl opacity-50" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+</div>
+<div class="flex-1 space-y-6 text-center md:text-left z-10">
+<div class="inline-block px-3 py-1 bg-primary text-on-primary text-[10px] font-black uppercase tracking-widest italic rounded-sm mb-2">Daily Manifest</div>
+<h3 class="text-4xl md:text-5xl font-black font-headline text-on-surface leading-none tracking-tight">DAILY PRIMAL PACK</h3>
+<p class="text-on-surface-variant max-w-md text-sm md:text-base leading-relaxed">Your daily tribute from the jungle spirits. Contains 3 random cards with a guaranteed Rare or higher drop rate.</p>
+<div class="flex flex-wrap gap-4 justify-center md:justify-start">
+<button class="bg-primary text-on-primary px-8 py-4 font-black uppercase tracking-widest text-xs flex items-center gap-3 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-primary/20">
+                            Ready to Claim
+                            <span class="material-symbols-outlined text-sm" data-icon="card_giftcard">card_giftcard</span>
+</button>
+<div class="flex items-center gap-2 text-primary/60 text-[10px] font-bold uppercase tracking-wider px-4 py-2 border border-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                            Next in 23h
+                        </div>
+</div>
+</div>
+</div>
+</section>
+<!-- Daily Card Deals -->
+<section class="space-y-6">
+<h3 class="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Flash Acquisitions</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Rare Card -->
+<div class="bg-surface-container-high rounded-xl p-1 border-2 border-primary/20 hover:border-primary/50 transition-colors group">
+<div class="aspect-[3/4] bg-surface-container-lowest rounded-lg overflow-hidden relative mb-4">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="Rare mystical monkey warrior card illustration" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwTIoAXGqzN6oQGaSvX6HcooGJI8KxYccC0E7bGAXhXEFXVzqX73pGJFcUCCk90r4dN2knA3MlepI9Y9tTCB3Kz2kmiM7Py0Ev0g-8ypDyoGdXuQb2FxVndSXAsrulgeaq8e7L-aUYAv51fMSxT9ILeVY5PkXVFfxa68S1elxzPwItIutqPdmkXHpX23BieHzp-H8xbTaGI0E9CJBCFyZHJ2nibu8jSC73OY4DqDqpN-uOEcF1N94dsbeJYDWgQhOLSLGZaN5W8qU"/>
+<div class="absolute top-3 left-3 bg-blue-500 text-white text-[9px] font-black italic uppercase px-2 py-0.5 rounded shadow-lg">Rare</div>
+</div>
+<div class="px-3 pb-4 space-y-3">
+<h4 class="text-lg font-bold font-headline leading-tight">Emerald Sentinel</h4>
+<button class="w-full bg-surface-container-highest hover:bg-primary hover:text-on-primary text-primary flex items-center justify-between px-4 py-2.5 rounded transition-all active:scale-95">
+<span class="text-[10px] font-black uppercase tracking-widest">Acquire</span>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="monetization_on">monetization_on</span>
+<span class="font-bold">250</span>
+</div>
+</button>
+</div>
+</div>
+<!-- Epic Card -->
+<div class="bg-surface-container-high rounded-xl p-1 border-2 border-tertiary/30 hover:border-tertiary/60 transition-colors group relative">
+	<div class="absolute -inset-1 bg-tertiary/5 blur-xl -z-10 group-hover:bg-tertiary/10"></div>
+	<div class="aspect-[3/4] bg-surface-container-lowest rounded-lg overflow-hidden relative mb-4">
+		<img class="w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 transition-all duration-500 scale-105" data-alt="Epic tech-noir jungle beast card illustration" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9cGOW2mOrx5vb-F-Wl2BWW7SDjqBuPoWCIRdbSEWwRGDE14Eu4ny-5rNRHvxW1fWaVyBRQqFaZDFgAOQoy45cg1d6RMS2EYEGt17qckS1wq5K46qtWYmxzh43ITNli2qBFmxCPoSTeWzuHwN_qYtOU82LNQe-XUYJhK-Su6VT7H0jOavnTIU78LiAN5Sdy1r5y7VpYlDZQ2dg4N80Togpyh8GY4azPx_ryWznjEkDfAa91UAPSbu69Mbgmv3Ds0dcsUq_x9HIR18"/>
+		<div class="absolute top-3 left-3 bg-tertiary text-white text-[9px] font-black italic uppercase px-2 py-0.5 rounded shadow-lg">Epic</div>
+	</div>
+	<div class="px-3 pb-4 space-y-3">
+		<h4 class="text-lg font-bold font-headline leading-tight">Neon Jaguar X-1</h4>
+		<button class="w-full bg-surface-container-highest hover:bg-tertiary hover:text-white text-tertiary flex items-center justify-between px-4 py-2.5 rounded transition-all active:scale-95">
+			<span class="text-[10px] font-black uppercase tracking-widest">Acquire</span>
+			<div class="flex items-center gap-1">
+				<span class="material-symbols-outlined text-sm" data-icon="monetization_on">monetization_on</span>
+				<span class="font-bold">750</span>
+			</div>
+		</button>
+	</div>
+</div>
+<!-- Mythic Card -->
+<div class="bg-surface-container-high rounded-xl p-1 border-2 border-primary hover:border-primary shadow-[0_0_20px_rgba(244,209,37,0.15)] transition-colors group">
+<div class="aspect-[3/4] bg-surface-container-lowest rounded-lg overflow-hidden relative mb-4 ring-2 ring-primary/20">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-all duration-700" data-alt="Mythic chaos deity monkey card illustration" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBupec3zsuOHlOL3b7zhRVvJv62FRMP4hx1sBdtwlAVKrKRn-gA_-CB3Sez3fhXvGQuXGTk6mYOCTAS3O1w3EvaalyDOj9DqaKLVL3wYKvGJhjxOX_oaUV6Nn70kWnzw5Q-GyukeyRiKNbS_S3hhDdn6bgTOEjnNiMTcV1dX4QnpHBOcN6sBWYD54t7wnCqBhQea5MbvYiFUKCRZPJYvEl9X5z2nu2LVmEFm4Ar3DY9nnd811boTGwfHUzj6MybXquh4KlVzMPsASo"/>
+<div class="absolute top-3 left-3 bg-primary text-on-primary text-[9px] font-black italic uppercase px-2 py-0.5 rounded shadow-[0_0_10px_rgba(244,209,37,0.5)]">Mythic</div>
+</div>
+<div class="px-3 pb-4 space-y-3">
+<h4 class="text-lg font-bold font-headline leading-tight text-primary uppercase">Chaos Overlord</h4>
+<button class="w-full bg-primary text-on-primary flex items-center justify-between px-4 py-2.5 rounded transition-all active:scale-95 shadow-lg shadow-primary/20">
+<span class="text-[10px] font-black uppercase tracking-widest">Acquire</span>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="monetization_on">monetization_on</span>
+<span class="font-bold">1500</span>
+</div>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Booster Packs -->
+<section class="space-y-6">
+<h3 class="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Premium Protocols</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Pack 1 -->
+<div class="group relative bg-surface-container-low p-6 border border-primary/5 hover:border-primary/20 transition-all rounded-lg overflow-hidden">
+<div class="absolute top-0 right-0 p-2 text-primary/10">
+<span class="material-symbols-outlined text-6xl">layers</span>
+</div>
+<div class="relative z-10 space-y-4">
+<h4 class="text-xl font-black font-headline tracking-tighter uppercase italic">Jungle Spirit Pack</h4>
+<p class="text-[10px] uppercase font-bold text-on-surface-variant tracking-widest">5 Cards • Guaranteed Uncommon</p>
+<img class="w-full aspect-video object-cover rounded grayscale-[0.3] group-hover:grayscale-0 transition-all" data-alt="Green tinted card pack box art" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBf2fP8lEeGpPICurt9y4LU-omtW8f4QFRUCQZOs9OdZ4sCCJMGyE56S4AiaUwKKWHruzOcEWgUZxrsPCcSbiBSSE8IAAa01r4KIDJaGLatnsQQXmnsiM3sKsmx39FMG4eyumjVjuOiwZRKbCOKXWQMfHmz1pHPecBqf8SS7OdsoP9W6BPDBkxFS0zSubZcUym-JGUkWHXp6Rj1clbZ2FcS2GpnmsiMUOEob0sPsJ5suZEgHRTIKyCgXAFj3EJ7GL8XEbM9WmcdSoY"/>
+<button class="w-full py-3 bg-surface-container-highest text-primary font-black uppercase tracking-widest text-[10px] flex items-center justify-center gap-2 hover:bg-primary hover:text-on-primary transition-all">
+<span class="material-symbols-outlined text-lg" data-icon="monetization_on">monetization_on</span>
+                            500 Coins
+                        </button>
+</div>
+</div>
+<!-- Pack 2 -->
+<div class="group relative bg-surface-container-low p-6 border border-primary/5 hover:border-primary/20 transition-all rounded-lg overflow-hidden">
+<div class="absolute top-0 right-0 p-2 text-primary/10">
+<span class="material-symbols-outlined text-6xl">temple_hindu</span>
+</div>
+<div class="relative z-10 space-y-4">
+<h4 class="text-xl font-black font-headline tracking-tighter uppercase italic">Ancient Ruins Pack</h4>
+<p class="text-[10px] uppercase font-bold text-on-surface-variant tracking-widest">7 Cards • Guaranteed Rare</p>
+<img class="w-full aspect-video object-cover rounded grayscale-[0.3] group-hover:grayscale-0 transition-all" data-alt="Stone textured card pack box art" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZ5LJLarBjcOvfeVZ6CKddfbqeoSZTd3DefI3HQxwfRNcyxATEOwk2uY7024OByPcb5Npmh-0Kuk4B0w9KgtzvCoZ_ETh8kTY4fRVEnaSixMYjormqClB9nUAWE5X6iawtm6-RDVyXn9mKrnC1uAHU6a6CY7IjZQPneJjfYnhbyMyUsSEQJb59CjKiL-FQTIskveisQBm_sJqJxUWjKgkSBfI7NgUzA3rnCs0RbOkJ4wl8xuOnrk2UCh-FznI3RgKzW4cJu5LVO9I"/>
+<button class="w-full py-3 bg-surface-container-highest text-primary font-black uppercase tracking-widest text-[10px] flex items-center justify-center gap-2 hover:bg-primary hover:text-on-primary transition-all">
+<span class="material-symbols-outlined text-lg" data-icon="monetization_on">monetization_on</span>
+                            1200 Coins
+                        </button>
+</div>
+</div>
+<!-- Pack 3 -->
+<div class="group relative bg-surface-container-low p-6 border-2 border-primary/30 hover:border-primary transition-all rounded-lg overflow-hidden shadow-[0_10px_30px_rgba(244,209,37,0.05)]">
+<div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent pointer-events-none"></div>
+<div class="absolute top-0 right-0 p-2 text-primary/20">
+<span class="material-symbols-outlined text-6xl">bolt</span>
+</div>
+<div class="relative z-10 space-y-4">
+<h4 class="text-xl font-black font-headline tracking-tighter uppercase italic text-primary">Chaos Surge Pack</h4>
+<p class="text-[10px] uppercase font-bold text-on-surface-variant tracking-widest">12 Cards • Guaranteed Epic+</p>
+<img class="w-full aspect-video object-cover rounded group-hover:scale-105 transition-all" data-alt="Electrical storm themed card pack box art" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGa2cfaIHmmnvO01gcNEgLthAkW3JXel5woljRGuAoOHDNOquKRyScMpO4sEl0VA4W_KLbXB08bOD4XAkafnyLzjbVtla-KOv0vwlqbsjuSDlOxBYoQOkHKOQFf3iHoMQ03r7Z-AQXGD_UBRqSjNwIiXRbbB5Yn2yaVncAk6i6fCup8tCSaaNRfOe_4M8BH2OYYKgEzRv5M3zrrsgaUNbtyViXl7k5xdfYlxjVo-C041UUXgosm2YKdky1h5mr2-yDHeWGDUoWwsU"/>
+<button class="w-full py-3 bg-primary text-on-primary font-black uppercase tracking-widest text-[10px] flex items-center justify-center gap-2 hover:brightness-110 transition-all shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-lg" data-icon="monetization_on">monetization_on</span>
+                            3000 Coins
+                        </button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-[#221f10]/90 backdrop-blur-md border-t-2 border-[#f4d125]/10 shadow-[0_-4px_20px_rgba(244,209,37,0.1)]">
+<a class="flex flex-col items-center justify-center bg-[#f4d125] text-[#221f10] rounded-lg px-4 py-1 active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+<span class="font-['Space_Grotesk'] text-[10px] font-black uppercase tracking-wider">Shop</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#f4d125]/50 px-4 py-1 hover:text-[#f4d125] transition-all active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="style">style</span>
+<span class="font-['Space_Grotesk'] text-[10px] font-black uppercase tracking-wider">Collection</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#f4d125]/50 px-4 py-1 hover:text-[#f4d125] transition-all active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-['Space_Grotesk'] text-[10px] font-black uppercase tracking-wider">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#f4d125]/50 px-4 py-1 hover:text-[#f4d125] transition-all active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="lock">lock</span>
+<span class="font-['Space_Grotesk'] text-[10px] font-black uppercase tracking-wider">Vault</span>
+</a>
+</nav>
+</body></html>
