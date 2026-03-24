@@ -51,7 +51,10 @@ public class ShopController {
 		Card card;
 		for(int i = 0; i<3; i++) {
 			card = cardDao.queryRandomCard();
-			while(i<0 && cards.contains(card)) {
+			while(!cards.isEmpty() && cards.contains(card)) {
+				card = cardDao.queryRandomCard();
+			}
+			while(i==2 && card.getQuality().equalsIgnoreCase("Common") || cards.contains(card)) {
 				card = cardDao.queryRandomCard();
 			}
 			cards.add(card);
@@ -59,5 +62,4 @@ public class ShopController {
 		}
 		return "shop";
 	}
-
 }
