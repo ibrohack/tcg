@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html class="dark" lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="~{fragments/layout :: head('Chaos and Monkeys - Card Gallery')}">
+    <head th:replace="~{fragments/layout :: head('Chaos and Monkeys - Packs')}">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
@@ -11,50 +11,15 @@
             <!-- Navbar -->
             <header th:replace="~{fragments/layout :: navbar('pack')}"></header>
 
-            <main class="flex-1 px-6 lg:px-20 py-8">
-
-                <div class="flex items-center gap-4">
-                    <div class="text-primary size-8">
-                        <svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z"></path>
-                        </svg>
-                    </div>
-                    <h2 class="text-xl font-bold tracking-tight">Chaos and Monkeys</h2>
-                </div>
-
-                <div class="flex items-center gap-6">
-                    <nav class="hidden md:flex gap-6 items-center">
-                        <a class="flex items-center gap-2 text-primary font-medium" href="#">
-                            <span class="material-symbols-outlined">storefront</span> Shop
-                        </a>
-                        <a class="flex items-center gap-2 hover:text-primary transition-colors" href="#">
-                            <span class="material-symbols-outlined">style</span> Collection
-                        </a>
-                    </nav>
-
-                    <div class="flex items-center gap-3">
-                        <div class="flex items-center bg-primary/10 border border-primary/30 rounded-lg px-3 py-1.5 gap-2">
-                            <span class="material-symbols-outlined text-primary text-xl">monetization_on</span>
-                            <span class="font-bold text-primary">12,450</span>
-                        </div>
-
-                        <div class="size-10 rounded-full border-2 border-primary bg-cover bg-center"
-                             data-alt="User profile avatar monkey character"
-                             style="background-image: url('https://lh3.googleusercontent.com/...')">
-                        </div>
-                    </div>
-                </div>
-
-            </main>
-
             <main class="flex-1 flex flex-col items-center justify-center px-4 py-8 lg:py-12 max-w-7xl mx-auto w-full">
 
+                <!-- Title -->
                 <div class="w-full text-center mb-10">
                     <h1 class="text-4xl md:text-5xl font-bold mb-2 text-slate-900 dark:text-slate-50">
                         Jungle Spirit Pack
                     </h1>
                     <p class="text-slate-600 dark:text-slate-400">
-                        Contains cards of Common to Arok quality!
+                        Contains cards of Common to Mythic quality!
                     </p>
                 </div>
 
@@ -81,34 +46,95 @@
                     </div>
                 </div>
 
-                <!-- Botón -->
-                <div class="flex flex-col items-center gap-6 mb-16">
-                    <button class="group relative px-12 py-5 bg-primary rounded-xl font-bold text-background-dark text-xl flex items-center gap-3">
-                        <span class="material-symbols-outlined">auto_fix_high</span>
-                        OPEN PACK
-                    </button>
+                <!-- Button -->
+				<form th:action="@{/pack}" method="post">
+	                <div class="flex flex-col items-center gap-6 mb-16">
+	                    <button class="group relative px-12 py-5 bg-primary rounded-xl font-bold text-background-dark text-xl flex items-center gap-3">
+	                        <span class="material-symbols-outlined">auto_fix_high</span>
+	                        OPEN PACK
+	                    </button>
+	                </div>
+				</form>
+                <!-- Cards -->
+                <div class="p-5 flex flex-col gap-2 relative z-20">
+
+                    <!-- Grid dinámico -->
+                    <div class="w-full grid grid-cols-2 md:grid-cols-5 gap-6 lg:gap-6 px-4">
+                        <div th:each="card : ${cards}">
+                            <th:block>
+                                <div class="aspect-[3/4] relative overflow-hidden">
+                                    <img th:src="@{'/images/cards/' + ${card.cardID} + '.png'}"
+                                         th:alt="${card.name}"
+                                         class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
+
+                                    <div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent z-10"></div>
+
+                                    <!-- Rarity -->
+                                    <div class="absolute top-3 left-3 z-20 backdrop-blur-md px-2 py-1 rounded text-[10px] font-bold uppercase tracking-tighter"
+                                         th:classappend="${card.quality.equalsIgnoreCase('Common')} ? 'bg-card-common/20 border border-card-common/50' :
+                                                         (${card.quality.equalsIgnoreCase('Rare')} ? 'bg-card-rare/20 border border-card-rare/50' :
+                                                         (${card.quality.equalsIgnoreCase('Epic')} ? 'bg-card-epic/20 border border-card-epic/50' :
+                                                         (${card.quality.equalsIgnoreCase('Legendary')} ? 'bg-card-legendary/20 border border-card-legendary/50' :
+                                                         (${card.quality.equalsIgnoreCase('Mythic')} ? 'bg-card-mythic/20 border border-card-mythic/50 text-card-mythic' :
+                                                         (${card.quality.equalsIgnoreCase('Arok')} ? 'bg-card-arok/20 border border-card-arok/50 text-card-arok' :
+                                                         'bg-white/20 border border-white/50')))))"
+                                         th:text="${card.quality}">
+                                        Quality
+                                    </div>
+                                </div>
+
+                                <!-- Info -->
+                                <div class="p-5 flex flex-col gap-2 relative z-20">
+                                    <h3 class="text-xl font-bold text-slate-100" th:text="${card.name}">
+                                        Card Name
+                                    </h3>
+                                    <p class="text-sm text-slate-400 leading-relaxed" th:text="${card.description}">
+                                        Card description goes here.
+                                    </p>
+
+                                    <div class="mt-4 flex justify-between items-center">
+                                        <span class="text-xs font-bold text-slate-500 uppercase"
+                                              th:text="${card.quality}">
+                                            Type
+                                        </span>
+
+                                        <div class="flex gap-2 text-primary font-bold">
+                                            <span class="material-symbols-outlined text-sm">bolt</span>
+                                            <span th:text="${card.cardID}">0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </th:block>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Cards -->
-                <div class="w-full grid grid-cols-2 md:grid-cols-6 gap-4 lg:gap-6 px-4">
+                <!-- Fallback si no hay cartas -->
+                <div class="w-full grid grid-cols-2 md:grid-cols-5 gap-6 lg:gap-6 px-4">
+                    <th:block th:if="${#lists.isEmpty(cards)}">
 
-                    <!-- Ejemplo Card -->
-                    <div class="aspect-[2/3] rounded-xl border-2 border-slate-700/50 bg-slate-800/30 flex flex-col items-center justify-center">
-                        <span class="material-symbols-outlined text-common text-5xl mb-4">question_mark</span>
-                        <span class="text-[10px] text-common font-bold uppercase">Common</span>
-                    </div>
-
-                    <!-- Mythic -->
-                    <div class="aspect-[2/3] rounded-xl border-2 border-mythic bg-background-dark flex flex-col items-center justify-between p-3">
-                        <div class="w-full h-1/2 rounded-lg overflow-hidden bg-mythic/10 flex items-center justify-center">
-                            <span class="material-symbols-outlined text-mythic text-6xl">skull</span>
+                        <!-- Placeholder cards -->
+                        <div class="aspect-[2/3] rounded-xl border-2 border-slate-700/50 bg-slate-800/30 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-common text-5xl">question_mark</span>
                         </div>
-                        <div class="text-center mt-2">
-                            <span class="text-[9px] text-mythic font-black uppercase">Mythic</span>
-                            <h4 class="text-sm font-bold">BLOODFANG BERSERKER</h4>
-                        </div>
-                    </div>
 
+                        <div class="aspect-[2/3] rounded-xl border-2 border-slate-700/50 bg-slate-800/30 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-rare text-5xl">question_mark</span>
+                        </div>
+
+                        <div class="aspect-[2/3] rounded-xl border-2 border-slate-700/50 bg-slate-800/30 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-epic text-5xl">question_mark</span>
+                        </div>
+
+                        <div class="aspect-[2/3] rounded-xl border-2 border-slate-700/50 bg-slate-800/30 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-legendary text-5xl">question_mark</span>
+                        </div>
+
+                        <div class="aspect-[2/3] rounded-xl border-2 border-slate-700/50 bg-slate-800/30 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-mythic text-5xl">question_mark</span>
+                        </div>
+
+                    </th:block>
                 </div>
 
             </main>

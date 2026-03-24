@@ -188,6 +188,7 @@ public class ImplCardBD implements CardDAO {
 	public Card queryRandomCard() {
 		double r = Math.random(); 
 		Card card = new Card();
+		this.openConnection();
 		try {
 			statement = connection.prepareStatement(SQLRANDOM);
 			if(r<0.009) {
@@ -196,7 +197,7 @@ public class ImplCardBD implements CardDAO {
 				statement.setString(1, "Legendary");
 			}else if(r<0.1) {
 				statement.setString(1, "Epic");
-			}else if(r<25) {
+			}else if(r<0.25) {
 				statement.setString(1, "Rare");
 			}else {
 				statement.setString(1, "Common");
