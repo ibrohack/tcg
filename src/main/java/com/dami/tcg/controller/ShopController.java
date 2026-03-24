@@ -33,14 +33,15 @@ public class ShopController {
 	}
 
 	@PostMapping("/pack")
-	public String openPack(){
-		List<Card> cards = null;
+	public String openPack(Model model){
+		List<Card> cards = new ArrayList<Card>();;
 		Card card;
 		for(int i = 0; i<6; i++) {
 			card = cardDao.queryRandomCard();
 			cards.add(card);
-			playerDao.addCard(null, card);
+//			playerDao.addCard(null, card);
 		}
+		model.addAttribute("cards",cards);
 		return "pack";
 	}
 	
