@@ -30,9 +30,10 @@ public class ImplDeckBD implements DeckDAO {
     final String SQLCONSULTA = "SELECT * FROM Decks";
     final String SQLBORRAR = "DELETE FROM Decks WHERE DeckId=?";
     final String SQLMODIFICAR = "UPDATE Decks SET Title=?, Description=? WHERE DeckId=?";
+    final String SQLPLAYERCARD = "SELECT * FROM PlayerCard WHERE PlayerId=?";
 
     public ImplDeckBD() {
-        this.configFile = ResourceBundle.getBundle("configClase");
+        this.configFile = ResourceBundle.getBundle("configDB");
         this.driverBD = this.configFile.getString("Driver");
         this.urlBD = this.configFile.getString("Conn");
         this.userBD = this.configFile.getString("DBUser");
@@ -182,4 +183,27 @@ public class ImplDeckBD implements DeckDAO {
         return deck;
     }
 
+    @Override
+    public List<Card> queryPlayerCards(int playerId) {
+        List<Card> cards = new ArrayList<>();
+        this.openConnection();
+        try {
+            statement = connection.prepareStatement(SQLPLAYERCARD);
+            statement.setInt(1, playerId);
+            ResultSet resultado = statement.executeQuery();
+            while (resultado.next()) {
+                cards.add(new Card(
+                        resultado.getInt("CardId"),
+                        resultado.getString("CardName"),
+                        resultado.getString("CardDescription"),
+                        resultado.getString("Quality")));
+            }
+            resultado.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            System.out.println("Error getting player cards: " + e.getMessage());
+        }
+        return cards;
+    }
 }

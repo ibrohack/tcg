@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head th:replace="~{fragments/layout :: head('Chaos and Monkeys - Deck Creation')}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display min-h-screen">
+    <div class="relative flex h-screen w-full flex-col overflow-hidden">
+        <!-- Top Navigation Bar -->
+        <header th:replace="~{fragments/layout :: navbar('deckcreate')}"></header>
+        <main class="flex flex-1 overflow-hidden">
+            <!-- Left Side: Card Collection -->
+            <div class="flex-1 flex flex-col border-r border-primary/10 bg-slate-50 dark:bg-background-dark/50">
+                <!-- Filters Area -->
+                <div class="p-4 border-b border-primary/10 flex flex-wrap gap-3">
+                    <button
+                        class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary text-background-dark font-medium text-sm">
+                        <span class="material-symbols-outlined text-sm">all_inclusive</span> All
+                    </button>
+                    <button
+                        class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-200 dark:bg-primary/20 text-slate-700 dark:text-primary font-medium text-sm hover:bg-primary/30 transition-colors">
+                        <span class="material-symbols-outlined text-sm">diamond</span> Arok
+                    </button>
+                    <button
+                        class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-200 dark:bg-primary/20 text-slate-700 dark:text-primary font-medium text-sm hover:bg-primary/30 transition-colors">
+                        <span class="material-symbols-outlined text-sm">auto_awesome</span> Mythic
+                    </button>
+                    <button
+                        class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-200 dark:bg-primary/20 text-slate-700 dark:text-primary font-medium text-sm hover:bg-primary/30 transition-colors">
+                        <span class="material-symbols-outlined text-sm">star</span> Legendary
+                    </button>
+                    <div class="ml-auto flex items-center gap-2">
+                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Sort by:</span>
+                        <select
+                            class="bg-transparent border-none text-sm font-bold text-primary focus:ring-0 cursor-pointer">
+                            <option>Quality (High-Low)</option>
+                            <option>Cost (Low-High)</option>
+                            <option>Name</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- Grid Scrollable -->
+                <div
+                    class="flex-1 overflow-y-auto p-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                    <!-- Card Items -->
+                    <div th:each="card : ${cards}" class="flex flex-col gap-2 group cursor-pointer">
+                        <div class="relative aspect-[3/4] rounded-xl overflow-hidden border-2 border-transparent group-hover:border-quality-mythic transition-all bg-slate-800 shadow-xl"
+                            th:classappend="${card.quality.equalsIgnoreCase('Common')} ? 'border border-card-common/20 hover:border-card-common' :
+                                     (${card.quality.equalsIgnoreCase('Rare')} ? 'border border-card-rare/20 hover:border-card-rare hover:shadow-card-rare/20' :
+                                     (${card.quality.equalsIgnoreCase('Epic')} ? 'border border-card-epic/20 hover:border-card-epic hover:shadow-card-epic/20' :
+                                     (${card.quality.equalsIgnoreCase('Legendary')} ? 'border border-card-legendary/20 hover:border-card-legendary hover:shadow-card-legendary/30' :
+                                     (${card.quality.equalsIgnoreCase('Mythic')} ? 'border border-card-mythic/20 hover:border-card-mythic hover:shadow-card-mythic/40' :
+                                     (${card.quality.equalsIgnoreCase('Arok')} ? 'border border-card-arok/20 hover:border-card-arok hover:shadow-card-arok/50' :
+                                     'border border-white/20')))))" th:data-alt="${card.description}">
+                            <div class="absolute top-2 left-2 size-8 rounded-full bg-quality-mythic flex items-center justify-center font-bold text-white shadow-md"
+                                th:text="${deckQuantity}"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+                            <div class="absolute bottom-3 left-3 right-3 text-white">
+                                <p class="text-[10px] font-bold uppercase tracking-widest text-quality-mythic"
+                                    th:classappend="${card.quality.equalsIgnoreCase('Common')} ? 'bg-card-common/20 border border-card-common/50' :
+                                             (${card.quality.equalsIgnoreCase('Rare')} ? 'bg-card-rare/20 border border-card-rare/50' :
+                                             (${card.quality.equalsIgnoreCase('Epic')} ? 'bg-card-epic/20 border border-card-epic/50' :
+                                             (${card.quality.equalsIgnoreCase('Legendary')} ? 'bg-card-legendary/20 border border-card-legendary/50' :
+                                             (${card.quality.equalsIgnoreCase('Mythic')} ? 'bg-card-mythic/20 border border-card-mythic/50 text-card-mythic' :
+                                             (${card.quality.equalsIgnoreCase('Arok')} ? 'bg-card-arok/20 border border-card-arok/50 text-card-arok' :
+                                             'bg-white/20 border border-white/50')))))" th:text="${card.quality}">
+                                </p>
+                                <p class="text-sm font-bold leading-tight mb-1" th:text="${card.name}"></p>
+                                <p class="text-[10px] text-slate-300 leading-tight line-clamp-2"
+                                    th:text="${card.description}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Right Side: Current Deck -->
+            <aside class="w-80 md:w-96 bg-background-light dark:bg-background-dark flex flex-col">
+                <div class="p-6 border-b border-primary/10">
+                    <div class="flex items-center justify-between mb-2">
+                        <h2 class="text-xl font-bold">Current Deck</h2>
+                        <span class="bg-primary/20 text-primary px-2 py-1 rounded text-sm font-bold">12/30</span>
+                    </div>
+                    <p class="text-xs text-slate-500 uppercase font-bold tracking-widest">Collection Builder</p>
+                </div>
+                <!-- Mana Curve Chart -->
+                <div class="p-6 border-b border-primary/10">
+                    <h3 class="text-xs font-bold text-slate-500 uppercase mb-4 tracking-widest">Cost Distribution</h3>
+                    <div class="flex items-end justify-between h-20 gap-1 px-2">
+                        <div class="flex-1 flex flex-col items-center gap-2">
+                            <div class="w-full bg-primary/40 rounded-t-sm h-[30%]"></div>
+                            <span class="text-[10px] font-bold">1</span>
+                        </div>
+                        <div class="flex-1 flex flex-col items-center gap-2">
+                            <div class="w-full bg-primary rounded-t-sm h-[80%]"></div>
+                            <span class="text-[10px] font-bold">2</span>
+                        </div>
+                        <div class="flex-1 flex flex-col items-center gap-2">
+                            <div class="w-full bg-primary/70 rounded-t-sm h-[60%]"></div>
+                            <span class="text-[10px] font-bold">3</span>
+                        </div>
+                        <div class="flex-1 flex flex-col items-center gap-2">
+                            <div class="w-full bg-primary/50 rounded-t-sm h-[40%]"></div>
+                            <span class="text-[10px] font-bold">4</span>
+                        </div>
+                        <div class="flex-1 flex flex-col items-center gap-2">
+                            <div class="w-full bg-primary/30 rounded-t-sm h-[20%]"></div>
+                            <span class="text-[10px] font-bold">5</span>
+                        </div>
+                        <div class="flex-1 flex flex-col items-center gap-2">
+                            <div class="w-full bg-primary/10 rounded-t-sm h-[10%]"></div>
+                            <span class="text-[10px] font-bold">6+</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card List -->
+                <div class="flex-1 overflow-y-auto">
+                    <div class="divide-y divide-primary/5">
+                        <!-- Deck Entry: Mythic -->
+                        <div class="p-4 hover:bg-primary/5 flex items-center gap-3 transition-colors">
+                            <div
+                                class="size-10 bg-quality-mythic/20 rounded-lg flex items-center justify-center font-bold text-quality-mythic">
+                                2</div>
+                            <div class="flex-1">
+                                <h4 class="text-sm font-bold">Fire Monkey</h4>
+                                <p class="text-[10px] uppercase text-quality-mythic font-bold">Mythic • 2 Cost</p>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs font-bold text-slate-400">2/3</span>
+                                <button
+                                    class="size-6 rounded bg-slate-200 dark:bg-slate-700 flex items-center justify-center hover:bg-primary/50">
+                                    <span class="material-symbols-outlined text-sm">remove</span>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Deck Entry: Rare -->
+                        <div class="p-4 hover:bg-primary/5 flex items-center gap-3 transition-colors">
+                            <div
+                                class="size-10 bg-quality-rare/20 rounded-lg flex items-center justify-center font-bold text-quality-rare">
+                                3</div>
+                            <div class="flex-1">
+                                <h4 class="text-sm font-bold">Banana Bomb</h4>
+                                <p class="text-[10px] uppercase text-quality-rare font-bold">Rare • 3 Cost</p>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs font-bold text-slate-400">3/3</span>
+                                <button
+                                    class="size-6 rounded bg-slate-200 dark:bg-slate-700 flex items-center justify-center hover:bg-primary/50">
+                                    <span class="material-symbols-outlined text-sm">remove</span>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Deck Entry: Arok -->
+                        <div class="p-4 hover:bg-primary/5 flex items-center gap-3 transition-colors">
+                            <div
+                                class="size-10 bg-quality-arok/20 rounded-lg flex items-center justify-center font-bold text-quality-arok border border-quality-arok/30">
+                                5</div>
+                            <div class="flex-1">
+                                <h4 class="text-sm font-bold">Chaos Vortex</h4>
+                                <p class="text-[10px] uppercase text-quality-arok font-bold">Arok • 5 Cost</p>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs font-bold text-slate-400">1/1</span>
+                                <button
+                                    class="size-6 rounded bg-slate-200 dark:bg-slate-700 flex items-center justify-center hover:bg-primary/50">
+                                    <span class="material-symbols-outlined text-sm">remove</span>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Deck Entry: Common -->
+                        <div class="p-4 hover:bg-primary/5 flex items-center gap-3 transition-colors">
+                            <div
+                                class="size-10 bg-quality-common/20 rounded-lg flex items-center justify-center font-bold text-quality-common">
+                                1</div>
+                            <div class="flex-1">
+                                <h4 class="text-sm font-bold">Quick Strike</h4>
+                                <p class="text-[10px] uppercase text-quality-common font-bold">Common • 1 Cost</p>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs font-bold text-slate-400">2/3</span>
+                                <button
+                                    class="size-6 rounded bg-slate-200 dark:bg-slate-700 flex items-center justify-center hover:bg-primary/50">
+                                    <span class="material-symbols-outlined text-sm">remove</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-6 bg-slate-100 dark:bg-background-dark border-t border-primary/20">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-xs font-bold text-slate-500 uppercase">Average Cost</span>
+                        <span class="text-lg font-bold text-primary">2.8</span>
+                    </div>
+                    <form th:action="@{/deckcreate}" method="post">
+                        <input type="hidden" name="deckID" th:value="${deck.deckID}">
+                        <button
+                            class="flex items-center gap-2 bg-primary text-background-dark px-6 py-2 rounded-lg font-bold hover:brightness-110 transition-all">
+                            <span class="material-symbols-outlined">save</span>
+                            <span>Save Deck</span>
+                        </button>
+                    </form>
+                    <button
+                        class="w-full py-3 bg-primary/10 border border-primary text-primary rounded-lg font-bold hover:bg-primary hover:text-background-dark transition-all">
+                        Clear All Cards
+                    </button>
+                </div>
+            </aside>
+        </main>
+    </div>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+
+</html>
