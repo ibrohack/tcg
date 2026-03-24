@@ -36,7 +36,7 @@ public class ShopController {
 	public String openPack(Model model){
 		List<Card> cards = new ArrayList<Card>();;
 		Card card;
-		for(int i = 0; i<6; i++) {
+		for(int i = 0; i<5; i++) {
 			card = cardDao.queryRandomCard();
 			cards.add(card);
 //			playerDao.addCard(null, card);
