@@ -51,12 +51,15 @@
                 <a th:href="@{/player}"
                     th:classappend="${currentPage == 'dashboard'} ? 'text-primary font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-primary transition-colors font-medium'"
                     class="text-sm" href="#">Dashboard</a>
-                <a th:href="@{/packopening}"
-                    th:classappend="${currentPage == 'packopening'} ? 'text-primary font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-primary transition-colors font-medium'"
+                <a th:href="@{/pack}"
+                    th:classappend="${currentPage == 'pack'} ? 'text-primary font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-primary transition-colors font-medium'"
                     class="text-sm" href="#">Pack Opening</a>
                 <a th:href="@{/deckcreate}"
                     th:classappend="${currentPage == 'deckcreate'} ? 'text-primary font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-primary transition-colors font-medium'"
                     class="text-sm" href="#">Deck Builder</a>
+				<a th:href="@{/shop}"
+                    th:classappend="${currentPage == 'shop'} ? 'text-primary font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-primary transition-colors font-medium'"
+                    class="text-sm" href="#">Shop</a>					
             </th:block>
         </nav>
 
