@@ -42,9 +42,10 @@
 							<h3 class="text-4xl md:text-5xl font-black font-headline text-on-surface leading-none tracking-tight">DAILY PRIMAL PACK</h3>
 							<p class="text-on-surface-variant max-w-md text-sm md:text-base leading-relaxed">Your daily tribute from the jungle spirits. Contains 3 random cards with a guaranteed Rare or higher drop rate.</p>
 							<div class="flex flex-wrap gap-4 justify-center md:justify-start">
-								<button class="bg-primary text-background-dark px-8 py-4 font-black uppercase tracking-widest text-xs flex items-center gap-3 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-primary/20">
-								                            Ready to Claim
-								                            <span class="material-symbols-outlined text-sm" data-icon="card_giftcard">card_giftcard</span>
+								<button class="bg-primary text-background-dark px-8 py-4 font-black uppercase tracking-widest text-xs flex items-center gap-3 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-primary/20" 
+									onclick="window.location.href='pack';">
+									Ready to Claim
+									<span class="material-symbols-outlined text-sm" data-icon="card_giftcard">card_giftcard</span>
 								</button>
 								<div class="flex items-center gap-2 text-primary/60 text-[10px] font-bold uppercase tracking-wider px-4 py-2 border border-primary/10 rounded-lg">
 									<span class="material-symbols-outlined text-sm">schedule</span>
@@ -58,7 +59,7 @@
 				<section class="space-y-6 mt-6">
 					<h3 class="text-[15px] font-black uppercase tracking-[0.3em] text-primary">Flash Acquisitions</h3>
 					<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-						<!-- Rare Card -->
+						<!-- Random Card -->
 						<div th:each="card : ${cards}"
 	                       class="group relative flex flex-col bg-slate-900/40 rounded-xl transition-all duration-300 overflow-hidden shadow-xl hover:-translate-y-2"
 	                       th:classappend="${card.quality.equalsIgnoreCase('Common')} ? 'border border-card-common/20 hover:border-card-common' :
@@ -90,10 +91,13 @@
 								<div class="px-3 pb-4 space-y-3">
 									<h4 class="text-lg font-bold font-headline leading-tight text-primary" th:text="${card.name}"></h4>
 									<button class="w-full bg-primary text-background-dark flex items-center justify-between px-4 py-2.5 rounded transition-all active:scale-95 hover:brightness-110 shadow-lg shadow-primary/20">
-										<span class="text-[12px] font-black uppercase tracking-widest">Acquire</span>
+										<span class="text-[12px] font-black uppercase tracking-widest">Purchase</span>
 										<div class="flex items-center gap-1">
 											<span class="material-symbols-outlined text-lg" data-icon="monetization_on">monetization_on</span>
-											<span class="font-bold">250</span>
+<!-- Descomentar esto cunado esten los precios en las cartas
+											<span class="font-bold" th:text="${card.purchaseValue}"></span>
+-->
+											<span class="font-bold" th:text="Price"></span>
 										</div>
 									</button>
 								</div>
