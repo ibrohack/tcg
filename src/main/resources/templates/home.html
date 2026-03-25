@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Chaos and Monkeys - Home')}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body class="bg-background text-on-surface font-body selection:bg-primary selection:text-on-primary">
+    <header th:replace="~{fragments/layout :: navbar('home')}"></header>
+
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .rarity-glow-legendary {
+            box-shadow: 0 0 20px rgba(244, 209, 37, 0.2);
+        }
+
+        .glass-card {
+            background: linear-gradient(135deg, rgba(244, 209, 37, 0.05) 0%, rgba(34, 31, 16, 0.8) 100%);
+        }
+    </style>
+
+    <main class="pt-20">
+        <!-- Hero Section -->
+        <section class="relative h-[921px] flex items-center overflow-hidden">
+            <div class="absolute inset-0 z-0">
+                <img class="w-full h-full object-cover opacity-40"
+                    data-alt="cinematic digital painting of a futuristic neon jungle at night with monkeys silhouetted against glowing golden bioluminescent plants"
+                    src="/images/home.png" />
+                <div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/50"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-background via-transparent to-transparent"></div>
+            </div>
+            <div class="relative z-10 container mx-auto px-6">
+                <div class="max-w-4xl">
+                    <span class="text-primary font-bold tracking-[0.3em] uppercase text-xs mb-4 block">System Status:
+                        Primal</span>
+                    <h1
+                        class="text-6xl md:text-8xl font-black font-headline text-on-surface mb-6 leading-none tracking-tighter italic">
+                        ENTER THE <br /> <span class="text-primary">JUNGLE</span>
+                    </h1>
+                    <p class="text-lg md:text-xl text-on-surface-variant max-w-xl mb-10 leading-relaxed">
+                        A high-octane digital asset ecosystem where chaos meets strategy. Collect, trade, and dominate
+                        the tech-noir canopy.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <button
+                            class="bg-primary text-on-primary px-10 py-4 font-black text-lg uppercase tracking-widest hover:scale-105 transition-transform active:scale-95">
+                            Join the Jungle
+                        </button>
+                        <button
+                            class="border-2 border-primary/20 bg-primary/5 text-primary px-10 py-4 font-black text-lg uppercase tracking-widest hover:bg-primary/10 transition-colors">
+                            View Deck
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Floating Decorative Stats -->
+            <div class="absolute bottom-12 right-12 hidden lg:flex flex-col gap-4 items-end">
+                <div class="bg-surface-container-high/40 backdrop-blur-md p-4 border-r-4 border-primary">
+                    <div class="text-[10px] text-primary font-bold uppercase tracking-widest">Active Primates</div>
+                    <div class="text-4xl font-black italic" th:text="${activePlayersCount}">842,901</div>
+                </div>
+            </div>
+        </section>
+        <!-- Latest Card Releases -->
+        <section class="py-24 bg-surface">
+            <div class="container mx-auto px-6">
+                <div class="flex justify-between items-end mb-12">
+                    <div>
+                        <span class="text-primary font-bold text-xs uppercase tracking-widest block mb-2">Protocol: New
+                            Assets</span>
+                        <h2 class="text-4xl font-black font-headline italic uppercase">Latest Card Releases</h2>
+                    </div>
+                    <a class="text-primary font-bold text-sm uppercase tracking-widest border-b border-primary/20 pb-1 hover:border-primary"
+                        href="#">View Full Set</a>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div th:each="card : ${latestCards}"
+                        class="group relative aspect-[3/4] bg-surface-container-highest overflow-hidden border-2 hover:translate-y-[-8px] transition-all duration-300"
+                        th:classappend="${card.quality == 'Mythic' ? 'border-primary shadow-2xl shadow-primary/10' : 
+                         (card.quality == 'Legendary' ? 'border-primary rarity-glow-legendary' : 
+                         (card.quality == 'Epic' ? 'border-outline' : 'border-tertiary-container'))}">
+                        <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                            th:src="${'/images/cards/' + card.cardID + '.png'}"
+                            onerror="this.src='https://lh3.googleusercontent.com/aida-public/AB6AXuCV1IBRzE1jtOTSq0-SXxNqlDNhitScpIbwlXTa8Ctg0ijsFkaicKu_Vn44j26bwMQ3nl-zTDGfrfNNyvNT8ENlUzGieO2RHKMMEsCm-A6rOgVat-gBn2NCjh0-4WVQ7S3JWop_D_e27D7UqO0hxf-_myDTDwmoXXHR2pPK1JKXHGIzGMeNveuXK9zCiiD5gx0zYE_ACqS4KCnOMCL3bC9h-qXC4afv5yIkAkdsszyNpYgVCh2aDc9fOWrH_BjXyN-JSALbr_fQNDFr'"
+                            alt="Card image" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent">
+                        </div>
+                        <div class="absolute top-4 left-4 text-[10px] font-black italic px-3 py-1 uppercase"
+                            th:classappend="${card.quality == 'Mythic' ? 'bg-primary text-on-primary' : 
+                             (card.quality == 'Legendary' ? 'bg-primary text-on-primary' : 
+                             (card.quality == 'Epic' ? 'bg-on-surface-variant text-background' : 'bg-tertiary-container text-on-tertiary-container'))}"
+                            th:text="${card.quality}">Mythic</div>
+                        <div class="absolute bottom-6 left-6">
+                            <h3 class="text-2xl font-black italic uppercase leading-none mb-1" th:text="${card.name}">
+                                Card</h3>
+                            <p class="text-[10px] font-bold tracking-widest uppercase opacity-70" th:classappend="${card.quality == 'Mythic' ? 'text-primary' : 
+                               (card.quality == 'Legendary' ? 'text-primary' : 'text-on-surface-variant')}"
+                                th:text="${'Series 04 / #' + #numbers.formatInteger(card.cardID, 3)}">Series 04 / #001
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Global Collection Stats -->
+        <section class="py-24 bg-background border-y border-primary/5">
+            <div class="container mx-auto px-6">
+                <div class="mb-16 text-center">
+                    <h2 class="text-5xl font-black font-headline italic uppercase text-primary tracking-tighter mb-4">
+                        Primal Data</h2>
+                    <p class="text-on-surface-variant uppercase tracking-[0.2em] text-xs">Real-time Global Network
+                        Synchronization</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-0 border border-primary/10">
+                    <!-- Most Common Pull -->
+                    <div
+                        class="p-10 bg-surface-container-low border-r border-primary/10 flex flex-col items-center text-center group">
+                        <div class="mb-8 relative">
+                            <div
+                                class="w-32 h-44 bg-outline-variant p-1 transform -rotate-3 group-hover:rotate-0 transition-transform">
+                                <img class="w-full h-full object-cover"
+                                    th:src="${mostCommonCard != null ? '/images/cards/' + mostCommonCard.cardID + '.png' : ''}"
+                                    onerror="this.src='/images/default_card.png'" alt="Most Common" />
+                            </div>
+                            <div class="absolute -bottom-2 -right-2 bg-on-surface text-background text-[10px] font-black px-2 py-1"
+                                th:text="${mostCommonCard != null ? mostCommonCard.quality : 'UNKNOWN'}">COMMON</div>
+                        </div>
+                        <span class="text-on-surface-variant text-[10px] font-bold uppercase tracking-widest mb-2">Most
+                            Common Pull</span>
+                        <h4 class="text-2xl font-black italic uppercase mb-4"
+                            th:text="${mostCommonCard != null ? mostCommonCard.name : 'Unknown'}">Jungle Scout</h4>
+                        <div class="w-full h-1 bg-primary/20 mb-2">
+                            <div class="h-full bg-primary" style="width: 100%;"></div>
+                        </div>
+                        <div class="text-primary font-black text-3xl" th:text="${mostCommonQty}">84.2%</div>
+                        <p class="text-[10px] text-on-surface-variant uppercase mt-2">Circulated Global Units</p>
+                    </div>
+                    <!-- Least Found -->
+                    <div class="p-10 bg-surface-container flex flex-col items-center text-center group">
+                        <div class="mb-8 relative">
+                            <div
+                                class="w-32 h-44 bg-primary p-1 transform rotate-2 group-hover:rotate-0 transition-transform shadow-lg shadow-primary/20">
+                                <img class="w-full h-full object-cover"
+                                    th:src="${leastFoundCard != null ? '/images/cards/' + leastFoundCard.cardID + '.png' : ''}"
+                                    onerror="this.src='/images/default_card.png'" alt="Least Found" />
+                            </div>
+                            <div class="absolute -bottom-2 -right-2 bg-primary text-on-primary text-[10px] font-black px-2 py-1"
+                                th:text="${leastFoundCard != null ? leastFoundCard.quality : 'UNKNOWN'}">MYTHIC</div>
+                        </div>
+                        <span class="text-primary text-[10px] font-bold uppercase tracking-widest mb-2">Least
+                            Found</span>
+                        <h4 class="text-2xl font-black italic uppercase mb-4 text-primary"
+                            th:text="${leastFoundCard != null ? leastFoundCard.name : 'Unknown'}">Silverback Sage</h4>
+                        <div class="w-full h-1 bg-primary/20 mb-2">
+                            <div class="h-full bg-primary" style="width: 1%;"></div>
+                        </div>
+                        <div class="text-primary font-black text-3xl" th:text="${leastFoundQty}">0.04%</div>
+                        <p class="text-[10px] text-on-surface-variant uppercase mt-2">Circulated Global Units</p>
+                    </div>
+                    <!-- The Unclaimed -->
+                    <div
+                        class="p-10 bg-surface-container-low border-l border-primary/10 flex flex-col items-center text-center group">
+                        <div class="mb-8 relative">
+                            <div
+                                class="w-32 h-44 border-2 border-dashed border-tertiary-container flex items-center justify-center bg-tertiary-container/5 relative overflow-hidden">
+                                <span class="material-symbols-outlined text-4xl text-tertiary-container/30">lock</span>
+                                <div
+                                    class="absolute inset-0 bg-[radial-gradient(circle,rgba(168,85,247,0.2)_0%,transparent_70%)]">
+                                </div>
+                            </div>
+                            <div
+                                class="absolute -bottom-2 -right-2 bg-tertiary-container text-on-tertiary-container text-[10px] font-black px-2 py-1 italic">
+                                AROK</div>
+                        </div>
+                        <span class="text-tertiary text-[10px] font-bold uppercase tracking-widest mb-2">The
+                            Unclaimed</span>
+                        <h4 class="text-2xl font-black italic uppercase mb-4 text-tertiary-container"
+                            th:text="${hasUnclaimed ? unclaimedCard.name : 'NONE'}">???</h4>
+                        <p class="text-on-surface-variant text-xs font-medium leading-tight px-4 mb-6"
+                            th:text="${hasUnclaimed ? unclaimedCard.description : 'All cards have been claimed!'}">
+                            Ancient encryption patterns detected. Registry remains empty.
+                        </p>
+                        <div class="bg-tertiary-container/10 border border-tertiary-container/20 px-4 py-2"
+                            th:if="${hasUnclaimed}">
+                            <span class="text-tertiary font-black text-sm italic uppercase">No player has claimed this
+                                yet</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+
+</html>
