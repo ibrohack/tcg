@@ -23,6 +23,7 @@ import java.util.regex.Pattern;
 @Controller
 public class PlayerController {
     PlayerDAO dao = new ImplPlayerBD();
+    DeckDAO deckDao = new ImplDeckBD();
 
     // ==================== AUTH ENDPOINTS ====================
 
@@ -137,6 +138,7 @@ public class PlayerController {
         }
         populatePlayerWithAvatar(player);
         model.addAttribute("player", player);
+        model.addAttribute("decks", deckDao.queryPlayerDecks(player.getPlayerId()));
         return "player";
     }
 

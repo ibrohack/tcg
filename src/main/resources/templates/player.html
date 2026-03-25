@@ -59,13 +59,20 @@
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                             <!-- Add New Deck -->
-                            <div
+                            <a th:href="@{/deckcreate}"
                                 class="group flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-300 dark:border-primary/20 bg-transparent p-3 hover:border-primary transition-all cursor-pointer min-h-[200px]">
-                                <a th:href="@{/deckcreate}"
-                                    class="material-symbols-outlined text-4xl text-slate-400 dark:text-primary/40 group-hover:text-primary mb-2">add_circle</a>
-                                <a th:href="@{/deckcreate}"
-                                    class="text-slate-500 dark:text-primary/60 font-bold group-hover:text-primary">New
-                                    Deck</a>
+                                <div
+                                    class="material-symbols-outlined text-4xl text-slate-400 dark:text-primary/40 group-hover:text-primary mb-2">
+                                    add_circle</div>
+                                <div class="text-slate-500 dark:text-primary/60 font-bold group-hover:text-primary">
+                                    New
+                                    Deck</div>
+                            </a>
+                            <div th:each="deck : ${decks}"
+                                class="group flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-300 dark:border-primary/20 bg-transparent p-3 hover:border-primary transition-all cursor-pointer min-h-[200px]">
+                                <a th:text="${deck.title}" th:href="@{/deckcreate?id=}" + ${deck.id}
+                                    class="text-slate-500 dark:text-primary/60 font-bold group-hover:text-primary">
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -97,7 +104,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div
+                        <a th:href="@{/shop}"
                             class="bg-primary text-background-dark rounded-xl p-5 flex items-center justify-between group cursor-pointer">
                             <div>
                                 <p class="font-bold text-lg leading-tight">Claim Daily Reward</p>
@@ -105,7 +112,7 @@
                             </div>
                             <span
                                 class="material-symbols-outlined text-4xl group-hover:scale-110 transition-transform">redeem</span>
-                        </div>
+                        </a>
                     </div>
                 </div>
                 <!-- Player Cards Section -->
