@@ -16,4 +16,6 @@ public interface DeckDAO {
 	public Deck queryDeck(int deckId);
 
 	public List<Card> queryPlayerCards(int playerId);
+
+	public List<Deck> queryPlayerDecks(int playerId);
 }

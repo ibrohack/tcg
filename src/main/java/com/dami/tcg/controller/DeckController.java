@@ -33,10 +33,11 @@ public class DeckController {
 		cards.add(new Card(3, "The Card", "Test", "Mythic"));
 		cards.add(new Card(4, "The Card", "Test", "Arok"));
 		cards.add(new Card(5, "The Card", "Test", "Common"));
-		model.addAttribute("deck", new Deck());
+		Deck deck = new Deck();
+		model.addAttribute("deck", deck);
 		model.addAttribute("player", player);
 		model.addAttribute("cards", cards);
-		model.addAttribute("deckQuantity", 0);
+		model.addAttribute("deckQuantity", deck.getCards().size());
 		return "deckcreate";
 	}
 
@@ -49,10 +50,10 @@ public class DeckController {
 		Deck deck = new Deck(0, title, description, cards);
 		boolean created = dao.insertDeck(deck);
 		if (created) {
-			redirectAttributes.addFlashAttribute("message", "Deck created successfully");
+			redirectAttributes.addFlashAttribute("success", "Deck created successfully");
 			return "redirect:/player";
 		} else {
-			redirectAttributes.addFlashAttribute("message", "Error creating deck");
+			redirectAttributes.addFlashAttribute("error", "Error creating deck");
 			return "redirect:/deckcreate";
 		}
 	}
@@ -65,21 +66,22 @@ public class DeckController {
 		return dao.updateDeck(deck);
 	}
 
-	/*
-	 * @GetMapping("/deckCheck")
-	 * public String deckCheck(Model model, Deck deck, RedirectAttributes
-	 * redirectAttributes) {
-	 * List<Deck> decks = dao.queryAll();
-	 * model.addAttribute("decks", decks);
-	 * if (model.getAttribute("decks") != null) {
-	 * redirectAttributes.addFlashAttribute("message", "Deck checked successfully");
-	 * return "redirect:/deckcreate";
-	 * } else {
-	 * redirectAttributes.addFlashAttribute("message", "Error checking deck");
-	 * return "redirect:/deckcreate";
-	 * }
-	 * }
-	 */
+	@GetMapping("/deckcheck")
+	public String deckCheck(Model model, HttpSession session, Deck deck, RedirectAttributes redirectAttributes) {
+		Player player = (Player) session.getAttribute("loggedPlayer");
+		if (player == null) {
+			return "redirect:/login";
+		}
+		List<Deck> decks = dao.queryPlayerDecks(player.getPlayerId());
+		model.addAttribute("decks", decks);
+		model.addAttribute("player", player);
+		if (decks.isEmpty()) {
+			model.addAttribute("message", "You have no decks to check");
+			return "deckcheck";
+		} else {
+			return "deckcheck";
+		}
+	}
 
 	public Deck queryDeck(int deckId) {
 		return dao.queryDeck(deckId);

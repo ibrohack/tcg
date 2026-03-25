@@ -14,7 +14,10 @@ tailwind.config = {
                 "card-arok": "#2dd4bf",
             },
             fontFamily: {
-                "display": ["Space Grotesk", "sans-serif"]
+                "display": ["Space Grotesk", "sans-serif"],
+                "headline": ["Space Grotesk"],
+                "body": ["Space Grotesk"],
+                "label": ["Space Grotesk"]
             },
             borderRadius: {
                 "DEFAULT": "0.25rem",

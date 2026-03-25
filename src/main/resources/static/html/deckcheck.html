@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Chaos and Monkeys - Deck Management</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary-container": "#7e22ce",
+                        "surface-tint": "#f4d125",
+                        "secondary-fixed-dim": "#d9c67e",
+                        "surface-variant": "#383529",
+                        "on-surface": "#e9e2d1",
+                        "on-primary-fixed": "#221b00",
+                        "on-error": "#690005",
+                        "on-tertiary-fixed": "#001f25",
+                        "inverse-on-surface": "#343025",
+                        "outline": "#4c4733",
+                        "outline-variant": "#322f20",
+                        "secondary": "#3b82f6",
+                        "secondary-fixed": "#f6e298",
+                        "tertiary-fixed": "#a2eeff",
+                        "surface-bright": "#221f10",
+                        "on-secondary-fixed": "#221b00",
+                        "on-tertiary-fixed-variant": "#004e5a",
+                        "on-tertiary-container": "#f3e8ff",
+                        "on-secondary-fixed-variant": "#53460a",
+                        "surface-container": "#231f15",
+                        "inverse-surface": "#e9e2d1",
+                        "surface-container-lowest": "#0b0a04",
+                        "tertiary-fixed-dim": "#40d8f2",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#f4d125",
+                        "primary-fixed": "#ffe165",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-high": "#2d2a1f",
+                        "error-container": "#93000a",
+                        "primary-container": "#443a00",
+                        "secondary-container": "#1d4ed8",
+                        "on-background": "#e9e2d1",
+                        "inverse-primary": "#6f5d00",
+                        "primary-fixed-dim": "#e7c511",
+                        "on-surface-variant": "#cfc6ac",
+                        "on-secondary-container": "#dbeafe",
+                        "on-primary": "#221f10",
+                        "surface-dim": "#110f08",
+                        "surface": "#161309",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-low": "#1e1b11",
+                        "background": "#221f10",
+                        "surface-container-highest": "#383529",
+                        "error": "#ffb4ab",
+                        "tertiary": "#a855f7",
+                        "primary": "#f4d125",
+                        "on-primary-fixed-variant": "#544600"
+                    },
+                    fontFamily: {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Space Grotesk"],
+                        "label": ["Space Grotesk"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .text-glow {
+            text-shadow: 0 0 15px rgba(244, 209, 37, 0.4);
+        }
+
+        body {
+            background-color: #221f10;
+        }
+    </style>
+</head>
+
+<body class="font-body text-on-background selection:bg-primary selection:text-on-primary min-h-screen">
+    <header th:replace="~{fragments/layout :: navbar('decks')}"></header>
+    <main class="max-w-screen-2xl mx-auto px-6 pt-24 pb-12">
+        <!-- Header Section -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <div>
+                <p class="text-[#f4d125] font-bold uppercase tracking-[0.2em] text-[10px] mb-2">Strategy Hub</p>
+                <h1
+                    class="font-headline text-5xl md:text-6xl font-black text-on-background tracking-tighter leading-none">
+                    MY DECKS</h1>
+            </div>
+            <div class="flex items-center gap-3 bg-surface-container-high px-4 py-3 border-l-4 border-primary">
+                <span class="material-symbols-outlined text-primary">info</span>
+                <span class="text-sm font-medium">You have 4 active strategies ready for battle.</span>
+            </div>
+        </div>
+        <!-- Dashboard-style Bento Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-6">
+            <!-- Create New Deck Action Card -->
+            <button
+                class="md:col-span-2 lg:col-span-2 flex flex-col items-center justify-center p-8 bg-primary/5 border-2 border-dashed border-primary/30 rounded-xl hover:bg-primary/10 hover:border-primary transition-all group aspect-square">
+                <div
+                    class="h-20 w-20 rounded-full bg-primary flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg shadow-primary/20">
+                    <span class="material-symbols-outlined text-background text-4xl font-bold">add</span>
+                </div>
+                <h3 class="font-headline text-2xl font-bold text-primary uppercase tracking-tight">Create New Deck</h3>
+                <p class="text-on-surface-variant text-sm mt-2 text-center">Forge a new path to primal dominance</p>
+            </button>
+            <!-- Deck Card 1: Jungle Fury -->
+            <div
+                class="md:col-span-2 lg:col-span-2 relative group overflow-hidden bg-surface-container rounded-xl border border-primary/10 hover:border-primary/50 transition-all aspect-square">
+                <div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent z-10">
+                </div>
+                <img class="absolute inset-0 w-full h-full object-cover grayscale-[20%] group-hover:scale-105 group-hover:grayscale-0 transition-all duration-700"
+                    data-alt="Lush jungle environment with glowing flora"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6N7hwRQCB6icf3hz25CEpqrYhA7SchY2ATbY6MLMY-Ncmk7siUQ45IBoTiQh6qiCPb7_Tdxiz-XHxprLDQnmSg3Lg3MXBJrN4bUkDxlVyO2IL_VTylgFFCBM60QDCY-cH6jAgA1BS5XAM8oMXjvGDda-u5RUAqK5SZvqIMNHsJ6txXuFLwLy6u2LI4p_yinVENLxzSMJyornwWJBGksOUOrfZ_izJnduICcQqfysS-ydRpXcT-k6-iu01grWS0pqbxH3DbZ5ww9T3" />
+                <div class="absolute top-4 left-4 z-20">
+                    <span
+                        class="px-3 py-1 bg-primary text-background text-[10px] font-black italic tracking-widest uppercase">Legendary</span>
+                </div>
+                <div class="absolute bottom-0 left-0 right-0 p-6 z-20">
+                    <div class="flex justify-between items-end">
+                        <div>
+                            <h2 class="font-headline text-3xl font-black text-on-background tracking-tight uppercase">
+                                Jungle Fury</h2>
+                            <div class="flex items-center gap-2 text-primary mt-1">
+                                <span class="material-symbols-outlined text-sm">style</span>
+                                <span class="text-xs font-bold tracking-widest uppercase">40 Cards</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button
+                                class="h-10 w-10 bg-primary/10 backdrop-blur-md border border-primary/30 flex items-center justify-center text-primary hover:bg-primary hover:text-background transition-colors rounded">
+                                <span class="material-symbols-outlined">edit</span>
+                            </button>
+                            <button
+                                class="h-10 w-10 bg-error/10 backdrop-blur-md border border-error/30 flex items-center justify-center text-error hover:bg-error hover:text-on-error transition-colors rounded">
+                                <span class="material-symbols-outlined">delete</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Deck Card 2: Banana Blitz -->
+            <div
+                class="md:col-span-2 lg:col-span-2 relative group overflow-hidden bg-surface-container rounded-xl border border-primary/10 hover:border-primary/50 transition-all aspect-square">
+                <div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent z-10">
+                </div>
+                <img class="absolute inset-0 w-full h-full object-cover grayscale-[20%] group-hover:scale-105 group-hover:grayscale-0 transition-all duration-700"
+                    data-alt="Golden monkeys raiding a digital vault"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrd8jxY24IKq8L3N8UUtf6UupYrsqIJGxdQM5nmX6n4JIdRMfRWxD9xuNbTloJ5H3GtXNmlVKGp1C8umxHx9bIJ09H5G9IlZiBHCyXmusw1hE2UuTFtyJ2MvAch_tkfNYWEW_vNqIovjcVu_JrGN5f_N0wJFyi3Ldb40BLEPj0Pg-_UceQ06vHDlvqgojgkkix0NF6u9NrHZvO4yCwSDcJH0UmkrAtjdSrphZ4HrhO_Vb_BMRX9r0Uyaifzq3WN5vUDascitXPUOKa" />
+                <div class="absolute top-4 left-4 z-20">
+                    <span
+                        class="px-3 py-1 bg-surface-variant text-on-surface-variant text-[10px] font-black italic tracking-widest uppercase">Epic</span>
+                </div>
+                <div class="absolute bottom-0 left-0 right-0 p-6 z-20">
+                    <div class="flex justify-between items-end">
+                        <div>
+                            <h2 class="font-headline text-3xl font-black text-on-background tracking-tight uppercase">
+                                Banana Blitz</h2>
+                            <div class="flex items-center gap-2 text-primary mt-1">
+                                <span class="material-symbols-outlined text-sm">style</span>
+                                <span class="text-xs font-bold tracking-widest uppercase">40 Cards</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button
+                                class="h-10 w-10 bg-primary/10 backdrop-blur-md border border-primary/30 flex items-center justify-center text-primary hover:bg-primary hover:text-background transition-colors rounded">
+                                <span class="material-symbols-outlined">edit</span>
+                            </button>
+                            <button
+                                class="h-10 w-10 bg-error/10 backdrop-blur-md border border-error/30 flex items-center justify-center text-error hover:bg-error hover:text-on-error transition-colors rounded">
+                                <span class="material-symbols-outlined">delete</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Deck Card 3: Cyber Simians -->
+            <div
+                class="md:col-span-3 lg:col-span-3 relative group overflow-hidden bg-surface-container rounded-xl border border-primary/10 hover:border-primary/50 transition-all aspect-[16/9]">
+                <div class="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent z-10">
+                </div>
+                <img class="absolute inset-0 w-full h-full object-cover grayscale-[20%] group-hover:scale-105 group-hover:grayscale-0 transition-all duration-700"
+                    data-alt="High tech hardware and neon wires"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAI92BOPvJ9o2790Eje0xuaHPAe186Kzc7gX7t-EZ27RZ-3IzBBCDasGmo_gUixH2MGBfUymF76_0W2sXHLMkCJMk643ZPWsKy9WHJrfLiay48QuUTvQFJ-h4dkXVLnwjxRiBnW-Qa86Kz-MSZhBsfYUU0XqGY2dyec9VxVCGhLdxIxkRk2No-uNC8kT4KGoLA6_CWp7ivPJk2gGTqrNRsWrAqrN_imFQG2tZicMVNIs7ZNyoWmX54UTZ58rCAElC2uVgJac-6A2wIt" />
+                <div class="absolute top-4 left-4 z-20 flex gap-2">
+                    <span
+                        class="px-3 py-1 bg-primary text-background text-[10px] font-black italic tracking-widest uppercase">Legendary</span>
+                    <span
+                        class="px-3 py-1 bg-blue-600 text-white text-[10px] font-black italic tracking-widest uppercase">Water
+                        Type</span>
+                </div>
+                <div class="absolute bottom-0 left-0 right-0 p-8 z-20">
+                    <div class="flex justify-between items-end">
+                        <div>
+                            <h2
+                                class="font-headline text-4xl font-black text-on-background tracking-tight uppercase leading-none">
+                                Cyber Simians</h2>
+                            <div class="flex items-center gap-3 text-primary mt-2">
+                                <div class="flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-sm">style</span>
+                                    <span class="text-xs font-bold tracking-widest uppercase">42 Cards</span>
+                                </div>
+                                <div class="h-1 w-1 rounded-full bg-primary/40"></div>
+                                <span class="text-xs font-bold tracking-widest uppercase text-on-surface-variant">Win
+                                    Rate: 68%</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-3">
+                            <button
+                                class="flex items-center gap-2 px-6 py-3 bg-primary text-background font-bold text-sm hover:scale-105 active:scale-95 transition-all uppercase tracking-tighter">
+                                <span class="material-symbols-outlined">edit</span>
+                                EDIT DECK
+                            </button>
+                            <button
+                                class="h-12 w-12 bg-error/10 backdrop-blur-md border border-error/30 flex items-center justify-center text-error hover:bg-error hover:text-on-error transition-colors rounded">
+                                <span class="material-symbols-outlined">delete</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Deck Card 4: Primal Chaos -->
+            <div
+                class="md:col-span-3 lg:col-span-3 relative group overflow-hidden bg-surface-container rounded-xl border border-primary/10 hover:border-primary/50 transition-all aspect-[16/9]">
+                <div class="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent z-10">
+                </div>
+                <img class="absolute inset-0 w-full h-full object-cover grayscale-[20%] group-hover:scale-105 group-hover:grayscale-0 transition-all duration-700"
+                    data-alt="Cosmic explosion and nebula textures"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvSM1j8epDS3CPUZm8xv_736gwle-D0BMZwJEp9qkr8TnBoIZS-XPCnFci6dIuK-Bs9Xtd2EkxwMSH2QLOJKjEOo6Kfo9_ByN_FpXZ6953JIIoBcEuxIRlTNcVvWf9NL-xxIjRslXck-DRKAqJ9XPBYQeAPnOh2rOXrMU4FuJdg80s1CbQ6yELfdtbPBZbWjmnJtD8hNguXULuqYGFQpmQ4zeQ3uShYo1CRi3unsrWaDVLsxjRIyaexdx7V7cq4kQ45okMpOnhrDoV" />
+                <div class="absolute top-4 left-4 z-20">
+                    <span
+                        class="px-3 py-1 bg-[#d9c67e] text-background text-[10px] font-black italic tracking-widest uppercase">Rare</span>
+                </div>
+                <div class="absolute bottom-0 left-0 right-0 p-8 z-20">
+                    <div class="flex justify-between items-end">
+                        <div>
+                            <h2
+                                class="font-headline text-4xl font-black text-on-background tracking-tight uppercase leading-none">
+                                Primal Chaos</h2>
+                            <div class="flex items-center gap-3 text-primary mt-2">
+                                <div class="flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-sm">style</span>
+                                    <span class="text-xs font-bold tracking-widest uppercase">40 Cards</span>
+                                </div>
+                                <div class="h-1 w-1 rounded-full bg-primary/40"></div>
+                                <span class="text-xs font-bold tracking-widest uppercase text-on-surface-variant">Win
+                                    Rate: 52%</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-3">
+                            <button
+                                class="flex items-center gap-2 px-6 py-3 bg-primary text-background font-bold text-sm hover:scale-105 active:scale-95 transition-all uppercase tracking-tighter">
+                                <span class="material-symbols-outlined">edit</span>
+                                EDIT DECK
+                            </button>
+                            <button
+                                class="h-12 w-12 bg-error/10 backdrop-blur-md border border-error/30 flex items-center justify-center text-error hover:bg-error hover:text-on-error transition-colors rounded">
+                                <span class="material-symbols-outlined">delete</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Analytics / Secondary Content -->
+        <section class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-surface-container-low p-6 rounded-lg border border-outline-variant">
+                <p class="text-[10px] font-black tracking-widest uppercase text-on-surface-variant mb-4">Win/Loss Ratio
+                </p>
+                <div class="flex items-end gap-1 mb-2">
+                    <span class="text-4xl font-black text-primary font-headline">2.4</span>
+                    <span class="text-on-surface-variant text-sm mb-1 font-bold">AVG</span>
+                </div>
+                <div class="w-full bg-primary/10 h-2 rounded-full overflow-hidden">
+                    <div class="bg-primary h-full w-[70%]"></div>
+                </div>
+            </div>
+            <div class="bg-surface-container-low p-6 rounded-lg border border-outline-variant">
+                <p class="text-[10px] font-black tracking-widest uppercase text-on-surface-variant mb-4">Total Cards
+                    Owned</p>
+                <div class="flex items-end gap-1 mb-2">
+                    <span class="text-4xl font-black text-primary font-headline">1,482</span>
+                    <span class="text-on-surface-variant text-sm mb-1 font-bold">TOTAL</span>
+                </div>
+                <div class="flex gap-1 mt-3">
+                    <div class="h-2 w-full bg-primary rounded-sm"></div>
+                    <div class="h-2 w-1/2 bg-[#7e22ce] rounded-sm"></div>
+                    <div class="h-2 w-1/3 bg-blue-500 rounded-sm"></div>
+                </div>
+            </div>
+            <div class="bg-surface-container-low p-6 rounded-lg border border-outline-variant">
+                <p class="text-[10px] font-black tracking-widest uppercase text-on-surface-variant mb-4">Next Goal</p>
+                <div class="flex items-center gap-4">
+                    <div class="h-12 w-12 rounded bg-primary/20 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary text-2xl"
+                            style="font-variation-settings: 'FILL' 1;">military_tech</span>
+                    </div>
+                    <div>
+                        <p class="font-bold uppercase tracking-tight text-on-background">Grandmaster Rank</p>
+                        <p class="text-xs text-on-surface-variant">450 CP remaining</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- SideNavBar (Suppressed as per rules for this specific focused layout) -->
+    <!-- Toast Notification (Simulated) -->
+    <div
+        class="fixed bottom-6 right-6 z-50 flex items-center gap-4 bg-surface-container-highest border border-primary/30 p-4 rounded-xl shadow-2xl shadow-primary/10">
+        <div class="h-10 w-10 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+            <span class="material-symbols-outlined">verified</span>
+        </div>
+        <div>
+            <p class="text-sm font-bold uppercase tracking-tight text-on-background">System Synced</p>
+            <p class="text-xs text-on-surface-variant">All deck data is up to date.</p>
+        </div>
+    </div>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+
+</html>
