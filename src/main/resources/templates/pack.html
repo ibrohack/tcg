@@ -22,7 +22,21 @@
                         Contains cards of Common to Mythic quality!
                     </p>
                 </div>
+				<!-- Drop Rates -->
+								<div class="flex flex-col items-center gap-4 mt-16 bg-slate-900/40 backdrop-blur-md px-6 py-4 rounded-xl border border-slate-700/50">
+								            <span class="text-base md:text-lg font-semibold opacity-70">
+								                Drop Rates:
+								            </span>
 
+								            <div class="flex flex-wrap justify-center gap-3 text-sm md:text-base font-bold uppercase tracking-wider">
+								                <span class="text-common px-3 py-1 rounded bg-slate-800/50 border border-slate-700">Common 60%</span>
+								                <span class="text-rare px-3 py-1 rounded bg-blue-900/20 border border-blue-900/50">Rare 25%</span>
+								                <span class="text-epic px-3 py-1 rounded bg-purple-900/20 border border-purple-900/50">Epic 10%</span>
+								                <span class="text-legendary px-3 py-1 rounded bg-orange-900/20 border border-orange-900/50">Legendary 4%</span>
+								                <span class="text-mythic px-3 py-1 rounded bg-red-900/20 border border-red-900/50">Mythic 1%</span>
+								                
+								            </div>
+								        </div>
                 <!-- Pack -->
                 <div class="relative w-full max-w-2xl aspect-[4/3] flex items-center justify-center mb-16">
                     <div class="absolute inset-0 bg-primary/20 blur-[100px] rounded-full scale-75 opacity-50"></div>
@@ -113,7 +127,6 @@
                 <div class="w-full grid grid-cols-2 md:grid-cols-5 gap-6 lg:gap-6 px-4">
                     <th:block th:if="${#lists.isEmpty(cards)}">
 
-                        <!-- Placeholder cards -->
                         <div class="aspect-[2/3] rounded-xl border-2 border-slate-700/50 bg-slate-800/30 flex items-center justify-center">
                             <span class="material-symbols-outlined text-common text-5xl">question_mark</span>
                         </div>
@@ -136,8 +149,9 @@
 
                     </th:block>
                 </div>
-
+				
             </main>
+			<footer th:replace="~{fragments/layout :: footer}"></footer>
         </div>
     </body>
 </html>
