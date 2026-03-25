@@ -74,7 +74,7 @@
             <div class="flex items-center gap-3">
                 <div
                     class="h-10 w-10 rounded-full bg-primary/20 border-2 border-primary overflow-hidden flex items-center justify-center">
-                    <img th:if="${session.loggedPlayer.avatarUrl != null}" th:src="${session.loggedPlayer.avatarUrl}"
+                    <img th:if="${session.loggedPlayer.avatarUrl != null}" th:src="@{${session.loggedPlayer.avatarUrl}(v=${#dates.createNow().time})}"
                         alt="Avatar" class="h-full w-full object-cover">
                     <span th:unless="${session.loggedPlayer.avatarUrl != null}"
                         class="material-symbols-outlined text-primary">person</span>
