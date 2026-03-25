@@ -30,7 +30,7 @@ public class ImplDeckBD implements DeckDAO {
     final String SQLCONSULTA = "SELECT * FROM Decks";
     final String SQLBORRAR = "DELETE FROM Decks WHERE DeckId=?";
     final String SQLMODIFICAR = "UPDATE Decks SET Title=?, Description=? WHERE DeckId=?";
-    final String SQLPLAYERCARD = "SELECT * FROM PlayerCard WHERE PlayerId=?";
+    final String SQLPLAYERCARD = "SELECT * FROM Cards WHERE CardId IN (SELECT CardId FROM PlayersCards WHERE PlayerId=?)";
     final String SQLPLAYERDECKS = "SELECT * FROM Decks WHERE PlayerId=?";
 
     public ImplDeckBD() {
