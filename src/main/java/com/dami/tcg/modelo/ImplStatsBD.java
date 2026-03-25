@@ -66,7 +66,8 @@ public class ImplStatsBD implements StatsDAO {
             ResultSet resultado = statement.executeQuery();
             if (resultado.next()) {
                 card = new Card(resultado.getInt("CardId"), resultado.getString("CardName"),
-                        resultado.getString("Quality"), resultado.getString("CardDescription"));
+                        resultado.getString("Quality"), resultado.getString("CardDescription"),
+                        resultado.getInt("PurchaseValue"), resultado.getInt("SellValue"));
             }
             resultado.close();
             statement.close();
@@ -108,7 +109,8 @@ public class ImplStatsBD implements StatsDAO {
             ResultSet resultado = statement.executeQuery();
             if (resultado.next()) {
                 card = new Card(resultado.getInt("CardId"), resultado.getString("CardName"),
-                        resultado.getString("Quality"), resultado.getString("CardDescription"));
+                        resultado.getString("Quality"), resultado.getString("CardDescription"),
+                        resultado.getInt("PurchaseValue"), resultado.getInt("SellValue"));
             }
             resultado.close();
             statement.close();
@@ -149,7 +151,8 @@ public class ImplStatsBD implements StatsDAO {
             ResultSet resultado = statement.executeQuery();
             while (resultado.next()) {
                 cards.add(new Card(resultado.getInt("CardId"), resultado.getString("CardName"),
-                        resultado.getString("Quality"), resultado.getString("CardDescription")));
+                        resultado.getString("Quality"), resultado.getString("CardDescription"),
+                        resultado.getInt("PurchaseValue"), resultado.getInt("SellValue")));
             }
             resultado.close();
             statement.close();
@@ -170,7 +173,8 @@ public class ImplStatsBD implements StatsDAO {
             ResultSet resultado = statement.executeQuery();
             while (resultado.next()) {
                 cards.add(new Card(resultado.getInt("CardId"), resultado.getString("CardName"),
-                        resultado.getString("Quality"), resultado.getString("CardDescription")));
+                        resultado.getString("Quality"), resultado.getString("CardDescription"),
+                        resultado.getInt("PurchaseValue"), resultado.getInt("SellValue")));
             }
             resultado.close();
             statement.close();

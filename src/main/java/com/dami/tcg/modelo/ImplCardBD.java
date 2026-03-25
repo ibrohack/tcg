@@ -30,7 +30,6 @@ public class ImplCardBD implements CardDAO {
 	final String SQLMODIFICAR = "UPDATE Cards SET CardName=?, Quality=?, CardDescription=? WHERE CardId=?";
 	final String SQLRANDOM = "SELECT * FROM Cards WHERE Quality = ? ORDER BY RAND() LIMIT 1";
 
-
 	public ImplCardBD() {
 		this.configFile = ResourceBundle.getBundle("configDB");
 		this.driverBD = this.configFile.getString("Driver");
@@ -149,7 +148,8 @@ public class ImplCardBD implements CardDAO {
 			ResultSet resultado = statement.executeQuery();
 			while (resultado.next()) {
 				cards.add(new Card(resultado.getInt("CardId"), resultado.getString("CardName"),
-						resultado.getString("Quality"), resultado.getString("CardDescription")));
+						resultado.getString("Quality"), resultado.getString("CardDescription"),
+						resultado.getInt("PurchaseValue"), resultado.getInt("SellValue")));
 			}
 			resultado.close();
 			statement.close();
@@ -173,7 +173,9 @@ public class ImplCardBD implements CardDAO {
 						resultado.getInt("CardId"),
 						resultado.getString("CardName"),
 						resultado.getString("Quality"),
-						resultado.getString("CardDescription"));
+						resultado.getString("CardDescription"),
+						resultado.getInt("PurchaseValue"),
+						resultado.getInt("SellValue"));
 			}
 			resultado.close();
 			statement.close();
@@ -186,20 +188,20 @@ public class ImplCardBD implements CardDAO {
 
 	@Override
 	public Card queryRandomCard() {
-		double r = Math.random(); 
+		double r = Math.random();
 		Card card = new Card();
 		this.openConnection();
 		try {
 			statement = connection.prepareStatement(SQLRANDOM);
-			if(r<0.009) {
+			if (r < 0.009) {
 				statement.setString(1, "Mythic");
-			}else if(r<0.04) {
+			} else if (r < 0.04) {
 				statement.setString(1, "Legendary");
-			}else if(r<0.1) {
+			} else if (r < 0.1) {
 				statement.setString(1, "Epic");
-			}else if(r<0.25) {
+			} else if (r < 0.25) {
 				statement.setString(1, "Rare");
-			}else {
+			} else {
 				statement.setString(1, "Common");
 			}
 			ResultSet resultado = statement.executeQuery();
@@ -213,7 +215,7 @@ public class ImplCardBD implements CardDAO {
 			connection.close();
 		} catch (SQLException e) {
 			System.out.println("Error getting card by name: " + e.getMessage());
-		}	
+		}
 		return card;
 	}
 }

@@ -4,7 +4,8 @@
 
 <head th:replace="~{fragments/layout :: head('Chaos and Monkeys - ' + ${player.username})}"></head>
 
-<body class="font-body text-on-background selection:bg-primary selection:text-on-primary min-h-screen">
+<body
+    class="font-body text-on-background selection:bg-primary selection:text-on-primary min-h-screen bg-background-dark">
     <header th:replace="~{fragments/layout :: navbar('decks')}"></header>
     <main class="max-w-screen-2xl mx-auto px-6 pt-24 pb-12">
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
@@ -20,7 +21,7 @@
             </div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-6">
-            <button
+            <a th:href="@{/deckcreate}"
                 class="md:col-span-2 lg:col-span-2 flex flex-col items-center justify-center p-8 bg-primary/5 border-2 border-dashed border-primary/30 rounded-xl hover:bg-primary/10 hover:border-primary transition-all group aspect-square">
                 <div
                     class="h-20 w-20 rounded-full bg-primary flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg shadow-primary/20">
@@ -28,7 +29,7 @@
                 </div>
                 <h3 class="font-headline text-2xl font-bold text-primary uppercase tracking-tight">Create New Deck</h3>
                 <p class="text-on-surface-variant text-sm mt-2 text-center">Forge a new path to primal dominance</p>
-            </button>
+            </a>
             <div class="md:col-span-2 lg:col-span-2 relative group overflow-hidden bg-surface-container rounded-xl border border-primary/10 hover:border-primary/50 transition-all aspect-square"
                 th:each="deck : ${decks}">
                 <div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent z-10">
@@ -48,11 +49,11 @@
                             </div>
                         </div>
                         <div class="flex gap-2">
-                            <button
+                            <button th:onclick="window.location.href='deckedit'"
                                 class="h-10 w-10 bg-primary/10 backdrop-blur-md border border-primary/30 flex items-center justify-center text-primary hover:bg-primary hover:text-background transition-colors rounded">
                                 <span class="material-symbols-outlined">edit</span>
                             </button>
-                            <button
+                            <button th:onclick="window.location.href='deckdelete'"
                                 class="h-10 w-10 bg-error/10 backdrop-blur-md border border-error/30 flex items-center justify-center text-error hover:bg-error hover:text-on-error transition-colors rounded">
                                 <span class="material-symbols-outlined">delete</span>
                             </button>

@@ -28,11 +28,6 @@ public class DeckController {
 			return "redirect:/login";
 		}
 		List<Card> cards = dao.queryPlayerCards(player.getPlayerId());
-		cards.add(new Card(1, "The Card", "Test", "Epic"));
-		cards.add(new Card(2, "The Card", "Test", "Legendary"));
-		cards.add(new Card(3, "The Card", "Test", "Mythic"));
-		cards.add(new Card(4, "The Card", "Test", "Arok"));
-		cards.add(new Card(5, "The Card", "Test", "Common"));
 		Deck deck = new Deck();
 		model.addAttribute("deck", deck);
 		model.addAttribute("player", player);

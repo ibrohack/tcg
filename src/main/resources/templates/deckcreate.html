@@ -44,7 +44,7 @@
                     class="flex-1 overflow-y-auto p-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
                     <!-- Card Items -->
                     <div th:each="card : ${cards}" class="flex flex-col gap-2 group cursor-pointer">
-                        <div class="relative aspect-[3/4] rounded-xl overflow-hidden border-2 border-transparent group-hover:border-quality-mythic transition-all bg-slate-800 shadow-xl"
+                        <div class="relative aspect-[3/4] rounded-lg overflow-hidden border-2 border-transparent group-hover:border-quality-mythic transition-all bg-slate-800 shadow-xl"
                             th:classappend="${card.quality.equalsIgnoreCase('Common')} ? 'border border-card-common/20 hover:border-card-common' :
                                      (${card.quality.equalsIgnoreCase('Rare')} ? 'border border-card-rare/20 hover:border-card-rare hover:shadow-card-rare/20' :
                                      (${card.quality.equalsIgnoreCase('Epic')} ? 'border border-card-epic/20 hover:border-card-epic hover:shadow-card-epic/20' :
