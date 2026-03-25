@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.dami.tcg.modelo.Card;
 import com.dami.tcg.modelo.ImplCardBD;
 import com.dami.tcg.modelo.ImplPlayerBD;
+import com.dami.tcg.modelo.Player;
 import com.dami.tcg.modelo.PlayerDAO;
+
+import jakarta.servlet.http.HttpSession;
 
 import org.springframework.ui.Model;
 
@@ -28,18 +31,23 @@ public class ShopController {
 	CardDAO cardDao = new ImplCardBD();
 
 	@GetMapping("/pack")
-	public String showPacks() {
+	public String showPacks(HttpSession session) {
+		Player player = (Player) session.getAttribute("loggedPlayer");
+		if (player == null) {
+			return "redirect:/login";
+		}
 		return "pack";
 	}
 
 	@PostMapping("/pack")
-	public String openPack(Model model){
+	public String openPack(Model model, HttpSession session){
 		List<Card> cards = new ArrayList<Card>();;
 		Card card;
+		Player player = (Player) session.getAttribute("loggedPlayer");
 		for(int i = 0; i<5; i++) {
 			card = cardDao.queryRandomCard();
 			cards.add(card);
-//			playerDao.addCard(null, card);
+			playerDao.addCard(player, card);
 		}
 		model.addAttribute("cards",cards);
 		return "pack";
