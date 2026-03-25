@@ -14,8 +14,10 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
     <link rel="icon" type="image/x-icon" href="/images/favicon3.ico">
-    <link th:if="${loadImageCrop}" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css"/>
-    <script th:if="${loadImageCrop}" src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
+    <link th:if="${loadImageCrop}" rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css" />
+    <script th:if="${loadImageCrop}"
+        src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
     <script src="/js/tailwind-config.js"></script>
 </head>
 
@@ -28,7 +30,7 @@
 <header th:fragment="navbar(currentPage)"
     class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-primary/20 px-6 lg:px-20 py-4 bg-background-light dark:bg-background-dark sticky top-0 z-50">
     <!-- Logo -->
-    <div class="flex items-center gap-4">
+    <a th:href="@{/}" class="flex items-center gap-4 hover:opacity-80 transition-opacity">
         <div class="size-8 text-primary">
             <svg fill="none" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -38,7 +40,7 @@
         </div>
         <h2 class="text-slate-900 dark:text-slate-100 text-xl font-bold leading-tight tracking-[-0.015em]">
             Chaos and Monkeys</h2>
-    </div>
+    </a>
 
     <div class="flex flex-1 justify-end gap-4 lg:gap-8 items-center">
         <!-- Navigation Links -->
@@ -74,11 +76,17 @@
                     <span class="material-symbols-outlined">notifications</span>
                 </button>
             </div>
+            <div
+                class="flex items-center gap-2 bg-primary text-background-dark px-4 py-1.5 rounded-lg font-bold text-sm">
+                <span class="material-symbols-outlined text-lg">payments</span>
+                <span th:text="${session.loggedPlayer.coins}"></span>
+            </div>
             <div class="flex items-center gap-3">
                 <div
                     class="h-10 w-10 rounded-full bg-primary/20 border-2 border-primary overflow-hidden flex items-center justify-center">
-                    <img th:if="${session.loggedPlayer.avatarUrl != null}" th:src="${session.loggedPlayer.avatarUrl}"
-                        alt="Avatar" class="h-full w-full object-cover">
+                    <img th:if="${session.loggedPlayer.avatarUrl != null}"
+                        th:src="@{${session.loggedPlayer.avatarUrl}(v=${#dates.createNow().time})}" alt="Avatar"
+                        class="h-full w-full object-cover">
                     <span th:unless="${session.loggedPlayer.avatarUrl != null}"
                         class="material-symbols-outlined text-primary">person</span>
                 </div>

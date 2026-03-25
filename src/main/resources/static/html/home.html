@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chaos and Monkeys | Primal Tech-Noir TCG</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-fixed": "#a2eeff",
+              "on-secondary-fixed-variant": "#53460a",
+              "on-tertiary-container": "#f3e8ff",
+              "error": "#ffb4ab",
+              "on-secondary": "#ffffff",
+              "surface-container-highest": "#383529",
+              "surface-tint": "#f4d125",
+              "surface-bright": "#221f10",
+              "primary-fixed": "#ffe165",
+              "surface": "#161309",
+              "primary-container": "#443a00",
+              "on-primary-fixed": "#221b00",
+              "secondary-container": "#1d4ed8",
+              "on-tertiary-fixed-variant": "#004e5a",
+              "on-tertiary": "#ffffff",
+              "on-error": "#690005",
+              "surface-container-low": "#1e1b11",
+              "on-surface": "#e9e2d1",
+              "primary": "#f4d125",
+              "on-primary": "#221f10",
+              "on-error-container": "#ffdad6",
+              "secondary-fixed-dim": "#d9c67e",
+              "primary-fixed-dim": "#e7c511",
+              "outline": "#4c4733",
+              "on-secondary-container": "#dbeafe",
+              "outline-variant": "#322f20",
+              "on-tertiary-fixed": "#001f25",
+              "surface-container-high": "#2d2a1f",
+              "inverse-on-surface": "#343025",
+              "on-secondary-fixed": "#221b00",
+              "tertiary-container": "#7e22ce",
+              "secondary": "#3b82f6",
+              "surface-container": "#231f15",
+              "background": "#221f10",
+              "inverse-surface": "#e9e2d1",
+              "on-primary-container": "#f4d125",
+              "tertiary": "#a855f7",
+              "on-primary-fixed-variant": "#544600",
+              "on-background": "#e9e2d1",
+              "on-surface-variant": "#cfc6ac",
+              "surface-variant": "#383529",
+              "tertiary-fixed-dim": "#40d8f2",
+              "error-container": "#93000a",
+              "inverse-primary": "#6f5d00",
+              "surface-container-lowest": "#0b0a04",
+              "secondary-fixed": "#f6e298",
+              "surface-dim": "#110f08"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Space Grotesk"],
+              "label": ["Space Grotesk"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .rarity-glow-legendary {
+            box-shadow: 0 0 20px rgba(244, 209, 37, 0.2);
+        }
+        .glass-card {
+            background: linear-gradient(135deg, rgba(244, 209, 37, 0.05) 0%, rgba(34, 31, 16, 0.8) 100%);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary selection:text-on-primary">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-6 py-4 bg-[#221f10]/80 backdrop-blur-xl border-b border-yellow-400/10 shadow-xl shadow-yellow-400/5">
+<div class="text-2xl font-black text-yellow-400 italic font-['Space_Grotesk'] uppercase tracking-[0.05em]">
+            Chaos and Monkeys
+        </div>
+<div class="hidden md:flex gap-8 items-center">
+<a class="text-yellow-400 font-bold border-b-2 border-yellow-400 pb-1 font-['Space_Grotesk'] uppercase tracking-[0.05em]" href="#">Dashboard</a>
+<a class="text-yellow-400/60 font-medium hover:text-yellow-400 transition-colors font-['Space_Grotesk'] uppercase tracking-[0.05em] hover:bg-yellow-400/10 transition-all duration-200" href="#">Collection</a>
+<a class="text-yellow-400/60 font-medium hover:text-yellow-400 transition-colors font-['Space_Grotesk'] uppercase tracking-[0.05em] hover:bg-yellow-400/10 transition-all duration-200" href="#">Shop</a>
+</div>
+<button class="bg-primary text-on-primary px-6 py-2 font-bold uppercase tracking-widest active:scale-95 duration-100 hover:bg-yellow-400/90">
+            Register
+        </button>
+</nav>
+<main class="pt-20">
+<!-- Hero Section -->
+<section class="relative h-[921px] flex items-center overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover opacity-40" data-alt="cinematic digital painting of a futuristic neon jungle at night with monkeys silhouetted against glowing golden bioluminescent plants" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCV1IBRzE1jtOTSq0-SXxNqlDNhitScpIbwlXTa8Ctg0ijsFkaicKu_Vn44j26bwMQ3nl-zTDGfrfNNyvNT8ENlUzGieO2RHKMMEsCm-A6rOgVat-gBn2NCjh0-4WVQ7S3JWop_D_e27D7UqO0hxf-_myDTDwmoXXHR2pPK1JKXHGIzGMeNveuXK9zCiiD5gx0zYE_ACqS4KCnOMCL3bC9h-qXC4afv5yIkAkdsszyNpYgVCh2aDc9fOWrH_BjXyN-JSALbr_fQNDFr"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/50"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-background via-transparent to-transparent"></div>
+</div>
+<div class="relative z-10 container mx-auto px-6">
+<div class="max-w-4xl">
+<span class="text-primary font-bold tracking-[0.3em] uppercase text-xs mb-4 block">System Status: Primal</span>
+<h1 class="text-6xl md:text-8xl font-black font-headline text-on-surface mb-6 leading-none tracking-tighter italic">
+                        ENTER THE <br/> <span class="text-primary">JUNGLE</span>
+</h1>
+<p class="text-lg md:text-xl text-on-surface-variant max-w-xl mb-10 leading-relaxed">
+                        A high-octane digital asset ecosystem where chaos meets strategy. Collect, trade, and dominate the tech-noir canopy.
+                    </p>
+<div class="flex flex-wrap gap-4">
+<button class="bg-primary text-on-primary px-10 py-4 font-black text-lg uppercase tracking-widest hover:scale-105 transition-transform active:scale-95">
+                            Join the Jungle
+                        </button>
+<button class="border-2 border-primary/20 bg-primary/5 text-primary px-10 py-4 font-black text-lg uppercase tracking-widest hover:bg-primary/10 transition-colors">
+                            View Deck
+                        </button>
+</div>
+</div>
+</div>
+<!-- Floating Decorative Stats -->
+<div class="absolute bottom-12 right-12 hidden lg:flex flex-col gap-4 items-end">
+<div class="bg-surface-container-high/40 backdrop-blur-md p-4 border-r-4 border-primary">
+<div class="text-[10px] text-primary font-bold uppercase tracking-widest">Active Primates</div>
+<div class="text-4xl font-black italic">842,901</div>
+</div>
+</div>
+</section>
+<!-- Latest Card Releases -->
+<section class="py-24 bg-surface">
+<div class="container mx-auto px-6">
+<div class="flex justify-between items-end mb-12">
+<div>
+<span class="text-primary font-bold text-xs uppercase tracking-widest block mb-2">Protocol: New Assets</span>
+<h2 class="text-4xl font-black font-headline italic uppercase">Latest Card Releases</h2>
+</div>
+<a class="text-primary font-bold text-sm uppercase tracking-widest border-b border-primary/20 pb-1 hover:border-primary" href="#">View Full Set</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+<!-- Card 1: Mythic -->
+<div class="group relative aspect-[3/4] bg-surface-container-highest overflow-hidden border-2 border-primary shadow-2xl shadow-primary/10 hover:translate-y-[-8px] transition-all duration-300">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="stylized digital illustration of a robotic alpha gorilla with glowing golden circuitry patterns across its fur" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdfXmljpJNLlAlr47q3WxBtq4oLmLozdvsEkjdpIJ_0bmV4rAyy_fSBwb5_tivJ_4pW7w2gbf6tyGRktatQdT4-bfjIClwqI05BcjgAg4Af4xKwOi-ouvcTJn3jAx_6dWuMwua5jEcK_N_tSdCx8yrlkTdK2tlNrNA9uTDHsmfDRfBq8NFSbFX91SCrCnA85X7795gbUq31OWDhTKyiVrNz6MYZMiSDY0h-u7zdw-Y4KLN5X5wsXNNCJnFmbGqCisDLxbCXIleS__K"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+<div class="absolute top-4 left-4 bg-primary text-on-primary text-[10px] font-black italic px-3 py-1 uppercase">Mythic</div>
+<div class="absolute bottom-6 left-6">
+<h3 class="text-2xl font-black italic uppercase leading-none mb-1">Cyber-Kong Alpha</h3>
+<p class="text-[10px] text-primary font-bold tracking-widest uppercase opacity-70">Series 04 / #001</p>
+</div>
+</div>
+<!-- Card 2: Arok -->
+<div class="group relative aspect-[3/4] bg-surface-container-highest overflow-hidden border-2 border-tertiary-container hover:translate-y-[-8px] transition-all duration-300">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="portrait of a mysterious monkey shaman wearing tech-noir goggles and neon necklaces" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDp9RVCKjWZ2tqwCwkO3JaCTYy25cTPscL4IMmZ_aHlmYkOVro03JMn_5ObNr_zYdcMWJ7lFy4YX8zDTC1MqujxRxjEjNMD0yEINP_HCqyjBbOFS1lr2rQMM_e9FmbCRDQFTYfCmP2yJQRNSxvNpZrAxsS086NZlYPqiZrO8gADgXEV3uKO_GE3i1EPEA-PZ6QkgTsaxvRBVynjBSA-ekFrExP15lXkxcYg8UkKTVM61d2zuvXfvYWxNIR5ZA60Q-cpuuD7SOygZidi"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+<div class="absolute top-4 left-4 bg-tertiary-container text-on-tertiary-container text-[10px] font-black italic px-3 py-1 uppercase">Arok</div>
+<div class="absolute bottom-6 left-6">
+<h3 class="text-2xl font-black italic uppercase leading-none mb-1">Gaze of Arok</h3>
+<p class="text-[10px] text-tertiary font-bold tracking-widest uppercase opacity-70">Series 04 / #042</p>
+</div>
+</div>
+<!-- Card 3: Epic -->
+<div class="group relative aspect-[3/4] bg-surface-container-highest overflow-hidden border-2 border-outline hover:translate-y-[-8px] transition-all duration-300">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="action shot of a small monkey ninja leaping through digital data streams" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJbfddzIfECtS3KhYKzSmHozeGlkLJSWp35ca9-tUPX6-Z5Tx_Yb9JaH7bZWAkTGs3Y1GbbH3CB3dlL5u49rojNxTrZU3VkCEGtdxi6kDtQ3LGpS-eXJ2_z4iRB7CfRdWADkiG3vAr8AmYtZOskAYNqQe0tjVcYnz1CfsncHA_dsJUOOyq1UgBa7MonqRbtVID2TzjaMrgZlbnflneFNls7wf8MFBK5okFfq9b2-BceEw09NtbmB01ZI-Hz_iUim8JyIYqa2qwRoKx"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+<div class="absolute top-4 left-4 bg-on-surface-variant text-background text-[10px] font-black italic px-3 py-1 uppercase">Epic</div>
+<div class="absolute bottom-6 left-6">
+<h3 class="text-2xl font-black italic uppercase leading-none mb-1">Static Sprinter</h3>
+<p class="text-[10px] text-on-surface-variant font-bold tracking-widest uppercase opacity-70">Series 04 / #118</p>
+</div>
+</div>
+<!-- Card 4: Legendary -->
+<div class="group relative aspect-[3/4] bg-surface-container-highest overflow-hidden border-2 border-primary rarity-glow-legendary hover:translate-y-[-8px] transition-all duration-300">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="extreme close up of a monkey eye reflecting a golden digital landscape" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzQbOxo1TdGyHit-95Ferf5Jb1VOuQ3Pu7tFiEZpRoRY9JUTQRQ-DGWKpSYurdKZJKLJyRynPITbmMrrLD4fQamVFNfheXE-pl0S_I2zeqD02DzTBLfROb0838aFa1qDsnx9JJNSVOB-SDN4NqTQwddXDCzbIqH2UGvnHGH4qHS37F5-mNYXSfQm6FQx3VaN-K0nPSRs34u2__OqC09T74kp5KURwrM5clsmyIVsnzw2p9HN3cZW371Q-hjbWiQyGrsNR4iKkLvDkt"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+<div class="absolute top-4 left-4 bg-primary text-on-primary text-[10px] font-black italic px-3 py-1 uppercase">Legendary</div>
+<div class="absolute bottom-6 left-6">
+<h3 class="text-2xl font-black italic uppercase leading-none mb-1">Golden Gaze</h3>
+<p class="text-[10px] text-primary font-bold tracking-widest uppercase opacity-70">Series 04 / #007</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Global Collection Stats -->
+<section class="py-24 bg-background border-y border-primary/5">
+<div class="container mx-auto px-6">
+<div class="mb-16 text-center">
+<h2 class="text-5xl font-black font-headline italic uppercase text-primary tracking-tighter mb-4">Primal Data</h2>
+<p class="text-on-surface-variant uppercase tracking-[0.2em] text-xs">Real-time Global Network Synchronization</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-0 border border-primary/10">
+<!-- Most Common Pull -->
+<div class="p-10 bg-surface-container-low border-r border-primary/10 flex flex-col items-center text-center group">
+<div class="mb-8 relative">
+<div class="w-32 h-44 bg-outline-variant p-1 transform -rotate-3 group-hover:rotate-0 transition-transform">
+<img class="w-full h-full object-cover" data-alt="monochrome illustration of a scout monkey with binoculars" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFCrc011J91eu__BeGy1DfTGzXKM0aF0Z1zT8fwEEaApmkHsVFDk_GUjgK1bLDpWm1A7ovkqYNAaoGeg4vceqtiHmMGzEGqyjA-86iHXszwiRScFPDiSz1MUKlORQw3rdiKsCjHF0HLznzz8LAhX_30ry8Le9g1eDexC1ffErAJMgSRHwH0NK_pXwqS2oBTM-rnOt_-oZYVFC8Sqryme4wXd0elABCcbN9MzEbb1jYTtvH5UnSsyGc_cNWqfgkLaRK_0OBfJY9Vxs4"/>
+</div>
+<div class="absolute -bottom-2 -right-2 bg-on-surface text-background text-[10px] font-black px-2 py-1">COMMON</div>
+</div>
+<span class="text-on-surface-variant text-[10px] font-bold uppercase tracking-widest mb-2">Most Common Pull</span>
+<h4 class="text-2xl font-black italic uppercase mb-4">Jungle Scout</h4>
+<div class="w-full h-1 bg-primary/20 mb-2">
+<div class="w-[84%] h-full bg-primary"></div>
+</div>
+<div class="text-primary font-black text-3xl">84.2%</div>
+<p class="text-[10px] text-on-surface-variant uppercase mt-2">Circulation: 1.2M Units</p>
+</div>
+<!-- Least Found -->
+<div class="p-10 bg-surface-container flex flex-col items-center text-center group">
+<div class="mb-8 relative">
+<div class="w-32 h-44 bg-primary p-1 transform rotate-2 group-hover:rotate-0 transition-transform shadow-lg shadow-primary/20">
+<img class="w-full h-full object-cover" data-alt="intense portrait of an elder silverback monkey with cybernetic enhancements" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTDywyQ7ROC8Yv74u2UzX-ybP6PPnAsvTqkgtKKm9M9u9gAoOuDMGh80YezkL43h4ug-lUcGZc_rdFSQMvJJUwaRdW1hEg7JnGPXkfIwfFSy2qVdadAnsMhcMHaMPI_rVgs1-3DMy06v5NDmvAE84WhaiNysup9GrVH_xNBBeuGixYrgi3fsegv8QK7PhtFlwlHJy9LV8zjv_iNTls9xjdEGbm-yLFn_Vc63mrBF-07C8uz1ms4qp6WQETCcP4QXQNDtjfQ9Zg3VgK"/>
+</div>
+<div class="absolute -bottom-2 -right-2 bg-primary text-on-primary text-[10px] font-black px-2 py-1">MYTHIC</div>
+</div>
+<span class="text-primary text-[10px] font-bold uppercase tracking-widest mb-2">Least Found</span>
+<h4 class="text-2xl font-black italic uppercase mb-4 text-primary">Silverback Sage</h4>
+<div class="w-full h-1 bg-primary/20 mb-2">
+<div class="w-[0.04%] h-full bg-primary"></div>
+</div>
+<div class="text-primary font-black text-3xl">0.04%</div>
+<p class="text-[10px] text-on-surface-variant uppercase mt-2">Circulation: 12 Units</p>
+</div>
+<!-- The Unclaimed -->
+<div class="p-10 bg-surface-container-low border-l border-primary/10 flex flex-col items-center text-center group">
+<div class="mb-8 relative">
+<div class="w-32 h-44 border-2 border-dashed border-tertiary-container flex items-center justify-center bg-tertiary-container/5 relative overflow-hidden">
+<span class="material-symbols-outlined text-4xl text-tertiary-container/30">lock</span>
+<div class="absolute inset-0 bg-[radial-gradient(circle,rgba(168,85,247,0.2)_0%,transparent_70%)]"></div>
+</div>
+<div class="absolute -bottom-2 -right-2 bg-tertiary-container text-on-tertiary-container text-[10px] font-black px-2 py-1 italic">AROK</div>
+</div>
+<span class="text-tertiary text-[10px] font-bold uppercase tracking-widest mb-2">The Unclaimed</span>
+<h4 class="text-2xl font-black italic uppercase mb-4 text-tertiary-container">???</h4>
+<p class="text-on-surface-variant text-xs font-medium leading-tight px-4 mb-6">
+                            Ancient encryption patterns detected. Registry remains empty.
+                        </p>
+<div class="bg-tertiary-container/10 border border-tertiary-container/20 px-4 py-2">
+<span class="text-tertiary font-black text-sm italic uppercase">No player has claimed this yet</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full flex flex-col items-center gap-6 px-8 bg-[#221f10] border-t border-yellow-400/10 py-12">
+<div class="text-lg font-bold text-yellow-400/40 font-['Space_Grotesk'] uppercase tracking-widest">
+            Chaos and Monkeys
+        </div>
+<div class="flex flex-wrap justify-center gap-8">
+<a class="text-yellow-400/40 hover:text-yellow-400 transition-opacity font-['Space_Grotesk'] text-[10px] uppercase tracking-widest" href="#">Terms of Service</a>
+<a class="text-yellow-400/40 hover:text-yellow-400 transition-opacity font-['Space_Grotesk'] text-[10px] uppercase tracking-widest" href="#">Privacy Policy</a>
+<a class="text-yellow-400/40 hover:text-yellow-400 transition-opacity font-['Space_Grotesk'] text-[10px] uppercase tracking-widest" href="#">Discord</a>
+<a class="text-yellow-400/40 hover:text-yellow-400 transition-opacity font-['Space_Grotesk'] text-[10px] uppercase tracking-widest" href="#">Support</a>
+</div>
+<div class="text-yellow-400/40 font-['Space_Grotesk'] text-[10px] uppercase tracking-widest mt-4">
+            © 2024 Chaos and Monkeys. Primal Tech-Noir Protocol.
+        </div>
+</footer>
+</body></html>
