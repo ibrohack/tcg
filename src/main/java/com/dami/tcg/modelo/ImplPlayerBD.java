@@ -34,7 +34,6 @@ public class ImplPlayerBD implements PlayerDAO {
 	final String SQLGETGOLD = "SELECT Coins FROM Players WHERE PlayerId=?";
 	final String SQLUPDTEGOLD = "UPDATE Players SET Coins = ? WHERE PlayerId=?";
 
-
 	public ImplPlayerBD() {
 		this.configFile = ResourceBundle.getBundle("configDB");
 		this.driverBD = this.configFile.getString("Driver");
@@ -155,6 +154,7 @@ public class ImplPlayerBD implements PlayerDAO {
 						resultado.getInt("PlayerId"),
 						resultado.getString("Username"),
 						resultado.getString("PlayerPassword"),
+						resultado.getInt("Coins"),
 						queryPlayerCards(playerId),
 						null);
 			}
@@ -201,6 +201,7 @@ public class ImplPlayerBD implements PlayerDAO {
 						playerId,
 						resultado.getString("Username"),
 						resultado.getString("PlayerPassword"),
+						resultado.getInt("Coins"),
 						queryPlayerCards(playerId),
 						null);
 			}
@@ -216,13 +217,13 @@ public class ImplPlayerBD implements PlayerDAO {
 	@Override
 	public boolean addCard(Player player, Card card) {
 		boolean ok = false;
-		HashMap<Integer, Integer> cards =  queryPlayerCards(player.getPlayerId());
+		HashMap<Integer, Integer> cards = queryPlayerCards(player.getPlayerId());
 		this.openConnection();
 		try {
-			if(cards.containsKey(card.getCardID())) {
-				if(cards.get(card.getCardID())>4) {
+			if (cards.containsKey(card.getCardID())) {
+				if (cards.get(card.getCardID()) > 4) {
 					statement = connection.prepareStatement(SQLUPDATECARDQUANTITY);
-					statement.setInt(1, cards.get(card.getCardID()+1));
+					statement.setInt(1, cards.get(card.getCardID() + 1));
 					statement.setInt(2, player.getPlayerId());
 					statement.setInt(3, card.getCardID());
 					if (statement.executeUpdate() > 0) {
@@ -231,7 +232,7 @@ public class ImplPlayerBD implements PlayerDAO {
 
 				}
 
-			}else {
+			} else {
 				statement = connection.prepareStatement(SQLADDCARD);
 				statement.setInt(1, player.getPlayerId());
 				statement.setInt(2, card.getCardID());
@@ -252,7 +253,7 @@ public class ImplPlayerBD implements PlayerDAO {
 	@Override
 	public void buyPack(Player player) {
 		boolean ok = false;
-		int coins=this.getGold(player);
+		int coins = this.getGold(player);
 		this.openConnection();
 		try {
 			statement = connection.prepareStatement(SQLGETGOLD);
@@ -266,10 +267,10 @@ public class ImplPlayerBD implements PlayerDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(coins>=500) {
+		if (coins >= 500) {
 			try {
 				statement = connection.prepareStatement(SQLUPDTEGOLD);
-				statement.setInt(1, coins-500);
+				statement.setInt(1, coins - 500);
 				statement.setInt(2, player.getPlayerId());
 				if (statement.executeUpdate() > 0) {
 					ok = true;
@@ -281,7 +282,7 @@ public class ImplPlayerBD implements PlayerDAO {
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
 
 	@Override
@@ -303,6 +304,5 @@ public class ImplPlayerBD implements PlayerDAO {
 		}
 		return coins;
 	}
-
 
 }

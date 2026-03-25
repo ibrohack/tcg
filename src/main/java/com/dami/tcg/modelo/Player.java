@@ -15,11 +15,12 @@ public class Player {
 	public Player() {
 	}
 
-	public Player(int playerId, String username, String password, HashMap<Integer, Integer> cards,
+	public Player(int playerId, String username, String password, int coins, HashMap<Integer, Integer> cards,
 			ArrayList<Deck> decks) {
 		this.playerId = playerId;
 		this.username = username;
 		this.password = password;
+		this.coins = coins;
 		this.cards = cards;
 		this.decks = decks;
 	}
