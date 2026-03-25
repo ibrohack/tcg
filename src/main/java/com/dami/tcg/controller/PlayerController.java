@@ -210,7 +210,7 @@ public class PlayerController {
                 String newFileName = player.getPlayerId() + extension;
 
                 // Save to external directory 'data/player-images'
-                Path uploadPath = Paths.get("data/player-images");
+                Path uploadPath = Paths.get("data/images/players");
                 if (!Files.exists(uploadPath)) {
                     Files.createDirectories(uploadPath);
                 }
