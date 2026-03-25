@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f4d125",
+                        "background-light": "#f8f8f5",
+                        "background-dark": "#221f10",
+                        "card-common": "#94a3b8",
+                        "card-rare": "#3b82f6",
+                        "card-epic": "#a855f7",
+                        "card-legendary": "#f97316",
+                        "card-mythic": "#ef4444",
+                        "card-arok": "#2dd4bf",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<title>Chaos and Monkeys - Card Gallery</title>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- TopNavBar -->
+<header class="flex items-center justify-between border-b border-white/10 px-6 py-4 lg:px-20 bg-background-dark/50 backdrop-blur-md sticky top-0 z-50">
+<div class="flex items-center gap-4">
+<div class="size-8 text-primary">
+<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z"></path>
+</svg>
+</div>
+<h2 class="text-xl font-bold leading-tight tracking-tight uppercase">Chaos and Monkeys</h2>
+</div>
+<nav class="hidden md:flex items-center gap-10">
+<a class="text-slate-400 hover:text-primary transition-colors text-sm font-medium uppercase tracking-wider" href="#">Dashboard</a>
+<a class="text-primary border-b-2 border-primary pb-1 text-sm font-medium uppercase tracking-wider" href="#">Collection</a>
+<a class="text-slate-400 hover:text-primary transition-colors text-sm font-medium uppercase tracking-wider" href="#">Shop</a>
+</nav>
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2 bg-primary text-background-dark px-4 py-1.5 rounded-lg font-bold text-sm">
+<span class="material-symbols-outlined text-lg">payments</span>
+<span>1,250</span>
+</div>
+<div class="size-10 rounded-full border-2 border-primary/30 overflow-hidden bg-white/5 flex items-center justify-center">
+<span class="material-symbols-outlined">person</span>
+</div>
+</div>
+</header>
+<main class="flex-1 px-6 lg:px-20 py-8">
+<!-- Search and Hero Section -->
+<div class="mb-10 text-center max-w-3xl mx-auto">
+<h1 class="text-4xl font-bold mb-6">Card Gallery</h1>
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-slate-400 group-focus-within:text-primary transition-colors">search</span>
+</div>
+<input class="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-12 pr-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-slate-500 text-lg" placeholder="Search cards by name, ability, or type..." type="text"/>
+</div>
+</div>
+<!-- Filters -->
+<div class="flex flex-wrap items-center justify-center gap-3 mb-10">
+<button class="px-6 py-2 rounded-full bg-primary text-background-dark font-bold text-sm uppercase tracking-wide transition-all shadow-lg shadow-primary/20">All</button>
+<button class="px-6 py-2 rounded-full bg-white/5 border border-white/10 hover:border-card-common/50 text-slate-300 font-medium text-sm uppercase tracking-wide transition-all">Common</button>
+<button class="px-6 py-2 rounded-full bg-white/5 border border-white/10 hover:border-card-rare/50 text-slate-300 font-medium text-sm uppercase tracking-wide transition-all">Rare</button>
+<button class="px-6 py-2 rounded-full bg-white/5 border border-white/10 hover:border-card-epic/50 text-slate-300 font-medium text-sm uppercase tracking-wide transition-all">Epic</button>
+<button class="px-6 py-2 rounded-full bg-white/5 border border-white/10 hover:border-card-legendary/50 text-slate-300 font-medium text-sm uppercase tracking-wide transition-all">Legendary</button>
+<button class="px-6 py-2 rounded-full bg-white/5 border border-white/10 hover:border-card-mythic/50 text-slate-300 font-medium text-sm uppercase tracking-wide transition-all">Mythic</button>
+<button class="px-6 py-2 rounded-full bg-white/5 border border-white/10 hover:border-card-arok/50 text-slate-300 font-medium text-sm uppercase tracking-wide transition-all">Arok</button>
+</div>
+<!-- Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
+<!-- Card 1: Common -->
+<div class="group relative flex flex-col bg-slate-900/40 rounded-xl border border-card-common/20 hover:border-card-common transition-all duration-300 overflow-hidden shadow-xl hover:-translate-y-2">
+<div class="aspect-[3/4] relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent z-10"></div>
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Illustration of a small cheeky monkey in a jungle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeVox5JZ6D2i7SLZiNG3Nrh1YlYxZPHCVGp8Pho4fpxTHGbsthIE0j6t6zzYNezwHkukw4SKsLYCAYNmJWzDzk3srAsXh3NF_V5H0TYgz1LJMCq4buoZwQBGkvFyovYNaplO0XhtM4bhFWJxj0k99CzLwLhIxzovnp5LWm92ZC5zgSpdINJgGLTH39crKApOMDigL_iEopskt8-ZnFmJsuqzh6zdTDC6ssCfguV76OOuRebBErYwFz-Z6I9wEjq4wKYUHDAdrJQZrk"/>
+<div class="absolute top-3 left-3 z-20 bg-card-common/20 backdrop-blur-md border border-card-common/50 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-tighter">Common</div>
+</div>
+<div class="p-5 flex flex-col gap-2 relative z-20">
+<h3 class="text-xl font-bold text-slate-100">Jungle Scout</h3>
+<p class="text-sm text-slate-400 leading-relaxed italic">"He sees what the canopy hides, for a price of one banana."</p>
+<div class="mt-4 flex justify-between items-center">
+<span class="text-xs font-bold text-slate-500 uppercase">Unit • Monkey</span>
+<div class="flex gap-2 text-primary font-bold">
+<span class="material-symbols-outlined text-sm">bolt</span> 2
+                                </div>
+</div>
+</div>
+</div>
+<!-- Card 2: Rare -->
+<div class="group relative flex flex-col bg-slate-900/40 rounded-xl border border-card-rare/20 hover:border-card-rare transition-all duration-300 overflow-hidden shadow-xl hover:-translate-y-2 hover:shadow-card-rare/20">
+<div class="aspect-[3/4] relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent z-10"></div>
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A wise looking gorilla sitting in deep thought" src="https://lh3.googleusercontent.com/aida-public/AB6AXuANIBPfcHXd0_PVzY83B-z_NUfCSshBVVZfjwAs1xwUSQjCdzg9vaQjq0uZMMXocG42R2QxiA-t5UpMim1HOanBDJqQUBqH9tj_uTxE0wGjWhn_k9c4T-nmA0rnl3Ke7G2rcPAW0ZyT6wkoSgtht9KUq99V4q3hMm-lwlXXmhLBTFkfb_QeQWwgogglJTHeGqYasPe3JyAVOoLDleyyAWfKLTlCaD7Qmlb3ISd5rRZNdfgbi2IdlYX_Eatr4aR_39yUOaIWHG0fc6Ze"/>
+<div class="absolute top-3 left-3 z-20 bg-card-rare/20 backdrop-blur-md border border-card-rare/50 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-tighter">Rare</div>
+</div>
+<div class="p-5 flex flex-col gap-2 relative z-20">
+<h3 class="text-xl font-bold text-slate-100">Silverback Sage</h3>
+<p class="text-sm text-slate-400 leading-relaxed">Draw 2 cards when this unit is played. Ancient wisdom flows through the tribe.</p>
+<div class="mt-4 flex justify-between items-center">
+<span class="text-xs font-bold text-slate-500 uppercase">Unit • Ape</span>
+<div class="flex gap-2 text-primary font-bold">
+<span class="material-symbols-outlined text-sm">bolt</span> 4
+                                </div>
+</div>
+</div>
+</div>
+<!-- Card 3: Epic -->
+<div class="group relative flex flex-col bg-slate-900/40 rounded-xl border border-card-epic/20 hover:border-card-epic transition-all duration-300 overflow-hidden shadow-xl hover:-translate-y-2 hover:shadow-card-epic/20">
+<div class="aspect-[3/4] relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent z-10"></div>
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Swirling purple energy in a dense rainforest" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKjldoRv8Dtj58urL9BTW1nw3tNZwfWO0VBOYRYd8dGbRr6pJpco_Du7bZnY2ekzB6Xp2QxhWmLyAtcYUmxLnNNnchcqCzAIYOuE1JZQuKvT8z3mRSQp_PGXphXmf-O7d5GXfEd1ZYl65v01G3Wp_xgkIp1Q4YBgP-qWMjM-vwCRY5WUAkys86-TOYpt6kb3e6Kp5MGoyxt8_twN-oXlOyw7zJ8KpCPi-kPbM4m95lA8rGen3qbw_nokHYIwVh9Wx7Vtw53eAKW3Eu"/>
+<div class="absolute top-3 left-3 z-20 bg-card-epic/20 backdrop-blur-md border border-card-epic/50 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-tighter">Epic</div>
+</div>
+<div class="p-5 flex flex-col gap-2 relative z-20">
+<h3 class="text-xl font-bold text-slate-100">Chaos Vortex</h3>
+<p class="text-sm text-slate-400 leading-relaxed">Shuffle all cards on the field back into their owner's decks. Pure pandemonium.</p>
+<div class="mt-4 flex justify-between items-center">
+<span class="text-xs font-bold text-slate-500 uppercase">Spell • Chaos</span>
+<div class="flex gap-2 text-primary font-bold">
+<span class="material-symbols-outlined text-sm">bolt</span> 6
+                                </div>
+</div>
+</div>
+</div>
+<!-- Card 4: Legendary -->
+<div class="group relative flex flex-col bg-slate-900/40 rounded-xl border border-card-legendary/20 hover:border-card-legendary transition-all duration-300 overflow-hidden shadow-xl hover:-translate-y-2 hover:shadow-card-legendary/30">
+<div class="aspect-[3/4] relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent z-10"></div>
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Golden monkey king with a glowing staff" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyvcx3JcnPlmk7dxwJ4fKuex-rLQ806QBtqhAvMw811C_-jVZx6Ma_yJ5HuDvTdJv0Dy5RBYspAIwP9viKkuQl0rbY8fVuZ2ttxksyT-p82V3OdRPjhHbYt2LH8BiUWvs4922csBKc5dMYl3MwU1vM4aWFXTfxKSkU6kCacx4HzIRK_YI_ni8Gc4X_o1pUTmkcsp26i6vZJPW8ATORTHlRU6n3zDbukdFiL43Gc42om3mn0b6vLHhXHr1JQFGv8S-KRGWifdllHDCB"/>
+<div class="absolute top-3 left-3 z-20 bg-card-legendary/20 backdrop-blur-md border border-card-legendary/50 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-tighter">Legendary</div>
+</div>
+<div class="p-5 flex flex-col gap-2 relative z-20">
+<h3 class="text-xl font-bold text-slate-100">Wukong's Heir</h3>
+<p class="text-sm text-slate-400 leading-relaxed">Cannot be targeted by spells. When attacking, create a mirror image of this unit.</p>
+<div class="mt-4 flex justify-between items-center">
+<span class="text-xs font-bold text-slate-500 uppercase">Unit • Legend</span>
+<div class="flex gap-2 text-primary font-bold">
+<span class="material-symbols-outlined text-sm">bolt</span> 7
+                                </div>
+</div>
+</div>
+</div>
+<!-- Card 5: Mythic -->
+<div class="group relative flex flex-col bg-slate-900/40 rounded-xl border border-card-mythic/20 hover:border-card-mythic transition-all duration-300 overflow-hidden shadow-xl hover:-translate-y-2 hover:shadow-card-mythic/40">
+<div class="aspect-[3/4] relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent z-10"></div>
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Raging red volcanic monkey demon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqPE_YLOC1_M9BQ-vDuSTyFVyN9bX3q_OqNPJkzmSNU-YRSCOZpwK1t2toESUoMbP8uwTUO-ZfFDGWSosX49VZvUFPUBiBehPozO7pGCkWieAdqWJSbhYdWkXidvlfPUgkKgt8REBAtm3lZvdBPDUCMeDEAZfmkKdza43NLFkbAldfZY89BiMP9C4oSP5z7cqlLPRo88kZOkr9GTrQ5DPuVw_HSrA_y1ruTVnGts5SUnSDm-fN5HOe1IVHksjkOApJ8RrMAhJgLJvj"/>
+<div class="absolute top-3 left-3 z-20 bg-card-mythic/20 backdrop-blur-md border border-card-mythic/50 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-tighter text-card-mythic">Mythic</div>
+</div>
+<div class="p-5 flex flex-col gap-2 relative z-20">
+<h3 class="text-xl font-bold text-slate-100">Molten Mandrill</h3>
+<p class="text-sm text-slate-400 leading-relaxed">On death: Deal 5 damage to all enemy units. The jungle burns with his passing.</p>
+<div class="mt-4 flex justify-between items-center">
+<span class="text-xs font-bold text-slate-500 uppercase">Unit • Elemental</span>
+<div class="flex gap-2 text-primary font-bold">
+<span class="material-symbols-outlined text-sm">bolt</span> 5
+                                </div>
+</div>
+</div>
+</div>
+<!-- Card 6: Arok -->
+<div class="group relative flex flex-col bg-slate-900/40 rounded-xl border border-card-arok/20 hover:border-card-arok transition-all duration-300 overflow-hidden shadow-xl hover:-translate-y-2 hover:shadow-card-arok/50">
+<div class="aspect-[3/4] relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent z-10"></div>
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Celestial cosmic gorilla silhouette in a nebula" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdVgFASZRLemh6I0i7n-DJfIPrNCnCstm9Ig4wYF2zqLdhAirrR9edecSJaUI8wT8wArzUHE4c7vau_SEPDvhQZOs3HtNZedCwWIYYR5GnMpdDn6933MQT-ZyahblArW_IuxMwxJ2kM9qVLRNKBLSzDzBHvAW3ZnO25sT_qTsiOIluQYGlSzy-zWNl51Lq5it-1Ae3GR51z1SglLKkddnp45_eclMI5e5RrQqicDfgTeNI0ROVrNXmxSoGwDSpfTrNapJO-PtnPSfQ"/>
+<div class="absolute top-3 left-3 z-20 bg-card-arok/20 backdrop-blur-md border border-card-arok/50 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-tighter text-card-arok">Arok</div>
+</div>
+<div class="p-5 flex flex-col gap-2 relative z-20">
+<h3 class="text-xl font-bold text-slate-100">Arok the Eternal</h3>
+<p class="text-sm text-slate-400 leading-relaxed">Victory is inevitable. This unit gains +1/+1 for every Monkey in your graveyard.</p>
+<div class="mt-4 flex justify-between items-center">
+<span class="text-xs font-bold text-slate-500 uppercase">God • Eternal</span>
+<div class="flex gap-2 text-primary font-bold">
+<span class="material-symbols-outlined text-sm">bolt</span> 10
+                                </div>
+</div>
+</div>
+</div>
+<!-- Card 7: Epic (Again for variety) -->
+<div class="group relative flex flex-col bg-slate-900/40 rounded-xl border border-card-epic/20 hover:border-card-epic transition-all duration-300 overflow-hidden shadow-xl hover:-translate-y-2 hover:shadow-card-epic/20">
+<div class="aspect-[3/4] relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent z-10"></div>
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Vines strangling a giant tropical tree" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_qt9hSTJzibWBnuTbeBL8ktFnHdSAJAMY06LtB96o96kFKY_ACAkFh7nPU7WBm9X0TrkIWH2RFo4a1wwbBZxBeeNzEcpiECS7Rtk9vtB4gQsE6tiT1ktgGd_bWcszOGENoft_7mfVDTEF7RluXWFUUDy7vyoDHnZcwo8fXmgnvs8_iI051fzWMZCkRANXhtToKvaR-_r6iRSEsHER7qU7oa6n-eDW2feo2oNlkMFymeYwWqR2GZDSH0nXuGPNrpPuqCxNRqm-Mpgw"/>
+<div class="absolute top-3 left-3 z-20 bg-card-epic/20 backdrop-blur-md border border-card-epic/50 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-tighter">Epic</div>
+</div>
+<div class="p-5 flex flex-col gap-2 relative z-20">
+<h3 class="text-xl font-bold text-slate-100">Strangling Thicket</h3>
+<p class="text-sm text-slate-400 leading-relaxed">Selected enemy unit cannot attack for 3 turns. Nature claims its own.</p>
+<div class="mt-4 flex justify-between items-center">
+<span class="text-xs font-bold text-slate-500 uppercase">Trap • Jungle</span>
+<div class="flex gap-2 text-primary font-bold">
+<span class="material-symbols-outlined text-sm">bolt</span> 3
+                                </div>
+</div>
+</div>
+</div>
+<!-- Card 8: Common (Again for variety) -->
+<div class="group relative flex flex-col bg-slate-900/40 rounded-xl border border-card-common/20 hover:border-card-common transition-all duration-300 overflow-hidden shadow-xl hover:-translate-y-2">
+<div class="aspect-[3/4] relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent z-10"></div>
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A bunch of glowing yellow bananas" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHTqJBCQyVkppz6fBlKjoKJciLiOMG6ol8H_nYoeDg0Ey90AYmVFKRJLhoCmn0mY2466V9DMZ6ZC3nSUSkc1DhpH3wKzviLz-_3z4lgczhVjHFEvWUbFd8RfboM5zVh7AZIhQz8idsG9On1OqdNo3EIomqYzOEfCtST56iq4m5VpoevKf75AlfUdglEUS3cl7gZdziKIVxLihpoDW23mZ5JGUj3r_Pp6REfyx16em897Zma9q8mBL9YQZkMqE5x5qoLFQi0ch4h2Mz"/>
+<div class="absolute top-3 left-3 z-20 bg-card-common/20 backdrop-blur-md border border-card-common/50 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-tighter">Common</div>
+</div>
+<div class="p-5 flex flex-col gap-2 relative z-20">
+<h3 class="text-xl font-bold text-slate-100">Banana Rations</h3>
+<p class="text-sm text-slate-400 leading-relaxed italic">Heal target unit for 2 HP. Standard issue for any jungle raid.</p>
+<div class="mt-4 flex justify-between items-center">
+<span class="text-xs font-bold text-slate-500 uppercase">Item • Consumable</span>
+<div class="flex gap-2 text-primary font-bold">
+<span class="material-symbols-outlined text-sm">bolt</span> 1
+                                </div>
+</div>
+</div>
+</div>
+</div>
+<!-- Load More / Pagination -->
+<div class="mt-16 flex justify-center">
+<button class="flex items-center gap-2 bg-white/5 border border-white/10 px-8 py-3 rounded-xl hover:bg-white/10 transition-all text-slate-300 font-bold uppercase tracking-widest text-sm">
+<span>Reveal more cards</span>
+<span class="material-symbols-outlined">expand_more</span>
+</button>
+</div>
+</main>
+<!-- Footer -->
+<footer class="border-t border-white/10 px-6 lg:px-20 py-8 bg-background-dark/80 mt-12">
+<div class="flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center gap-3">
+<div class="size-6 text-primary/60">
+<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z"></path>
+</svg>
+</div>
+<span class="text-slate-500 text-sm font-bold uppercase tracking-widest">© 2024 Chaos and Monkeys TCG</span>
+</div>
+<div class="flex gap-8 text-slate-500 text-xs font-bold uppercase tracking-tighter">
+<a class="hover:text-primary transition-colors" href="#">Terms of Battle</a>
+<a class="hover:text-primary transition-colors" href="#">Privacy Jungle</a>
+<a class="hover:text-primary transition-colors" href="#">Support</a>
+</div>
+</div>
+</footer>
+</div>
+</div>
+</body></html>
