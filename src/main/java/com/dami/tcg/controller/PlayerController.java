@@ -79,7 +79,7 @@ public class PlayerController {
         Player newPlayer = new Player();
         newPlayer.setUsername(username);
         newPlayer.setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
-        newPlayer.setCoins(100);
+        newPlayer.setCoins(1000);
         boolean success = dao.insertPlayer(newPlayer);
 
         if (success) {

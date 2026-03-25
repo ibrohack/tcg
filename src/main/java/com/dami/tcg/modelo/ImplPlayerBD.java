@@ -31,7 +31,9 @@ public class ImplPlayerBD implements PlayerDAO {
 	final String SQLSELECTBYUSERNAME = "SELECT * FROM Players WHERE Username = ?";
 	final String SQLUPDATECARDQUANTITY = "UPDATE PlayersCards SET Quantity = ? WHERE PlayerID = ? AND CardID = ?";
 	final String SQLADDCARD = "INSERT INTO PlayersCards VALUES (?,?,1)";
-	final String SQLUPDTEGOLD = "UPDATE Players SET Coins = ? WHERE PlayerId=? ";
+	final String SQLGETGOLD = "SELECT Coins FROM Players WHERE PlayerId=?";
+	final String SQLUPDTEGOLD = "UPDATE Players SET Coins = ? WHERE PlayerId=?";
+
 
 	public ImplPlayerBD() {
 		this.configFile = ResourceBundle.getBundle("configDB");
@@ -214,8 +216,8 @@ public class ImplPlayerBD implements PlayerDAO {
 	@Override
 	public boolean addCard(Player player, Card card) {
 		boolean ok = false;
-		this.openConnection();
 		HashMap<Integer, Integer> cards =  queryPlayerCards(player.getPlayerId());
+		this.openConnection();
 		try {
 			if(cards.containsKey(card.getCardID())) {
 				if(cards.get(card.getCardID())>4) {
@@ -226,18 +228,19 @@ public class ImplPlayerBD implements PlayerDAO {
 					if (statement.executeUpdate() > 0) {
 						ok = true;
 					}
-					statement.close();
+
 				}
+
 			}else {
 				statement = connection.prepareStatement(SQLADDCARD);
-				statement.setInt(2, player.getPlayerId());
-				statement.setInt(3, card.getCardID());
+				statement.setInt(1, player.getPlayerId());
+				statement.setInt(2, card.getCardID());
 				if (statement.executeUpdate() > 0) {
 					ok = true;
 				}
-				statement.close();
-				connection.close();
 			}
+			statement.close();
+			connection.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -245,4 +248,61 @@ public class ImplPlayerBD implements PlayerDAO {
 
 		return ok;
 	}
+
+	@Override
+	public void buyPack(Player player) {
+		boolean ok = false;
+		int coins=this.getGold(player);
+		this.openConnection();
+		try {
+			statement = connection.prepareStatement(SQLGETGOLD);
+			statement.setInt(1, player.getPlayerId());
+			ResultSet resultado = statement.executeQuery();
+			if (resultado.next()) {
+				coins = resultado.getInt("Coins");
+			}
+			statement.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(coins>=500) {
+			try {
+				statement = connection.prepareStatement(SQLUPDTEGOLD);
+				statement.setInt(1, coins-500);
+				statement.setInt(2, player.getPlayerId());
+				if (statement.executeUpdate() > 0) {
+					ok = true;
+				}
+				statement.close();
+				connection.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+	}
+
+	@Override
+	public int getGold(Player player) {
+		int coins = 0;
+		this.openConnection();
+		try {
+			statement = connection.prepareStatement(SQLGETGOLD);
+			statement.setInt(1, player.getPlayerId());
+			ResultSet resultado = statement.executeQuery();
+			if (resultado.next()) {
+				coins = resultado.getInt("Coins");
+			}
+			statement.close();
+			connection.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return coins;
+	}
+
+
 }
