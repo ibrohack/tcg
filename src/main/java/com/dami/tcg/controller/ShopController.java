@@ -63,7 +63,7 @@ public class ShopController {
 			while(!cards.isEmpty() && cards.contains(card)) {
 				card = cardDao.queryRandomCard();
 			}
-			while(i==2 && card.getQuality().equalsIgnoreCase("Common") || cards.contains(card)) {
+			while(i==2 && (card.getQuality().equalsIgnoreCase("Common") || cards.contains(card))) {
 				card = cardDao.queryRandomCard();
 			}
 			cards.add(card);
