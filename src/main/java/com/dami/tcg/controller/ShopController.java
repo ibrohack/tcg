@@ -49,6 +49,7 @@ public class ShopController {
 			cards.add(card);
 			playerDao.addCard(player, card);
 		}
+		playerDao.buyPack(player);
 		model.addAttribute("cards",cards);
 		return "pack";
 	}
