@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.dami.tcg.modelo.Card;
 import com.dami.tcg.modelo.ImplCardBD;
@@ -40,20 +41,28 @@ public class ShopController {
 	}
 
 	@PostMapping("/pack")
-	public String openPack(Model model, HttpSession session){
+	public String openPack(Model model, HttpSession session, RedirectAttributes redirectAttributes){
 		List<Card> cards = new ArrayList<Card>();;
 		Card card;
 		Player player = (Player) session.getAttribute("loggedPlayer");
-		for(int i = 0; i<5; i++) {
-			card = cardDao.queryRandomCard();
-			cards.add(card);
-			playerDao.addCard(player, card);
+		if(playerDao.getGold(player) >=500) {
+			for(int i = 0; i<5; i++) {
+				card = cardDao.queryRandomCard();
+				cards.add(card);
+				playerDao.addCard(player, card);
+			}
+			playerDao.buyPack(player);
+			model.addAttribute("cards",cards);
+			player.setCoins(playerDao.getGold(player));
+			session.setAttribute("loggedPlayer", player);
+			return "pack";
+		}else {
+			redirectAttributes.addFlashAttribute("error", "Not enough coins to buy the pack");
+			return "redirect:/pack";
 		}
-		playerDao.buyPack(player);
-		model.addAttribute("cards",cards);
-		return "pack";
+
 	}
-	
+
 	@GetMapping("/shop")
 	public String showShop(Model model) {
 		ArrayList<Card> cards = new ArrayList<Card>();
