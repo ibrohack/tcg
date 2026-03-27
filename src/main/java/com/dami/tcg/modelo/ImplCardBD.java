@@ -29,6 +29,7 @@ public class ImplCardBD implements CardDAO {
 	final String SQLBORRAR = "DELETE FROM Cards WHERE CardId=?";
 	final String SQLMODIFICAR = "UPDATE Cards SET CardName=?, Quality=?, CardDescription=? WHERE CardId=?";
 	final String SQLRANDOM = "SELECT * FROM Cards WHERE Quality = ? ORDER BY RAND() LIMIT 1";
+	final String SQLQUERYSHOPCARDS = "SELECT * FROM Cards C JOIN ShopCards S ON C.CardID=S.CardID WHERE S.PlayerID = ?";
 
 	public ImplCardBD() {
 		this.configFile = ResourceBundle.getBundle("configDB");
@@ -186,6 +187,7 @@ public class ImplCardBD implements CardDAO {
 		return card;
 	}
 
+
 	@Override
 	public Card queryRandomCard() {
 		double r = Math.random();
@@ -219,5 +221,31 @@ public class ImplCardBD implements CardDAO {
 			System.out.println("Error getting card by name: " + e.getMessage());
 		}
 		return card;
+	}
+
+	@Override
+	public ArrayList<Card> queryShopCards(int playerId) {
+		ArrayList<Card> cards = new ArrayList<Card>();
+		this.openConnection();
+		try {
+			statement = connection.prepareStatement(SQLQUERYSHOPCARDS);
+			statement.setInt(1, playerId);
+			ResultSet resultado = statement.executeQuery();
+			while(resultado.next()) {
+				Card card = new Card();
+				card.setCardID(resultado.getInt("CardID"));
+				card.setName(resultado.getString("CardName"));
+				card.setDescription(resultado.getString("CardDescription"));
+				card.setQuality(resultado.getString("Quality"));
+				card.setPurchasePrice(resultado.getInt("PurchaseValue"));
+				card.setSellPrice(resultado.getInt("SellValue"));
+				cards.add(card);
+			}
+			statement.close();
+			connection.close();
+		} catch (SQLException e) {
+			System.out.println("Error getting card by name: " + e.getMessage());
+		}
+		return cards;
 	}
 }

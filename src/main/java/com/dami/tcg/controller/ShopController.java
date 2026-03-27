@@ -64,20 +64,10 @@ public class ShopController {
 	}
 
 	@GetMapping("/shop")
-	public String showShop(Model model) {
-		ArrayList<Card> cards = new ArrayList<Card>();
-		Card card;
-		for(int i = 0; i<3; i++) {
-			card = cardDao.queryRandomCard();
-			while(!cards.isEmpty() && cards.contains(card)) {
-				card = cardDao.queryRandomCard();
-			}
-			while(i==2 && (card.getQuality().equalsIgnoreCase("Common") || cards.contains(card))) {
-				card = cardDao.queryRandomCard();
-			}
-			cards.add(card);
-			model.addAttribute("cards",cards);
-		}
+	public String showShop(Model model, HttpSession session) {
+		Player player = (Player) session.getAttribute("loggedPlayer");
+		ArrayList<Card> cards = cardDao.queryShopCards(player.getPlayerId());
+		model.addAttribute("cards",cards);
 		return "shop";
 	}
 }
