@@ -210,6 +210,8 @@ public class ImplCardBD implements CardDAO {
 				card.setName(resultado.getString("CardName"));
 				card.setDescription(resultado.getString("CardDescription"));
 				card.setQuality(resultado.getString("Quality"));
+				card.setPurchasePrice(resultado.getInt("PurchaseValue"));
+				card.setSellPrice(resultado.getInt("SellValue"));
 			}
 			statement.close();
 			connection.close();

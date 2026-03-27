@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="dark" lang="en"xmlns:th="http://www.thymeleaf.org">
+<html th:with="loadShopCards=true" class="dark" lang="en"xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="~{fragments/layout :: head('Chaos and Monkeys - Card Gallery')}">
     <meta charset="utf-8">
@@ -59,48 +59,41 @@
 				<section class="space-y-6 mt-6">
 					<h3 class="text-[15px] font-black uppercase tracking-[0.3em] text-primary">Flash Acquisitions</h3>
 					<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-						<!-- Random Card -->
-						<div th:each="card : ${cards}"
-	                       class="group relative flex flex-col bg-slate-900/40 rounded-xl transition-all duration-300 overflow-hidden shadow-xl hover:-translate-y-2"
-	                       th:classappend="${card.quality.equalsIgnoreCase('Common')} ? 'border border-card-common/20 hover:border-card-common' :
-	                                    (${card.quality.equalsIgnoreCase('Rare')} ? 'border border-card-rare/20 hover:border-card-rare hover:shadow-card-rare/20' :
-	                                    (${card.quality.equalsIgnoreCase('Epic')} ? 'border border-card-epic/20 hover:border-card-epic hover:shadow-card-epic/20' :
-	                                    (${card.quality.equalsIgnoreCase('Legendary')} ? 'border border-card-legendary/20 hover:border-card-legendary hover:shadow-card-legendary/30' :
-	                                    (${card.quality.equalsIgnoreCase('Mythic')} ? 'border border-card-mythic/20 hover:border-card-mythic hover:shadow-card-mythic/40' :
-	                                    (${card.quality.equalsIgnoreCase('Arok')} ? 'border border-card-arok/20 hover:border-card-arok hover:shadow-card-arok/50' :
-	                                    'border border-white/20')))))">
+						<!-- Random Cards -->
+						<div th:each="card : ${cards}" id="cards"
+							 class="group relative flex flex-col bg-slate-900/40 rounded-xl transition-all duration-300 overflow-hidden shadow-xl hover:-translate-y-2"
+						   	 th:classappend="${card.quality.equalsIgnoreCase('Common')} ? 'border border-card-common/20 hover:border-card-common' :
+							             (${card.quality.equalsIgnoreCase('Rare')} ? 'border border-card-rare/20 hover:border-card-rare hover:shadow-card-rare/20' :
+							             (${card.quality.equalsIgnoreCase('Epic')} ? 'border border-card-epic/20 hover:border-card-epic hover:shadow-card-epic/20' :
+							             (${card.quality.equalsIgnoreCase('Legendary')} ? 'border border-card-legendary/20 hover:border-card-legendary hover:shadow-card-legendary/30' :
+							             (${card.quality.equalsIgnoreCase('Mythic')} ? 'border border-card-mythic/20 hover:border-card-mythic hover:shadow-card-mythic/40' :
+							             'border border-white/20'))))">
 										
-							<div class="bg-surface-container-high rounded-xl p-1 border border-card-common/20 hover:border-card-rare shadow-[0_0_20px_rgba(244,209,37,0.15)] transition-colors group">
-								<div class="aspect-[3/4] relative overflow-hidden">
-		                           <img th:src="@{'/images/cards/' + ${card.cardID} + '.png'}" th:alt="${card.name}"
-		                               class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
-		                           <div
-		                               class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent z-10">
-		                           </div>
-		                           <!-- Rarity badge -->
-		                           <div class="absolute top-3 left-3 z-20 backdrop-blur-md px-2 py-1 rounded text-[10px] font-bold uppercase tracking-tighter"
-		                               th:classappend="${card.quality.equalsIgnoreCase('Common')} ? 'bg-card-common/20 border border-card-common/50' :
-		                                            (${card.quality.equalsIgnoreCase('Rare')} ? 'bg-card-rare/20 border border-card-rare/50' :
-		                                            (${card.quality.equalsIgnoreCase('Epic')} ? 'bg-card-epic/20 border border-card-epic/50' :
-		                                            (${card.quality.equalsIgnoreCase('Legendary')} ? 'bg-card-legendary/20 border border-card-legendary/50' :
-		                                            (${card.quality.equalsIgnoreCase('Mythic')} ? 'bg-card-mythic/20 border border-card-mythic/50 text-card-mythic' :
-		                                            (${card.quality.equalsIgnoreCase('Arok')} ? 'bg-card-arok/20 border border-card-arok/50 text-card-arok' :
-		                                            'bg-white/20 border border-white/50')))))" th:text="${card.quality}">
-		                               Quality</div>
-		                        </div>
-								<div class="px-3 pb-4 space-y-3">
-									<h4 class="text-lg font-bold font-headline leading-tight text-primary" th:text="${card.name}"></h4>
-									<button class="w-full bg-primary text-background-dark flex items-center justify-between px-4 py-2.5 rounded transition-all active:scale-95 hover:brightness-110 shadow-lg shadow-primary/20">
-										<span class="text-[12px] font-black uppercase tracking-widest">Purchase</span>
-										<div class="flex items-center gap-1">
-											<span class="material-symbols-outlined text-lg" data-icon="monetization_on">monetization_on</span>
-<!-- Descomentar esto cunado esten los precios en las cartas
-											<span class="font-bold" th:text="${card.purchaseValue}"></span>
--->
-											<span class="font-bold" th:text="Price"></span>
-										</div>
-									</button>
-								</div>
+							<div class="aspect-[3/4] relative overflow-hidden">
+	                           <img th:src="@{'/images/cards/' + ${card.cardID} + '.png'}" th:alt="${card.name}"
+	                               class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
+	                           <div
+	                               class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent z-10">
+	                           </div>
+	                           <!-- Rarity badge -->
+							   <div class="absolute top-3 left-3 z-20 backdrop-blur-md px-2 py-1 rounded text-[10px] font-bold uppercase tracking-tighter"
+							       th:classappend="${card.quality.equalsIgnoreCase('Common')} ? 'bg-card-common/20 border border-card-common/50' :
+							                    (${card.quality.equalsIgnoreCase('Rare')} ? 'bg-card-rare/20 border border-card-rare/50' :
+							                    (${card.quality.equalsIgnoreCase('Epic')} ? 'bg-card-epic/20 border border-card-epic/50' :
+							                    (${card.quality.equalsIgnoreCase('Legendary')} ? 'bg-card-legendary/20 border border-card-legendary/50' :
+							                    (${card.quality.equalsIgnoreCase('Mythic')} ? 'bg-card-mythic/20 border border-card-mythic/50 text-card-mythic' :
+							                    'bg-white/20 border border-white/50'))))" th:text="${card.quality}">
+							       Quality</div>
+	                        </div>
+							<div class="px-3 pb-4 space-y-3">
+								<h4 class="text-lg font-bold font-headline leading-tight text-primary" th:text="${card.name}"></h4>
+								<button class="w-full bg-primary text-background-dark flex items-center justify-between px-4 py-2.5 rounded transition-all active:scale-95 hover:brightness-110 shadow-lg shadow-primary/20">
+									<span class="text-[12px] font-black uppercase tracking-widest">Purchase</span>
+									<div class="flex items-center gap-1">
+										<span class="material-symbols-outlined text-lg" data-icon="monetization_on">monetization_on</span>
+										<span class="font-bold" th:text="${card.purchasePrice}">Price</span>
+									</div>
+								</button>
 							</div>
 						</div>
 					</div>
