@@ -33,6 +33,8 @@ public class ImplPlayerBD implements PlayerDAO {
 	final String SQLADDCARD = "INSERT INTO PlayersCards VALUES (?,?,1)";
 	final String SQLGETGOLD = "SELECT Coins FROM Players WHERE PlayerId=?";
 	final String SQLUPDTEGOLD = "UPDATE Players SET Coins = ? WHERE PlayerId=?";
+	final String SQLGETCARDQUANTITY = "SELECT Quantity FROM PlayersCards WHERE PlayerID = ? AND CardID = ?";
+
 
 	public ImplPlayerBD() {
 		this.configFile = ResourceBundle.getBundle("configDB");
@@ -214,24 +216,42 @@ public class ImplPlayerBD implements PlayerDAO {
 		return player;
 	}
 
+	public int queryCardQuantity(Player player, Card card) {
+		int quantity=0;
+		this.openConnection();
+		try {
+			statement = connection.prepareStatement(SQLGETCARDQUANTITY);
+			statement.setInt(2, player.getPlayerId());
+			statement.setInt(3, card.getCardID());
+			ResultSet resultado = statement.executeQuery();
+			if (resultado.next()) {
+				quantity = resultado.getInt("Quantity");
+			}
+			resultado.close();
+			statement.close();
+			connection.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return quantity;
+	}
+
 	@Override
 	public boolean addCard(Player player, Card card) {
 		boolean ok = false;
 		HashMap<Integer, Integer> cards = queryPlayerCards(player.getPlayerId());
+		int quantity = this.queryCardQuantity(player, card);
 		this.openConnection();
 		try {
 			if (cards.containsKey(card.getCardID())) {
-				if (cards.get(card.getCardID()) > 4) {
-					statement = connection.prepareStatement(SQLUPDATECARDQUANTITY);
-					statement.setInt(1, cards.get(card.getCardID() + 1));
-					statement.setInt(2, player.getPlayerId());
-					statement.setInt(3, card.getCardID());
-					if (statement.executeUpdate() > 0) {
-						ok = true;
-					}
-
+				statement = connection.prepareStatement(SQLUPDATECARDQUANTITY);
+				statement.setInt(1, quantity+1);
+				statement.setInt(2, player.getPlayerId());
+				statement.setInt(3, card.getCardID());
+				if (statement.executeUpdate() > 0) {
+					ok = true;
 				}
-
 			} else {
 				statement = connection.prepareStatement(SQLADDCARD);
 				statement.setInt(1, player.getPlayerId());

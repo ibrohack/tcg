@@ -8,13 +8,12 @@
     <body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
         <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
 
-            <!-- Navbar -->
             <header th:replace="~{fragments/layout :: navbar('pack')}"></header>
 
-            <main class="flex-1 flex flex-col items-center justify-center px-4 py-8 lg:py-12 max-w-7xl mx-auto w-full">
+            <main class="flex-1 flex flex-col items-center px-4 py-8 lg:py-12 max-w-7xl mx-auto w-full">
 
                 <!-- Title -->
-                <div class="w-full text-center mb-10">
+                <div class="w-full text-center mb-8">
                     <h1 class="text-4xl md:text-5xl font-bold mb-2 text-slate-900 dark:text-slate-50">
                         Jungle Spirit Pack
                     </h1>
@@ -22,136 +21,117 @@
                         Contains cards of Common to Mythic quality!
                     </p>
                 </div>
+
 				<!-- Drop Rates -->
-				<div class="flex flex-col items-center gap-4 mt-16 bg-slate-900/40 backdrop-blur-md px-6 py-4 rounded-xl border border-slate-700/50">
-					<span class="text-base md:text-lg font-semibold opacity-70">Drop Rates:</span>
-					<div class="flex flex-wrap justify-center gap-3 text-sm md:text-base font-bold uppercase tracking-wider">
-						<span class="text-common px-3 py-1 rounded bg-slate-800/50 border border-slate-700">Common 60%</span>
-						<span class="text-rare px-3 py-1 rounded bg-blue-900/20 border border-blue-900/50">Rare 25%</span>
-						<span class="text-epic px-3 py-1 rounded bg-purple-900/20 border border-purple-900/50">Epic 10%</span>
-						<span class="text-legendary px-3 py-1 rounded bg-orange-900/20 border border-orange-900/50">Legendary 4%</span>
-						<span class="text-mythic px-3 py-1 rounded bg-red-900/20 border border-red-900/50">Mythic 1%</span>	                
-					</div>
+				<div class="flex flex-col items-center gap-3 mb-2 bg-slate-900/40 backdrop-blur-md px-6 py-4 rounded-xl border border-slate-700/50">
+				    <span class="text-base md:text-lg font-semibold opacity-70">Drop Rates:</span>
+				    <div class="flex flex-wrap justify-center gap-3 text-sm md:text-base font-bold uppercase tracking-wider">
+				        <span class="text-common px-3 py-1 rounded bg-slate-800/50 border border-slate-700">Common 60%</span>
+				        <span class="text-rare px-3 py-1 rounded bg-blue-900/20 border border-blue-900/50">Rare 25%</span>
+				        <span class="text-epic px-3 py-1 rounded bg-purple-900/20 border border-purple-900/50">Epic 10%</span>
+				        <span class="text-legendary px-3 py-1 rounded bg-orange-900/20 border border-orange-900/50">Legendary 4%</span>
+				        <span class="text-mythic px-3 py-1 rounded bg-red-900/20 border border-red-900/50">Mythic 1%</span>
+				    </div>
 				</div>
-                <!-- Pack -->
-                <div class="relative w-full max-w-2xl aspect-[4/3] flex items-center justify-center mb-16">
-                    <div class="absolute inset-0 bg-primary/20 blur-[100px] rounded-full scale-75 opacity-50"></div>
 
-                    <div class="relative group cursor-pointer transition-transform duration-500 hover:scale-105">
-                        <div class="absolute -inset-4 bg-gradient-to-t from-primary/40 to-transparent blur-xl rounded-xl opacity-75 group-hover:opacity-100"></div>
+				<!-- Pack -->
+				<div class="relative w-full max-w-2xl flex items-center justify-center mb-6">
+				    <div class="absolute inset-0 bg-primary/20 blur-[100px] rounded-full scale-75 opacity-50"></div>
 
-                        <div class="relative w-64 h-80 bg-background-dark border-4 border-primary rounded-2xl overflow-hidden shadow-2xl flex flex-col items-center justify-center gap-4">
-                            <div class="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary via-transparent to-transparent"></div>
+				    <div class="relative group cursor-pointer transition-transform duration-500 hover:scale-105">
+				        <div class="absolute -inset-4 bg-gradient-to-t from-primary/40 to-transparent blur-xl rounded-xl opacity-75 group-hover:opacity-100"></div>
 
-                            <div class="w-40 h-40 bg-primary/20 rounded-full flex items-center justify-center">
-                                <span class="material-symbols-outlined text-primary text-8xl">pets</span>
-                            </div>
+				        <div class="relative w-64 h-80 bg-background-dark border-4 border-primary rounded-2xl overflow-hidden shadow-2xl flex flex-col items-center justify-center gap-4">
+				            <div class="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary via-transparent to-transparent"></div>
 
-                            <div class="text-center px-4">
-                                <h3 class="text-primary font-bold text-2xl uppercase tracking-widest">
-                                    Chaos Pack
-                                </h3>
+				            <div class="w-40 h-40 bg-primary/20 rounded-full flex items-center justify-center">
+				                <span class="material-symbols-outlined text-primary text-8xl">pets</span>
+				            </div>
+
+				            <div class="text-center px-4">
+				                <h3 class="text-primary font-bold text-2xl uppercase tracking-widest">
+				                    Chaos Pack
+				                </h3>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+                <!-- Error message -->
+                <div th:if="${error}" class="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm font-medium text-center">
+                    <span class="material-symbols-outlined text-sm align-middle mr-1">error</span>
+                    <span th:text="${error}">Registration failed</span>
+                </div>
+
+                <!-- Button -->
+				<form th:action="@{/pack}" method="post" class="mb-8">
+				    <div class="flex flex-col items-center">
+				        <button class="bg-primary rounded-xl font-bold text-background-dark flex items-center gap-2 px-6 py-3">
+				            <span class="material-symbols-outlined text-xl">payments</span>
+				            <span th:text="500"></span>
+				            <span class="material-symbols-outlined text-xl">auto_fix_high</span>
+				            <span class="text-sm font-black uppercase tracking-widest">Open Pack</span>
+				        </button>
+				    </div>
+				</form>
+
+                <!-- Cards result -->
+                <div class="w-full grid grid-cols-2 md:grid-cols-5 gap-6 px-4">
+                    <div th:each="card : ${cards}" class="flex flex-col">
+                        <div class="aspect-[3/4] relative overflow-hidden rounded-xl">
+                            <img th:src="@{'/images/cards/' + ${card.cardID} + '.png'}"
+                                 th:alt="${card.name}"
+                                 class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent z-10"></div>
+                            <div class="absolute top-3 left-3 z-20 backdrop-blur-md px-2 py-1 rounded text-[10px] font-bold uppercase tracking-tighter"
+                                 th:classappend="${card.quality.equalsIgnoreCase('Common')} ? 'bg-card-common/20 border border-card-common/50' :
+                                                 (${card.quality.equalsIgnoreCase('Rare')} ? 'bg-card-rare/20 border border-card-rare/50' :
+                                                 (${card.quality.equalsIgnoreCase('Epic')} ? 'bg-card-epic/20 border border-card-epic/50' :
+                                                 (${card.quality.equalsIgnoreCase('Legendary')} ? 'bg-card-legendary/20 border border-card-legendary/50' :
+                                                 (${card.quality.equalsIgnoreCase('Mythic')} ? 'bg-card-mythic/20 border border-card-mythic/50 text-card-mythic' :
+                                                 (${card.quality.equalsIgnoreCase('Arok')} ? 'bg-card-arok/20 border border-card-arok/50 text-card-arok' :
+                                                 'bg-white/20 border border-white/50')))))"
+                                 th:text="${card.quality}">
+                                Quality
                             </div>
                         </div>
-                    </div>
-                </div>
-				<!-- Error message -->
-				<div th:if="${error}"class="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm font-medium text-center">
-					<span class="material-symbols-outlined text-sm align-middle mr-1">error</span>
-					<span th:text="${error}">Registration failed</span>
-				</div>
-                <!-- Button -->
-				<form th:action="@{/pack}" method="post">
-	                <div class="flex flex-col items-center gap-6 mb-16">
-	                    <button class="group relative px-12 py-5 bg-primary rounded-xl font-bold text-background-dark text-xl flex items-center gap-3">
-	                        <span class="material-symbols-outlined">auto_fix_high</span>
-	                        OPEN PACK
-	                    </button>
-	                </div>
-				</form>
-                <!-- Cards -->
-                <div class="p-5 flex flex-col gap-2 relative z-20">
-
-                    <!-- Grid dinámico -->
-                    <div class="w-full grid grid-cols-2 md:grid-cols-5 gap-6 lg:gap-6 px-4">
-                        <div th:each="card : ${cards}">
-                            <th:block>
-                                <div class="aspect-[3/4] relative overflow-hidden">
-                                    <img th:src="@{'/images/cards/' + ${card.cardID} + '.png'}"
-                                         th:alt="${card.name}"
-                                         class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
-
-                                    <div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent z-10"></div>
-
-                                    <!-- Rarity -->
-                                    <div class="absolute top-3 left-3 z-20 backdrop-blur-md px-2 py-1 rounded text-[10px] font-bold uppercase tracking-tighter"
-                                         th:classappend="${card.quality.equalsIgnoreCase('Common')} ? 'bg-card-common/20 border border-card-common/50' :
-                                                         (${card.quality.equalsIgnoreCase('Rare')} ? 'bg-card-rare/20 border border-card-rare/50' :
-                                                         (${card.quality.equalsIgnoreCase('Epic')} ? 'bg-card-epic/20 border border-card-epic/50' :
-                                                         (${card.quality.equalsIgnoreCase('Legendary')} ? 'bg-card-legendary/20 border border-card-legendary/50' :
-                                                         (${card.quality.equalsIgnoreCase('Mythic')} ? 'bg-card-mythic/20 border border-card-mythic/50 text-card-mythic' :
-                                                         (${card.quality.equalsIgnoreCase('Arok')} ? 'bg-card-arok/20 border border-card-arok/50 text-card-arok' :
-                                                         'bg-white/20 border border-white/50')))))"
-                                         th:text="${card.quality}">
-                                        Quality
-                                    </div>
+                        <div class="pt-3 flex flex-col gap-1">
+                            <h3 class="text-base font-bold text-slate-100" th:text="${card.name}">Card Name</h3>
+                            <p class="text-sm text-slate-400 leading-relaxed" th:text="${card.description}">Card description.</p>
+                            <div class="mt-2 flex justify-between items-center">
+                                <span class="text-xs font-bold text-slate-500 uppercase" th:text="${card.quality}">Type</span>
+                                <div class="flex gap-1 text-primary font-bold">
+                                    <span class="material-symbols-outlined text-sm">bolt</span>
+                                    <span th:text="${card.cardID}">0</span>
                                 </div>
-
-                                <!-- Info -->
-                                <div class="p-5 flex flex-col gap-2 relative z-20">
-                                    <h3 class="text-xl font-bold text-slate-100" th:text="${card.name}">
-                                        Card Name
-                                    </h3>
-                                    <p class="text-sm text-slate-400 leading-relaxed" th:text="${card.description}">
-                                        Card description goes here.
-                                    </p>
-
-                                    <div class="mt-4 flex justify-between items-center">
-                                        <span class="text-xs font-bold text-slate-500 uppercase"
-                                              th:text="${card.quality}">
-                                            Type
-                                        </span>
-
-                                        <div class="flex gap-2 text-primary font-bold">
-                                            <span class="material-symbols-outlined text-sm">bolt</span>
-                                            <span th:text="${card.cardID}">0</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </th:block>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Fallback si no hay cartas -->
-                <div class="w-full grid grid-cols-2 md:grid-cols-5 gap-6 lg:gap-6 px-4">
+                <div class="w-full grid grid-cols-2 md:grid-cols-5 gap-6 px-4">
                     <th:block th:if="${#lists.isEmpty(cards)}">
-
                         <div class="aspect-[2/3] rounded-xl border-2 border-slate-700/50 bg-slate-800/30 flex items-center justify-center">
                             <span class="material-symbols-outlined text-common text-5xl">question_mark</span>
                         </div>
-
                         <div class="aspect-[2/3] rounded-xl border-2 border-slate-700/50 bg-slate-800/30 flex items-center justify-center">
                             <span class="material-symbols-outlined text-rare text-5xl">question_mark</span>
                         </div>
-
                         <div class="aspect-[2/3] rounded-xl border-2 border-slate-700/50 bg-slate-800/30 flex items-center justify-center">
                             <span class="material-symbols-outlined text-epic text-5xl">question_mark</span>
                         </div>
-
                         <div class="aspect-[2/3] rounded-xl border-2 border-slate-700/50 bg-slate-800/30 flex items-center justify-center">
                             <span class="material-symbols-outlined text-legendary text-5xl">question_mark</span>
                         </div>
-
                         <div class="aspect-[2/3] rounded-xl border-2 border-slate-700/50 bg-slate-800/30 flex items-center justify-center">
                             <span class="material-symbols-outlined text-mythic text-5xl">question_mark</span>
                         </div>
-
                     </th:block>
                 </div>
-				
+
             </main>
-			<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+            <footer th:replace="~{fragments/layout :: footer}"></footer>
         </div>
     </body>
 </html>
