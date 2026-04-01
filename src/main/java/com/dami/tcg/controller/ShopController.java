@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.dami.tcg.modelo.Card;
@@ -66,8 +67,39 @@ public class ShopController {
 	@GetMapping("/shop")
 	public String showShop(Model model, HttpSession session) {
 		Player player = (Player) session.getAttribute("loggedPlayer");
+		if (player == null) {
+			return "redirect:/login";
+		}
 		ArrayList<Card> cards = cardDao.queryShopCards(player.getPlayerId());
 		model.addAttribute("cards",cards);
 		return "shop";
+	}
+	
+	@PostMapping(value = "/shop", params = "action=buy")
+	public String buyCoins(@RequestParam int price, @RequestParam int coins, RedirectAttributes redirectAttributes) {
+	    redirectAttributes.addAttribute("price", price);
+	    redirectAttributes.addAttribute("coins", coins);
+	    return "redirect:/confirmPurchase";
+	}
+	
+	@GetMapping("/confirmPurchase")
+	public String paymentPage(@RequestParam int price, @RequestParam int coins, Model model, HttpSession session) {
+		Player player = (Player) session.getAttribute("loggedPlayer");
+	    model.addAttribute("price", price);
+	    model.addAttribute("coins", coins);
+		if (player == null) {
+			return "redirect:/login";
+		}
+	    return "confirmPurchase";
+	}
+	
+	@PostMapping(value = "/confirmPurchase")
+	public String buyCoins(@RequestParam int coins, RedirectAttributes redirectAttributes, HttpSession session) {
+		Player player = (Player) session.getAttribute("loggedPlayer");
+		redirectAttributes.addAttribute("coins", coins);
+		playerDao.addCoins(player, coins);
+		player.setCoins(playerDao.getGold(player));
+		session.setAttribute("loggedPlayer", player);
+		return "redirect:/shop";
 	}
 }

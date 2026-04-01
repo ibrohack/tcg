@@ -34,7 +34,7 @@ public class ImplPlayerBD implements PlayerDAO {
 	final String SQLGETGOLD = "SELECT Coins FROM Players WHERE PlayerId=?";
 	final String SQLUPDTEGOLD = "UPDATE Players SET Coins = ? WHERE PlayerId=?";
 	final String SQLGETCARDQUANTITY = "SELECT Quantity FROM PlayersCards WHERE PlayerID = ? AND CardID = ?";
-
+	
 
 	public ImplPlayerBD() {
 		this.configFile = ResourceBundle.getBundle("configDB");
@@ -221,8 +221,8 @@ public class ImplPlayerBD implements PlayerDAO {
 		this.openConnection();
 		try {
 			statement = connection.prepareStatement(SQLGETCARDQUANTITY);
-			statement.setInt(2, player.getPlayerId());
-			statement.setInt(3, card.getCardID());
+			statement.setInt(1, player.getPlayerId());
+			statement.setInt(2, card.getCardID());
 			ResultSet resultado = statement.executeQuery();
 			if (resultado.next()) {
 				quantity = resultado.getInt("Quantity");
@@ -275,18 +275,6 @@ public class ImplPlayerBD implements PlayerDAO {
 		boolean ok = false;
 		int coins = this.getGold(player);
 		this.openConnection();
-		try {
-			statement = connection.prepareStatement(SQLGETGOLD);
-			statement.setInt(1, player.getPlayerId());
-			ResultSet resultado = statement.executeQuery();
-			if (resultado.next()) {
-				coins = resultado.getInt("Coins");
-			}
-			statement.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		if (coins >= 500) {
 			try {
 				statement = connection.prepareStatement(SQLUPDTEGOLD);
@@ -304,7 +292,6 @@ public class ImplPlayerBD implements PlayerDAO {
 		}
 
 	}
-
 	@Override
 	public int getGold(Player player) {
 		int coins = 0;
@@ -325,4 +312,22 @@ public class ImplPlayerBD implements PlayerDAO {
 		return coins;
 	}
 
+	@Override
+	public void addCoins(Player player, int gold) {
+		int coins = this.getGold(player);
+		this.openConnection();
+		try {
+			statement = connection.prepareStatement(SQLUPDTEGOLD);
+			statement.setInt(1, coins + gold);
+			statement.setInt(2, player.getPlayerId());
+			statement.executeUpdate();
+			statement.close();
+			connection.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	
 }

@@ -22,4 +22,6 @@ public interface PlayerDAO {
     public int getGold(Player player);
     
     public void buyPack(Player player);
+    
+    public void addCoins(Player player, int gold);
 }
