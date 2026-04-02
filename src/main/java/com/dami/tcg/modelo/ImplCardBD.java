@@ -195,13 +195,13 @@ public class ImplCardBD implements CardDAO {
 		this.openConnection();
 		try {
 			statement = connection.prepareStatement(SQLRANDOM);
-			if (r < 0.009) {
+			if (r < 0.01) {
 				statement.setString(1, "Mythic");
-			} else if (r < 0.04) {
+			} else if (r < 0.05) {
 				statement.setString(1, "Legendary");
-			} else if (r < 0.1) {
+			} else if (r < 0.15) {
 				statement.setString(1, "Epic");
-			} else if (r < 0.25) {
+			} else if (r < 0.4) {
 				statement.setString(1, "Rare");
 			} else {
 				statement.setString(1, "Common");
