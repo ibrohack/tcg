@@ -258,6 +258,80 @@ END$$
 
 DELIMITER ;
 
+DELIMITER $$
+CREATE PROCEDURE unlockKora(IN id int) 
+BEGIN
+	IF (SELECT COUNT(*) FROM PlayersCards WHERE PlayerID = id) = 100 THEN
+		INSERT INTO PlayersCards VALUES
+        (id, 101, 1);
+		SELECT 'Congratulations! You have completed the collection, and as a reward you have unlocked the secret card KORA.';
+    END IF;
+    END $$
+DELIMITER ;
+
+
+DELIMITER $$
+CREATE FUNCTION rarestCard()
+RETURNS INT
+DETERMINISTIC
+BEGIN
+	DECLARE rarest INT;
+    DECLARE currentCard INT;
+    DECLARE currentQuantity INT;
+    DECLARE minQuantity INT DEFAULT NULL;
+    DECLARE fin bool default 0;
+	DECLARE c CURSOR FOR
+        SELECT CardID, SUM(Quantity) AS totalQuantity
+        FROM PlayersCards
+        GROUP BY CardID;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET fin = 1;
+    OPEN c;
+    FETCH c INTO currentCard, currentQuantity;
+    WHILE fin = 0 DO
+		IF minQuantity IS NULL OR currentQuantity < minQuantity THEN
+			SET minQuantity = currentQuantity;
+			SET rarest = currentCard;
+		END IF;
+        FETCH c INTO currentCard, currentQuantity;
+    END WHILE;
+
+    CLOSE c;
+
+	RETURN rarest;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE tradeCard(in card int , in recivPlayer int, in givePlayer int)
+BEGIN
+	DECLARE gQuantity INT;
+    DECLARE rQuantity INT;
+	BEGIN
+        DECLARE EXIT HANDLER FOR NOT FOUND
+        BEGIN
+			SELECT 'Error: No se ha podido realizar el intercambio' as mensaje;
+        END;
+        SELECT Quantity INTO gQuantity 
+        FROM PlayersCards 
+        WHERE PlayerID = givePlayer AND CardID = card;
+    END;
+    SET rQuantity = (SELECT Quantity FROM PlayersCards WHERE PlayerID = recivPlayer AND  CardID = card);
+	IF  gQuantity > 1 THEN
+		IF rQuantity IS NOT NULL THEN
+			UPDATE PlayersCards SET Quantity = rQuantity + 1
+            WHERE PlayerID = recivPlayer AND  CardID = card;
+		ELSE
+			INSERT INTO PlayersCards VALUES
+            (recivPlayer, card, 1);
+        END IF;
+        UPDATE PlayersCards SET Quantity = gQuantity - 1
+            WHERE PlayerID = givePlayer AND  CardID = card;
+	ELSE 
+		SELECT 'Error: No se ha podido realizar el intercambio' as mensaje;
+    END IF;
+END $$
+DELIMITER ;
+
 UPDATE Cards
 SET SellValue=250
 WHERE Quality='Mythic';
