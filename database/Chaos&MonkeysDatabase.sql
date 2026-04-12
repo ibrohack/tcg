@@ -1,15 +1,19 @@
+/*
+Database creation
+*/
 DROP DATABASE IF EXISTS CHAOSMONKEYS;
 CREATE DATABASE CHAOSMONKEYS;
-
 USE CHAOSMONKEYS;
 
+/* 
+Tables creation 
+*/
 CREATE TABLE Players (
     PlayerID INT AUTO_INCREMENT PRIMARY KEY,
     Username VARCHAR(50) NOT NULL UNIQUE,
     PlayerPassword VARCHAR(255) NOT NULL,
     Coins INT CHECK(Coins>=0 AND Coins<=999999)
 );
-
 CREATE TABLE Decks (
     DeckID INT AUTO_INCREMENT PRIMARY KEY,
     DeckTitle VARCHAR(30) NOT NULL,
@@ -17,16 +21,14 @@ CREATE TABLE Decks (
     DeckDescription VARCHAR(255),
 	FOREIGN KEY (PlayerID) REFERENCES Players(PlayerID)
 );
-
 CREATE TABLE Cards (
     CardID INT AUTO_INCREMENT PRIMARY KEY,
     CardName VARCHAR(30) NOT NULL,
     CardDescription VARCHAR(255) ,
     Quality ENUM('Common', 'Rare', 'Epic', 'Legendary', 'Mythic', 'Arok'),
-    PurchaseValue INT,
-    SellValue INT
+    PurchasePrice INT,
+    SellPrice INT
 );
-
 CREATE TABLE PlayersCards (
     PlayerID INT,
     CardID INT,
@@ -35,7 +37,6 @@ CREATE TABLE PlayersCards (
     FOREIGN KEY (PlayerID) REFERENCES Players(PlayerID),
     FOREIGN KEY (CardID) REFERENCES Cards(CardID)
 );
-
 CREATE TABLE ShopCards (
 	PlayerID INT,
     CardID INT,
@@ -43,7 +44,6 @@ CREATE TABLE ShopCards (
     FOREIGN KEY (PlayerID) REFERENCES Players(PlayerID),
     FOREIGN KEY (CardID) REFERENCES Cards(CardID)
 );
-
 CREATE TABLE DecksCards (
     DeckID INT,
     CardID INT,
@@ -53,7 +53,10 @@ CREATE TABLE DecksCards (
     FOREIGN KEY (CardID) REFERENCES Cards(CardID)
 );
 
-INSERT INTO Cards (CardName, Quality, CardDescription, PurchaseValue, SellValue) VALUES
+/*
+Data insertion 
+*/
+INSERT INTO Cards (CardName, Quality, CardDescription, PurchasePrice, SellPrice) VALUES
 ('Royal Mandrill', 'Legendary', 'A natural leader with vibrant facial colors and a fierce gaze.',2000,150),
 ('Common Marmoset', 'Common', 'Tiny, elusive, and has a great love for tropical fruits.',500,10),
 ('Mountain Gorilla', 'Epic', 'Pure brute strength capable of uprooting entire trees.',1500,75),
@@ -156,15 +159,10 @@ INSERT INTO Cards (CardName, Quality, CardDescription, PurchaseValue, SellValue)
 ('Infinite Monkey', 'Mythic', 'Given enough time and a typewriter, he will write Shakespeare.',3000,250),
 ('Kora', 'Arok', 'I´m Kora',0,0);
 
-DROP PROCEDURE RefreshShopCards;
-DROP EVENT Refresh;
-
-CREATE EVENT Refresh
-ON SCHEDULE EVERY 1 MINUTE
-STARTS '2026-03-27 13:10:00'
-DO
-	CALL RefreshShopCards();
-
+/* 
+Stored Procedures
+*/
+DROP PROCEDURE IF EXISTS RefreshShopCards;
 DELIMITER $$
 CREATE PROCEDURE RefreshShopCards()
 BEGIN
@@ -215,12 +213,25 @@ BEGIN
 END$$
 DELIMITER ;
 
+/*
+Event to refresh ShopCards
+*/
+DROP EVENT IF EXISTS Refresh;
+CREATE EVENT Refresh
+ON SCHEDULE EVERY 1 MINUTE
+STARTS '2026-03-27 13:10:00'
+DO
+	CALL RefreshShopCards();
+
+/*
+AutoSell cards trigger
+*/
 DELIMITER $$
-CREATE TRIGGER autoSell BEFORE INSERT ON PlayerCards
+CREATE TRIGGER autoSell BEFORE INSERT ON PlayersCards
 FOR EACH ROW
 BEGIN
 	DECLARE existingQuantity INT;
-    SELECT Quantity into existingQuantity FROM PlayerCards
+    SELECT Quantity into existingQuantity FROM PlayersCards
     WHERE PlayerID = NEW.PlayerID AND CardID = NEW.CardID 
     LIMIT 1;
 	IF existingQuantity IS NOT NULL THEN
@@ -234,8 +245,11 @@ BEGIN
 END$$
 DELIMITER ;
 
+/*
+Duplicated trigger
+*/
+/*
 DELIMITER $$
-
 CREATE TRIGGER autoSell BEFORE INSERT ON PlayerCards
 FOR EACH ROW
 BEGIN
@@ -255,9 +269,12 @@ BEGIN
         END IF;
     END IF;
 END$$
-
 DELIMITER ;
+*/
 
+/*
+Stored Procedure to unlock Kora card
+*/
 DELIMITER $$
 CREATE PROCEDURE unlockKora(IN id int) 
 BEGIN
@@ -332,11 +349,13 @@ BEGIN
 END $$
 DELIMITER ;
 
+
+
 UPDATE Cards
-SET SellValue=250
+SET SellPrice=250
 WHERE Quality='Mythic';
 
-INSERT INTO PlayerCards (PlayerID, CardID) VALUES (1, 1);
+INSERT INTO PlayersCards (PlayerID, CardID) VALUES (1, 1);
 
 SELECT COUNT(CardID) FROM Cards WHERE Quality='Common';
 SELECT COUNT(CardID) FROM Cards WHERE Quality='Rare';
