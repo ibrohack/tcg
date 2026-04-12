@@ -1,13 +1,7 @@
 package com.dami.tcg.controller;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,22 +36,23 @@ public class ShopController {
 	}
 
 	@PostMapping("/pack")
-	public String openPack(Model model, HttpSession session, RedirectAttributes redirectAttributes){
-		List<Card> cards = new ArrayList<Card>();;
+	public String openPack(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+		List<Card> cards = new ArrayList<Card>();
+		;
 		Card card;
 		Player player = (Player) session.getAttribute("loggedPlayer");
-		if(playerDao.getGold(player) >=500) {
-			for(int i = 0; i<5; i++) {
+		if (playerDao.getGold(player) >= 500) {
+			for (int i = 0; i < 5; i++) {
 				card = cardDao.queryRandomCard();
 				cards.add(card);
 				playerDao.addCard(player, card);
 			}
 			playerDao.buyPack(player);
-			model.addAttribute("cards",cards);
+			model.addAttribute("cards", cards);
 			player.setCoins(playerDao.getGold(player));
 			session.setAttribute("loggedPlayer", player);
 			return "pack";
-		}else {
+		} else {
 			redirectAttributes.addFlashAttribute("error", "Not enough coins to buy the pack");
 			return "redirect:/pack";
 		}
@@ -71,28 +66,28 @@ public class ShopController {
 			return "redirect:/login";
 		}
 		ArrayList<Card> cards = cardDao.queryShopCards(player.getPlayerId());
-		model.addAttribute("cards",cards);
+		model.addAttribute("cards", cards);
 		return "shop";
 	}
-	
+
 	@PostMapping(value = "/shop", params = "action=buy")
 	public String buyCoins(@RequestParam int price, @RequestParam int coins, RedirectAttributes redirectAttributes) {
-	    redirectAttributes.addAttribute("price", price);
-	    redirectAttributes.addAttribute("coins", coins);
-	    return "redirect:/confirmPurchase";
+		redirectAttributes.addAttribute("price", price);
+		redirectAttributes.addAttribute("coins", coins);
+		return "redirect:/confirmPurchase";
 	}
-	
+
 	@GetMapping("/confirmPurchase")
 	public String paymentPage(@RequestParam int price, @RequestParam int coins, Model model, HttpSession session) {
 		Player player = (Player) session.getAttribute("loggedPlayer");
-	    model.addAttribute("price", price);
-	    model.addAttribute("coins", coins);
+		model.addAttribute("price", price);
+		model.addAttribute("coins", coins);
 		if (player == null) {
 			return "redirect:/login";
 		}
-	    return "confirmPurchase";
+		return "confirmPurchase";
 	}
-	
+
 	@PostMapping(value = "/confirmPurchase")
 	public String buyCoins(@RequestParam int coins, RedirectAttributes redirectAttributes, HttpSession session) {
 		Player player = (Player) session.getAttribute("loggedPlayer");
