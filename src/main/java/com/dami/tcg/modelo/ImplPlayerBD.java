@@ -34,7 +34,6 @@ public class ImplPlayerBD implements PlayerDAO {
 	final String SQLGETGOLD = "SELECT Coins FROM Players WHERE PlayerId=?";
 	final String SQLUPDTEGOLD = "UPDATE Players SET Coins = ? WHERE PlayerId=?";
 	final String SQLGETCARDQUANTITY = "SELECT Quantity FROM PlayersCards WHERE PlayerID = ? AND CardID = ?";
-	
 
 	public ImplPlayerBD() {
 		this.configFile = ResourceBundle.getBundle("configDB");
@@ -217,7 +216,7 @@ public class ImplPlayerBD implements PlayerDAO {
 	}
 
 	public int queryCardQuantity(Player player, Card card) {
-		int quantity=0;
+		int quantity = 0;
 		this.openConnection();
 		try {
 			statement = connection.prepareStatement(SQLGETCARDQUANTITY);
@@ -246,7 +245,7 @@ public class ImplPlayerBD implements PlayerDAO {
 		try {
 			if (cards.containsKey(card.getCardID())) {
 				statement = connection.prepareStatement(SQLUPDATECARDQUANTITY);
-				statement.setInt(1, quantity+1);
+				statement.setInt(1, quantity + 1);
 				statement.setInt(2, player.getPlayerId());
 				statement.setInt(3, card.getCardID());
 				if (statement.executeUpdate() > 0) {
@@ -263,7 +262,6 @@ public class ImplPlayerBD implements PlayerDAO {
 			statement.close();
 			connection.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -272,7 +270,7 @@ public class ImplPlayerBD implements PlayerDAO {
 
 	@Override
 	public void buyPack(Player player) {
-		boolean ok = false;
+		// boolean ok = false;
 		int coins = this.getGold(player);
 		this.openConnection();
 		if (coins >= 500) {
@@ -281,17 +279,17 @@ public class ImplPlayerBD implements PlayerDAO {
 				statement.setInt(1, coins - 500);
 				statement.setInt(2, player.getPlayerId());
 				if (statement.executeUpdate() > 0) {
-					ok = true;
+					// ok = true;
 				}
 				statement.close();
 				connection.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 
 	}
+
 	@Override
 	public int getGold(Player player) {
 		int coins = 0;
@@ -329,5 +327,4 @@ public class ImplPlayerBD implements PlayerDAO {
 		}
 	}
 
-	
 }

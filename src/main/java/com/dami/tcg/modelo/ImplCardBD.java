@@ -150,7 +150,7 @@ public class ImplCardBD implements CardDAO {
 			while (resultado.next()) {
 				cards.add(new Card(resultado.getInt("CardId"), resultado.getString("CardName"),
 						resultado.getString("Quality"), resultado.getString("CardDescription"),
-						resultado.getInt("PurchaseValue"), resultado.getInt("SellValue")));
+						resultado.getInt("PurchasePrice"), resultado.getInt("SellPrice")));
 			}
 			resultado.close();
 			statement.close();
@@ -175,8 +175,8 @@ public class ImplCardBD implements CardDAO {
 						resultado.getString("CardName"),
 						resultado.getString("Quality"),
 						resultado.getString("CardDescription"),
-						resultado.getInt("PurchaseValue"),
-						resultado.getInt("SellValue"));
+						resultado.getInt("PurchasePrice"),
+						resultado.getInt("SellPrice"));
 			}
 			resultado.close();
 			statement.close();
@@ -186,7 +186,6 @@ public class ImplCardBD implements CardDAO {
 		}
 		return card;
 	}
-
 
 	@Override
 	public Card queryRandomCard() {
@@ -212,8 +211,8 @@ public class ImplCardBD implements CardDAO {
 				card.setName(resultado.getString("CardName"));
 				card.setDescription(resultado.getString("CardDescription"));
 				card.setQuality(resultado.getString("Quality"));
-				card.setPurchasePrice(resultado.getInt("PurchaseValue"));
-				card.setSellPrice(resultado.getInt("SellValue"));
+				card.setPurchasePrice(resultado.getInt("PurchasePrice"));
+				card.setSellPrice(resultado.getInt("SellPrice"));
 			}
 			statement.close();
 			connection.close();
@@ -231,14 +230,14 @@ public class ImplCardBD implements CardDAO {
 			statement = connection.prepareStatement(SQLQUERYSHOPCARDS);
 			statement.setInt(1, playerId);
 			ResultSet resultado = statement.executeQuery();
-			while(resultado.next()) {
+			while (resultado.next()) {
 				Card card = new Card();
 				card.setCardID(resultado.getInt("CardID"));
 				card.setName(resultado.getString("CardName"));
 				card.setDescription(resultado.getString("CardDescription"));
 				card.setQuality(resultado.getString("Quality"));
-				card.setPurchasePrice(resultado.getInt("PurchaseValue"));
-				card.setSellPrice(resultado.getInt("SellValue"));
+				card.setPurchasePrice(resultado.getInt("PurchasePrice"));
+				card.setSellPrice(resultado.getInt("SellPrice"));
 				cards.add(card);
 			}
 			statement.close();

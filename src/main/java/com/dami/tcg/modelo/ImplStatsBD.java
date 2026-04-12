@@ -67,7 +67,7 @@ public class ImplStatsBD implements StatsDAO {
             if (resultado.next()) {
                 card = new Card(resultado.getInt("CardId"), resultado.getString("CardName"),
                         resultado.getString("Quality"), resultado.getString("CardDescription"),
-                        resultado.getInt("PurchaseValue"), resultado.getInt("SellValue"));
+                        resultado.getInt("PurchasePrice"), resultado.getInt("SellPrice"));
             }
             resultado.close();
             statement.close();
@@ -110,7 +110,7 @@ public class ImplStatsBD implements StatsDAO {
             if (resultado.next()) {
                 card = new Card(resultado.getInt("CardId"), resultado.getString("CardName"),
                         resultado.getString("Quality"), resultado.getString("CardDescription"),
-                        resultado.getInt("PurchaseValue"), resultado.getInt("SellValue"));
+                        resultado.getInt("PurchasePrice"), resultado.getInt("SellPrice"));
             }
             resultado.close();
             statement.close();
@@ -152,7 +152,7 @@ public class ImplStatsBD implements StatsDAO {
             while (resultado.next()) {
                 cards.add(new Card(resultado.getInt("CardId"), resultado.getString("CardName"),
                         resultado.getString("Quality"), resultado.getString("CardDescription"),
-                        resultado.getInt("PurchaseValue"), resultado.getInt("SellValue")));
+                        resultado.getInt("PurchasePrice"), resultado.getInt("SellPrice")));
             }
             resultado.close();
             statement.close();
@@ -174,7 +174,7 @@ public class ImplStatsBD implements StatsDAO {
             while (resultado.next()) {
                 cards.add(new Card(resultado.getInt("CardId"), resultado.getString("CardName"),
                         resultado.getString("Quality"), resultado.getString("CardDescription"),
-                        resultado.getInt("PurchaseValue"), resultado.getInt("SellValue")));
+                        resultado.getInt("PurchasePrice"), resultado.getInt("SellPrice")));
             }
             resultado.close();
             statement.close();
