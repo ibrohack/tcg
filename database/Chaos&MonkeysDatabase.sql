@@ -12,6 +12,7 @@ CREATE TABLE Players (
     PlayerID INT AUTO_INCREMENT PRIMARY KEY,
     Username VARCHAR(50) NOT NULL UNIQUE,
     PlayerPassword VARCHAR(255) NOT NULL,
+	PackAvilable BOOLEAN DEFAULT 1,
     Coins INT CHECK(Coins>=0 AND Coins<=999999)
 );
 CREATE TABLE Decks (
@@ -306,6 +307,27 @@ ON SCHEDULE EVERY 1 MINUTE
 STARTS '2026-03-27 13:10:00'
 DO
 	CALL RefreshShopCards();
+
+DROP PROCEDURE IF EXISTS updateFreePack;
+DELIMITER $$
+CREATE PROCEDURE updateFreePack()
+BEGIN
+	DECLARE player int DEFAULT 1;
+    DECLARE playerCount int;
+	SELECT COUNT(*) INTO playerCount FROM Players;
+    WHILE(player <= playerCount) DO
+		UPDATE Players SET PackAvilable = 1 WHERE PlayerID = player;
+        SET player = player + 1;
+	END WHILE;
+END $$
+DELIMITER ;
+
+DROP EVENT IF EXISTS RefreshPack;
+CREATE EVENT RefreshPakck
+ON SCHEDULE EVERY 1 MINUTE
+STARTS '2026-03-27 13:10:00'
+DO
+	CALL updateFreePack();
 
 /*
 AutoSell cards trigger
