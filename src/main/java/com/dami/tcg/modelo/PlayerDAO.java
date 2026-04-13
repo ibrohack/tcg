@@ -24,4 +24,8 @@ public interface PlayerDAO {
     public void buyPack(Player player);
     
     public void addCoins(Player player, int gold);
+    
+    public boolean checkFreePack(Player player);
+    
+    public boolean freePackOpend(Player player);
 }

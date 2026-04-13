@@ -27,39 +27,64 @@ public class ShopController {
 	CardDAO cardDao = new ImplCardBD();
 
 	@GetMapping("/pack")
-	public String showPacks(HttpSession session) {
+	public String showPacks(HttpSession session, Model model) {
 		Player player = (Player) session.getAttribute("loggedPlayer");
+		int price;
 		if (player == null) {
 			return "redirect:/login";
 		}
+		if(!playerDao.checkFreePack(player)) {
+			price = 500;
+		}else {
+			price = 0; 
+		}
+
+		model.addAttribute("price", price);
 		return "pack";
 	}
 
 	@PostMapping("/pack")
 	public String openPack(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
 		Player player = (Player) session.getAttribute("loggedPlayer");
+		int price;
 		if (player == null) {
 			return "redirect:/login";
 		}
 		List<Card> cards = new ArrayList<Card>();
-		;
 		Card card;
-		if (playerDao.getGold(player) >= 500) {
+		if(!playerDao.checkFreePack(player)) {
+			price = 500;
+		}else {
+			price = 0; 
+		}
+		model.addAttribute("price", price);
+		if(!playerDao.checkFreePack(player)) {
+			if (playerDao.getGold(player) >= 500) {
+				for (int i = 0; i < 5; i++) {
+					card = cardDao.queryRandomCard();
+					cards.add(card);
+					playerDao.addCard(player, card);
+				}
+				playerDao.buyPack(player);
+				model.addAttribute("cards", cards);
+				player.setCoins(playerDao.getGold(player));
+				session.setAttribute("loggedPlayer", player);
+				return "pack";
+			} else {
+				redirectAttributes.addFlashAttribute("error", "Not enough coins to buy the pack");
+				return "redirect:/pack";
+			}
+		}else {
 			for (int i = 0; i < 5; i++) {
 				card = cardDao.queryRandomCard();
 				cards.add(card);
 				playerDao.addCard(player, card);
 			}
-			playerDao.buyPack(player);
+			playerDao.freePackOpend(player);
 			model.addAttribute("cards", cards);
-			player.setCoins(playerDao.getGold(player));
 			session.setAttribute("loggedPlayer", player);
 			return "pack";
-		} else {
-			redirectAttributes.addFlashAttribute("error", "Not enough coins to buy the pack");
-			return "redirect:/pack";
 		}
-
 	}
 
 	@GetMapping("/shop")

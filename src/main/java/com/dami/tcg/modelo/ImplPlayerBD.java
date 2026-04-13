@@ -34,6 +34,8 @@ public class ImplPlayerBD implements PlayerDAO {
 	final String SQLGETGOLD = "SELECT Coins FROM Players WHERE PlayerId=?";
 	final String SQLUPDTEGOLD = "UPDATE Players SET Coins = ? WHERE PlayerId=?";
 	final String SQLGETCARDQUANTITY = "SELECT Quantity FROM PlayersCards WHERE PlayerID = ? AND CardID = ?";
+	final String SQLCHECKFREEPACK = "SELECT PackAvilable FROM Players WHERE PlayerId=?"; 
+	final String SQLUPDATEFREEPACK = "UPDATE Players SET PackAvilable = 0 WHERE PlayerId=?";
 
 	public ImplPlayerBD() {
 		this.configFile = ResourceBundle.getBundle("configDB");
@@ -300,6 +302,7 @@ public class ImplPlayerBD implements PlayerDAO {
 			if (resultado.next()) {
 				coins = resultado.getInt("Coins");
 			}
+			resultado.close();
 			statement.close();
 			connection.close();
 		} catch (SQLException e) {
@@ -323,5 +326,45 @@ public class ImplPlayerBD implements PlayerDAO {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public boolean checkFreePack(Player player) {
+		boolean avilable = false;
+		this.openConnection();
+		try {
+			statement = connection.prepareStatement(SQLCHECKFREEPACK);
+			statement.setInt(1, player.getPlayerId());
+			ResultSet resultado = statement.executeQuery();
+			if (resultado.next()) {
+				avilable = resultado.getBoolean("PackAvilable");
+			}
+			resultado.close();
+			statement.close();
+			connection.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return avilable;
+	}
+
+	@Override
+	public boolean freePackOpend(Player player) {
+		boolean ok= false;
+		this.openConnection();
+		try {
+			statement = connection.prepareStatement(SQLUPDATEFREEPACK);
+			statement.setInt(1, player.getPlayerId());
+			if (statement.executeUpdate() > 0) {
+				ok = true;
+			}
+			statement.close();
+			connection.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ok;
+	}
+
+
 
 }
