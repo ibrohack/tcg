@@ -37,10 +37,13 @@ public class ShopController {
 
 	@PostMapping("/pack")
 	public String openPack(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+		Player player = (Player) session.getAttribute("loggedPlayer");
+		if (player == null) {
+			return "redirect:/login";
+		}
 		List<Card> cards = new ArrayList<Card>();
 		;
 		Card card;
-		Player player = (Player) session.getAttribute("loggedPlayer");
 		if (playerDao.getGold(player) >= 500) {
 			for (int i = 0; i < 5; i++) {
 				card = cardDao.queryRandomCard();
@@ -62,16 +65,18 @@ public class ShopController {
 	@GetMapping("/shop")
 	public String showShop(Model model, HttpSession session) {
 		Player player = (Player) session.getAttribute("loggedPlayer");
-		if (player == null) {
-			return "redirect:/login";
-		}
-		ArrayList<Card> cards = cardDao.queryShopCards(player.getPlayerId());
+		int playerId = (player != null) ? player.getPlayerId() : 0;
+		ArrayList<Card> cards = cardDao.queryShopCards(playerId);
 		model.addAttribute("cards", cards);
 		return "shop";
 	}
 
 	@PostMapping(value = "/shop", params = "action=buy")
-	public String buyCoins(@RequestParam int price, @RequestParam int coins, RedirectAttributes redirectAttributes) {
+	public String buyCoins(@RequestParam int price, @RequestParam int coins, RedirectAttributes redirectAttributes, HttpSession session) {
+		Player player = (Player) session.getAttribute("loggedPlayer");
+		if (player == null) {
+			return "redirect:/login";
+		}
 		redirectAttributes.addAttribute("price", price);
 		redirectAttributes.addAttribute("coins", coins);
 		return "redirect:/confirmPurchase";
@@ -91,6 +96,9 @@ public class ShopController {
 	@PostMapping(value = "/confirmPurchase")
 	public String buyCoins(@RequestParam int coins, RedirectAttributes redirectAttributes, HttpSession session) {
 		Player player = (Player) session.getAttribute("loggedPlayer");
+		if (player == null) {
+			return "redirect:/login";
+		}
 		redirectAttributes.addAttribute("coins", coins);
 		playerDao.addCoins(player, coins);
 		player.setCoins(playerDao.getGold(player));
