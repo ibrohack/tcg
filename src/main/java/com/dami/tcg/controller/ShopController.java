@@ -68,6 +68,7 @@ public class ShopController {
 		int playerId = (player != null) ? player.getPlayerId() : 0;
 		ArrayList<Card> cards = cardDao.queryShopCards(playerId);
 		model.addAttribute("cards", cards);
+		model.addAttribute("serverTime", System.currentTimeMillis());
 		return "shop";
 	}
 
