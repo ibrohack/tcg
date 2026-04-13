@@ -14,6 +14,7 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
     <link rel="icon" type="image/x-icon" href="/images/favicon3.ico">
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
     <link th:if="${loadImageCrop}" rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css" />
     <script th:if="${loadImageCrop}"
@@ -50,21 +51,19 @@
             <a th:href="@{/cards}"
                 th:classappend="${currentPage == 'collection'} ? 'text-primary font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-primary transition-colors font-medium'"
                 class="text-sm" href="#">Collection</a>
+            <!-- Always visible: Shop -->
+            <a th:href="@{/shop}"
+                th:classappend="${currentPage == 'shop'} ? 'text-primary font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-primary transition-colors font-medium'"
+                class="text-sm" href="#">Shop</a>
 
             <!-- Logged-in only links -->
             <th:block th:if="${session.loggedPlayer != null}">
                 <a th:href="@{/player}"
                     th:classappend="${currentPage == 'dashboard'} ? 'text-primary font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-primary transition-colors font-medium'"
                     class="text-sm" href="#">Dashboard</a>
-                <a th:href="@{/pack}"
-                    th:classappend="${currentPage == 'pack'} ? 'text-primary font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-primary transition-colors font-medium'"
-                    class="text-sm" href="#">Pack Opening</a>
                 <a th:href="@{/deckcreate}"
                     th:classappend="${currentPage == 'deckcreate'} ? 'text-primary font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-primary transition-colors font-medium'"
                     class="text-sm" href="#">Deck Builder</a>
-                <a th:href="@{/shop}"
-                    th:classappend="${currentPage == 'shop'} ? 'text-primary font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-primary transition-colors font-medium'"
-                    class="text-sm" href="#">Shop</a>
             </th:block>
         </nav>
 
@@ -141,8 +140,8 @@
     </div>
     <script th:if="${loadPasswordScript}" th:src="@{/js/password-toggle.js}"></script>
     <script th:if="${loadImageCrop}" th:src="@{/js/image-crop.js}"></script>
-    <script th:if="${loadShopCards}" th:src="@{/js/store-shop-cards.js}"></script>
     <script th:if="${loadDeckBuilding}" th:src="@{/js/deckbuilding.js}"></script>
+    <script th:if="${loadCheckUsernameScript}" th:src="@{/js/check-username.js}"></script>
 </footer>
 
 </html>

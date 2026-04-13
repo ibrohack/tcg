@@ -1,5 +1,6 @@
 package com.dami.tcg.modelo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface CardDAO {
@@ -16,4 +17,6 @@ public interface CardDAO {
     public Card queryCard(String name);
     
     public Card queryRandomCard();
+    
+    public ArrayList<Card> queryShopCards(int playerId);
 }

@@ -33,6 +33,7 @@ public class ImplPlayerBD implements PlayerDAO {
 	final String SQLADDCARD = "INSERT INTO PlayersCards VALUES (?,?,1)";
 	final String SQLGETGOLD = "SELECT Coins FROM Players WHERE PlayerId=?";
 	final String SQLUPDTEGOLD = "UPDATE Players SET Coins = ? WHERE PlayerId=?";
+	final String SQLGETCARDQUANTITY = "SELECT Quantity FROM PlayersCards WHERE PlayerID = ? AND CardID = ?";
 
 	public ImplPlayerBD() {
 		this.configFile = ResourceBundle.getBundle("configDB");
@@ -214,24 +215,41 @@ public class ImplPlayerBD implements PlayerDAO {
 		return player;
 	}
 
+	public int queryCardQuantity(Player player, Card card) {
+		int quantity = 0;
+		this.openConnection();
+		try {
+			statement = connection.prepareStatement(SQLGETCARDQUANTITY);
+			statement.setInt(1, player.getPlayerId());
+			statement.setInt(2, card.getCardID());
+			ResultSet resultado = statement.executeQuery();
+			if (resultado.next()) {
+				quantity = resultado.getInt("Quantity");
+			}
+			resultado.close();
+			statement.close();
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return quantity;
+	}
+
 	@Override
 	public boolean addCard(Player player, Card card) {
 		boolean ok = false;
 		HashMap<Integer, Integer> cards = queryPlayerCards(player.getPlayerId());
+		int quantity = this.queryCardQuantity(player, card);
 		this.openConnection();
 		try {
 			if (cards.containsKey(card.getCardID())) {
-				if (cards.get(card.getCardID()) > 4) {
-					statement = connection.prepareStatement(SQLUPDATECARDQUANTITY);
-					statement.setInt(1, cards.get(card.getCardID() + 1));
-					statement.setInt(2, player.getPlayerId());
-					statement.setInt(3, card.getCardID());
-					if (statement.executeUpdate() > 0) {
-						ok = true;
-					}
-
+				statement = connection.prepareStatement(SQLUPDATECARDQUANTITY);
+				statement.setInt(1, quantity + 1);
+				statement.setInt(2, player.getPlayerId());
+				statement.setInt(3, card.getCardID());
+				if (statement.executeUpdate() > 0) {
+					ok = true;
 				}
-
 			} else {
 				statement = connection.prepareStatement(SQLADDCARD);
 				statement.setInt(1, player.getPlayerId());
@@ -243,7 +261,6 @@ public class ImplPlayerBD implements PlayerDAO {
 			statement.close();
 			connection.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -252,33 +269,20 @@ public class ImplPlayerBD implements PlayerDAO {
 
 	@Override
 	public void buyPack(Player player) {
-		boolean ok = false;
+		// boolean ok = false;
 		int coins = this.getGold(player);
 		this.openConnection();
-		try {
-			statement = connection.prepareStatement(SQLGETGOLD);
-			statement.setInt(1, player.getPlayerId());
-			ResultSet resultado = statement.executeQuery();
-			if (resultado.next()) {
-				coins = resultado.getInt("Coins");
-			}
-			statement.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		if (coins >= 500) {
 			try {
 				statement = connection.prepareStatement(SQLUPDTEGOLD);
 				statement.setInt(1, coins - 500);
 				statement.setInt(2, player.getPlayerId());
 				if (statement.executeUpdate() > 0) {
-					ok = true;
+					// ok = true;
 				}
 				statement.close();
 				connection.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -299,10 +303,25 @@ public class ImplPlayerBD implements PlayerDAO {
 			statement.close();
 			connection.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return coins;
+	}
+
+	@Override
+	public void addCoins(Player player, int gold) {
+		int coins = this.getGold(player);
+		this.openConnection();
+		try {
+			statement = connection.prepareStatement(SQLUPDTEGOLD);
+			statement.setInt(1, coins + gold);
+			statement.setInt(2, player.getPlayerId());
+			statement.executeUpdate();
+			statement.close();
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

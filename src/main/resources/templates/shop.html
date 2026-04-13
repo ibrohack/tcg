@@ -1,96 +1,124 @@
 <!DOCTYPE html>
-<html th:with="loadShopCards=true" class="dark" lang="en"xmlns:th="http://www.thymeleaf.org">
+<html th:with="loadShopCards=true" class="dark" lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="~{fragments/layout :: head('Chaos and Monkeys - Card Gallery')}">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
-    <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
-        <div class="layout-container flex h-full grow flex-col">
+	<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+		<div class="layout-container flex h-full grow flex-col">
 			<!-- Navbar -->
-		    <header th:replace="~{fragments/layout :: navbar('shop')}"></header>
-		
-		    <main class="flex-1 px-6 lg:px-20 py-8">
+			<header th:replace="~{fragments/layout :: navbar('shop')}"></header>
+
+			<main class="flex-1 px-6 lg:px-20 py-8">
 				<!-- Section Header: Primal Exchange -->
-				<header class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-primary/5 pb-6">
+				<header
+					class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-primary/5 pb-6">
 					<div>
-						<span class="text-[10px] font-black uppercase tracking-[0.2em] text-primary/60 block mb-2">Marketplace</span>
-						<h2 class="text-4xl md:text-6xl font-black font-headline text-primary tracking-tighter uppercase italic">Primal Exchange</h2>
-					</div>
-					<div class="text-right">
-						<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant block">Inventory Reset In</span>
-						<span class="text-xl font-mono font-bold text-primary">14:22:05</span>
+						<span
+							class="text-[10px] font-black uppercase tracking-[0.2em] text-primary/60 block mb-2">Marketplace</span>
+						<h2
+							class="text-4xl md:text-6xl font-black font-headline text-primary tracking-tighter uppercase italic">
+							Primal Exchange</h2>
 					</div>
 				</header>
 				<!-- Daily Reward: Large Hero Bento -->
 				<section class="space-y-6">
-					<div class="relative overflow-hidden rounded-xl bg-surface-container-low border border-primary/20 p-8 flex flex-col md:flex-row items-center gap-8 shadow-[0_0_50px_rgba(244,209,37,0.05)]">
+					<div
+						class="relative overflow-hidden rounded-xl bg-surface-container-low border border-primary/20 p-8 flex flex-col md:flex-row items-center gap-8 shadow-[0_0_50px_rgba(244,209,37,0.05)]">
 						<!-- Background Glow Decor -->
 						<div class="absolute -top-24 -right-24 w-64 h-64 bg-primary/10 blur-[100px] rounded-full"></div>
-						<div class="absolute -bottom-24 -left-24 w-64 h-64 bg-tertiary/5 blur-[100px] rounded-full"></div>
-						<div class="relative w-full md:w-1/3 aspect-[3/4] rounded-lg overflow-hidden group shadow-2xl ring-2 ring-primary/30">
-							<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Glowy mystical TCG pack floating in jungle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWei9OZbiPaue_sadVGMg3L-vvixfALuQTpaL072cYoRmJUruKGZ1m9rnWilqma5cvHWFXVrftLjijziUVGaXMp7bK6rG1iWBJPFv32-zGzihpqRwpggsp052x_CmJA4yBd-P3YEdhPhLsBzyTtGoZcfr0qcvoxwE1oV8HwDyyazIOfPQWsizmc0XTiMr9w7HM_3IY-xIaO4FVIkOtXoNKTCslBy-mdE4wEqM7ZYcH00QxysXnqHWyor15cDKeXc9hs6EByYhHRLk"/>
-							<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+						<div class="absolute -bottom-24 -left-24 w-64 h-64 bg-tertiary/5 blur-[100px] rounded-full">
+						</div>
+						<div
+							class="relative w-full md:w-1/3 aspect-[3/4] rounded-lg overflow-hidden group shadow-2xl ring-2 ring-primary/30">
+							<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+								data-alt="Glowy mystical TCG pack floating in jungle"
+								src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWei9OZbiPaue_sadVGMg3L-vvixfALuQTpaL072cYoRmJUruKGZ1m9rnWilqma5cvHWFXVrftLjijziUVGaXMp7bK6rG1iWBJPFv32-zGzihpqRwpggsp052x_CmJA4yBd-P3YEdhPhLsBzyTtGoZcfr0qcvoxwE1oV8HwDyyazIOfPQWsizmc0XTiMr9w7HM_3IY-xIaO4FVIkOtXoNKTCslBy-mdE4wEqM7ZYcH00QxysXnqHWyor15cDKeXc9hs6EByYhHRLk" />
+							<div
+								class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent">
+							</div>
 							<div class="absolute inset-0 flex items-center justify-center">
-								<span class="material-symbols-outlined text-primary text-7xl opacity-50" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+								<span class="material-symbols-outlined text-primary text-7xl opacity-50 icon-filled">auto_awesome</span>
 							</div>
 						</div>
 						<div class="flex-1 space-y-6 text-center md:text-left z-10">
-							<div class="inline-block px-3 py-1 bg-primary text-background-dark text-[10px] font-black uppercase tracking-widest italic rounded-sm mb-2">Daily Manifest</div>
-							<h3 class="text-4xl md:text-5xl font-black font-headline text-on-surface leading-none tracking-tight">DAILY PRIMAL PACK</h3>
-							<p class="text-on-surface-variant max-w-md text-sm md:text-base leading-relaxed">Your daily tribute from the jungle spirits. Contains 3 random cards with a guaranteed Rare or higher drop rate.</p>
+							<div
+								class="inline-block px-3 py-1 bg-primary text-background-dark text-[10px] font-black uppercase tracking-widest italic rounded-sm mb-2">
+								Daily Manifest</div>
+							<h3
+								class="text-4xl md:text-5xl font-black font-headline text-on-surface leading-none tracking-tight">
+								DAILY PRIMAL PACK</h3>
+							<p class="text-on-surface-variant max-w-md text-sm md:text-base leading-relaxed">Your daily
+								tribute from the jungle spirits. Contains 3 random cards with a guaranteed Rare or
+								higher drop rate.</p>
 							<div class="flex flex-wrap gap-4 justify-center md:justify-start">
-								<button class="bg-primary text-background-dark px-8 py-4 font-black uppercase tracking-widest text-xs flex items-center gap-3 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-primary/20" 
+								<button
+									class="bg-primary text-background-dark px-8 py-4 font-black uppercase tracking-widest text-xs flex items-center gap-3 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-primary/20"
 									onclick="window.location.href='pack';">
 									Ready to Claim
-									<span class="material-symbols-outlined text-sm" data-icon="card_giftcard">card_giftcard</span>
+									<span class="material-symbols-outlined text-sm"
+										data-icon="card_giftcard">card_giftcard</span>
 								</button>
-								<div class="flex items-center gap-2 text-primary/60 text-[10px] font-bold uppercase tracking-wider px-4 py-2 border border-primary/10 rounded-lg">
+								<div
+									class="flex items-center gap-2 text-primary/60 text-[10px] font-bold uppercase tracking-wider px-4 py-2 border border-primary/10 rounded-lg">
 									<span class="material-symbols-outlined text-sm">schedule</span>
-									                            Next in 23h
+									Next in 23h
 								</div>
 							</div>
 						</div>
 					</div>
 				</section>
 				<!-- Daily Card Deals -->
-				<section class="space-y-6 mt-6">
-					<h3 class="text-[15px] font-black uppercase tracking-[0.3em] text-primary">Flash Acquisitions</h3>
+				<section id="flash-acquisitions-section" class="space-y-6 mt-6">
+					<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+						<h3 class="text-[15px] font-black uppercase tracking-[0.3em] text-primary">Flash Acquisitions
+						</h3>
+						<div class="text-right">
+							<span
+								class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant block">Cards
+								Reset In</span>
+							<span id="reset-timer" class="text-xl font-mono font-bold text-primary">--:--:--</span>
+						</div>
+					</div>
 					<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 						<!-- Random Cards -->
 						<div th:each="card : ${cards}" id="cards"
-							 class="group relative flex flex-col bg-slate-900/40 rounded-xl transition-all duration-300 overflow-hidden shadow-xl hover:-translate-y-2"
-						   	 th:classappend="${card.quality.equalsIgnoreCase('Common')} ? 'border border-card-common/20 hover:border-card-common' :
+							class="group relative flex flex-col bg-slate-900/40 rounded-xl transition-all duration-300 overflow-hidden shadow-xl hover:-translate-y-2"
+							th:classappend="${card.quality.equalsIgnoreCase('Common')} ? 'border border-card-common/20 hover:border-card-common' :
 							             (${card.quality.equalsIgnoreCase('Rare')} ? 'border border-card-rare/20 hover:border-card-rare hover:shadow-card-rare/20' :
 							             (${card.quality.equalsIgnoreCase('Epic')} ? 'border border-card-epic/20 hover:border-card-epic hover:shadow-card-epic/20' :
 							             (${card.quality.equalsIgnoreCase('Legendary')} ? 'border border-card-legendary/20 hover:border-card-legendary hover:shadow-card-legendary/30' :
 							             (${card.quality.equalsIgnoreCase('Mythic')} ? 'border border-card-mythic/20 hover:border-card-mythic hover:shadow-card-mythic/40' :
 							             'border border-white/20'))))">
-										
+
 							<div class="aspect-[3/4] relative overflow-hidden">
-	                           <img th:src="@{'/images/cards/' + ${card.cardID} + '.png'}" th:alt="${card.name}"
-	                               class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
-	                           <div
-	                               class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent z-10">
-	                           </div>
-	                           <!-- Rarity badge -->
-							   <div class="absolute top-3 left-3 z-20 backdrop-blur-md px-2 py-1 rounded text-[10px] font-bold uppercase tracking-tighter"
-							       th:classappend="${card.quality.equalsIgnoreCase('Common')} ? 'bg-card-common/20 border border-card-common/50' :
+								<img th:src="@{'/images/cards/' + ${card.cardID} + '.png'}" th:alt="${card.name}"
+									class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
+								<div
+									class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent z-10">
+								</div>
+								<!-- Rarity badge -->
+								<div class="absolute top-3 left-3 z-20 backdrop-blur-md px-2 py-1 rounded text-[10px] font-bold uppercase tracking-tighter"
+									th:classappend="${card.quality.equalsIgnoreCase('Common')} ? 'bg-card-common/20 border border-card-common/50' :
 							                    (${card.quality.equalsIgnoreCase('Rare')} ? 'bg-card-rare/20 border border-card-rare/50' :
 							                    (${card.quality.equalsIgnoreCase('Epic')} ? 'bg-card-epic/20 border border-card-epic/50' :
 							                    (${card.quality.equalsIgnoreCase('Legendary')} ? 'bg-card-legendary/20 border border-card-legendary/50' :
 							                    (${card.quality.equalsIgnoreCase('Mythic')} ? 'bg-card-mythic/20 border border-card-mythic/50 text-card-mythic' :
 							                    'bg-white/20 border border-white/50'))))" th:text="${card.quality}">
-							       Quality</div>
-	                        </div>
+									Quality</div>
+							</div>
 							<div class="px-3 pb-4 space-y-3">
-								<h4 class="text-lg font-bold font-headline leading-tight text-primary" th:text="${card.name}"></h4>
-								<button class="w-full bg-primary text-background-dark flex items-center justify-between px-4 py-2.5 rounded transition-all active:scale-95 hover:brightness-110 shadow-lg shadow-primary/20">
+								<h4 class="text-lg font-bold font-headline leading-tight text-primary"
+									th:text="${card.name}"></h4>
+								<button
+									class="w-full bg-primary text-background-dark flex items-center justify-between px-4 py-2.5 rounded transition-all active:scale-95 hover:brightness-110 shadow-lg shadow-primary/20">
 									<span class="text-[12px] font-black uppercase tracking-widest">Purchase</span>
 									<div class="flex items-center gap-1">
-										<span class="material-symbols-outlined text-lg" data-icon="monetization_on">monetization_on</span>
+										<span class="material-symbols-outlined text-lg"
+											data-icon="monetization_on">monetization_on</span>
 										<span class="font-bold" th:text="${card.purchasePrice}">Price</span>
 									</div>
 								</button>
@@ -98,81 +126,129 @@
 						</div>
 					</div>
 				</section>
+				<!-- Gold Purchase -->
+				<section class="space-y-6 mt-6">
+					<h3 class="text-[15px] font-black uppercase tracking-[0.3em] text-primary">Gold Purchase</h3>
+					<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+						<div
+							class="group relative flex flex-col bg-slate-900/40 rounded-xl transition-all duration-300 overflow-hidden shadow-xl hover:-translate-y-2 border border-card-common/20 hover:border-card-common">
+							<div class="aspect-[3/4] relative overflow-hidden">
+								<img th:src="@{'/images/coin.jpg'}"
+									class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
+								<div
+									class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent z-10">
+								</div>
+								<div
+									class="absolute top-3 left-3 z-20 backdrop-blur-md px-2 py-1 rounded text-[10px] font-bold uppercase tracking-tighter bg-card-common/20 border border-card-common/50">
+									1000 Coins
+								</div>
+							</div>
+							<div class="px-3 pb-4 space-y-3">
+								<h4 class="text-lg font-bold font-headline leading-tight text-primary">Starter Pack</h4>
+								<form th:action="@{/shop(price=15, coins=1000, action='buy')}" method="post">
+									<button type="submit"
+										class="w-full bg-primary text-background-dark flex items-center justify-between px-4 py-2.5 rounded transition-all active:scale-95 hover:brightness-110 shadow-lg shadow-primary/20">
+										<span class="text-[12px] font-black uppercase tracking-widest">Purchase</span>
+										<div class="flex items-center gap-1">
+											<span class="font-bold">15€</span>
+										</div>
+									</button>
+								</form>
+							</div>
+						</div>
+						<div
+							class="group relative flex flex-col bg-slate-900/40 rounded-xl transition-all duration-300 overflow-hidden shadow-xl hover:-translate-y-2 border border-card-legendary/20 hover:border-card-legendary hover:shadow-card-legendary/30">
+							<div class="aspect-[3/4] relative overflow-hidden">
+								<img th:src="@{'/images/bag.jpg'}"
+									class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
+								<div
+									class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent z-10">
+								</div>
+								<div
+									class="absolute top-3 left-3 z-20 backdrop-blur-md px-2 py-1 rounded text-[10px] font-bold uppercase tracking-tighter bg-card-legendary/20 border border-card-legendary/50">
+									2600 Coins
+								</div>
+							</div>
+							<div class="px-3 pb-4 space-y-3">
+								<h4 class="text-lg font-bold font-headline leading-tight text-primary">Value Pack</h4>
+								<form th:action="@{/shop(price=35, coins=2600, action='buy')}" method="post">
+									<button type="submit"
+										class="w-full bg-primary text-background-dark flex items-center justify-between px-4 py-2.5 rounded transition-all active:scale-95 hover:brightness-110 shadow-lg shadow-primary/20">
+										<span class="text-[12px] font-black uppercase tracking-widest">Purchase</span>
+										<div class="flex items-center gap-1">
+											<span class="font-bold">35€</span>
+										</div>
+									</button>
+								</form>
+							</div>
+						</div>
+						<div
+							class="group relative flex flex-col bg-slate-900/40 rounded-xl transition-all duration-300 overflow-hidden shadow-xl hover:-translate-y-2 border border-card-mythic/20 hover:border-card-mythic hover:shadow-card-mythic/40">
+							<div class="aspect-[3/4] relative overflow-hidden">
+								<img th:src="@{'/images/chest.jpg'}"
+									class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
+								<div
+									class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent z-10">
+								</div>
+								<div
+									class="absolute top-3 left-3 z-20 backdrop-blur-md px-2 py-1 rounded text-[10px] font-bold uppercase tracking-tighter bg-card-mythic/20 border border-card-mythic/50 text-card-mythic">
+									6900 Coins
+								</div>
+							</div>
+							<div class="px-3 pb-4 space-y-3">
+								<h4 class="text-lg font-bold font-headline leading-tight text-primary">Mega Pack</h4>
+								<form th:action="@{/shop(price=65, coins=6900, action='buy')}" method="post">
+									<button type="submit"
+										class="w-full bg-primary text-background-dark flex items-center justify-between px-4 py-2.5 rounded transition-all active:scale-95 hover:brightness-110 shadow-lg shadow-primary/20">
+										<span class="text-[12px] font-black uppercase tracking-widest">Purchase</span>
+										<div class="flex items-center gap-1">
+											<span class="font-bold">65€</span>
+										</div>
+									</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</section>
 				<!-- Booster Packs -->
-				<!--
 				<section class="space-y-6 mt-6">
 					<h3 class="text-[15px] font-black uppercase tracking-[0.3em] text-primary">Premium Protocols</h3>
 					<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-				-->
 						<!-- Pack 1 -->
-						<!--
-						<div class="group relative bg-surface-container-low p-6 border border-primary/5 hover:border-primary/20 transition-all rounded-lg overflow-hidden">
+						<div
+							class="group relative bg-surface-container-low p-6 border border-primary/5 hover:border-primary/20 transition-all rounded-lg overflow-hidden">
 							<div class="absolute top-0 right-0 p-2 text-primary/10">
 								<span class="material-symbols-outlined text-6xl">layers</span>
 							</div>
 							<div class="relative z-10 space-y-4">
-								<h4 class="text-xl font-black font-headline tracking-tighter uppercase italic">Jungle Spirit Pack</h4>
-								<p class="text-[10px] uppercase font-bold text-on-surface-variant tracking-widest">5 Cards • Guaranteed Uncommon</p>
-								<img class="w-full aspect-video object-cover rounded group-hover:scale-105 transition-all duration-500" data-alt="Green tinted card pack box art" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBf2fP8lEeGpPICurt9y4LU-omtW8f4QFRUCQZOs9OdZ4sCCJMGyE56S4AiaUwKKWHruzOcEWgUZxrsPCcSbiBSSE8IAAa01r4KIDJaGLatnsQQXmnsiM3sKsmx39FMG4eyumjVjuOiwZRKbCOKXWQMfHmz1pHPecBqf8SS7OdsoP9W6BPDBkxFS0zSubZcUym-JGUkWHXp6Rj1clbZ2FcS2GpnmsiMUOEob0sPsJ5suZEgHRTIKyCgXAFj3EJ7GL8XEbM9WmcdSoY"/>
-								<button class="w-full bg-primary text-background-dark flex items-center justify-between px-4 py-2.5 rounded transition-all active:scale-95 hover:brightness-110 shadow-lg shadow-primary/20">
+								<h4 class="text-xl font-black font-headline tracking-tighter uppercase italic">Jungle
+									Spirit Pack</h4>
+								<p class="text-[10px] uppercase font-bold text-on-surface-variant tracking-widest">5
+									Cards • Guaranteed Uncommon</p>
+								<img class="w-full aspect-video object-cover rounded group-hover:scale-105 transition-all duration-500"
+									data-alt="Green tinted card pack box art"
+									src="https://lh3.googleusercontent.com/aida-public/AB6AXuBf2fP8lEeGpPICurt9y4LU-omtW8f4QFRUCQZOs9OdZ4sCCJMGyE56S4AiaUwKKWHruzOcEWgUZxrsPCcSbiBSSE8IAAa01r4KIDJaGLatnsQQXmnsiM3sKsmx39FMG4eyumjVjuOiwZRKbCOKXWQMfHmz1pHPecBqf8SS7OdsoP9W6BPDBkxFS0zSubZcUym-JGUkWHXp6Rj1clbZ2FcS2GpnmsiMUOEob0sPsJ5suZEgHRTIKyCgXAFj3EJ7GL8XEbM9WmcdSoY" />
+								<button onclick="window.location.href='/pack'"
+									class="w-full bg-primary text-background-dark flex items-center justify-between px-4 py-2.5 rounded transition-all active:scale-95 hover:brightness-110 shadow-lg shadow-primary/20">
 									<span class="text-[12px] font-black uppercase tracking-widest">Acquire</span>
 									<div class="flex items-center gap-1">
-										<span class="material-symbols-outlined text-lg" data-icon="monetization_on">monetization_on</span>
+										<span class="material-symbols-outlined text-lg"
+											data-icon="monetization_on">monetization_on</span>
 										<span class="font-bold">500</span>
-									</div>
-								</button>
-							</div>
-						</div>
-						-->
-						<!-- Pack 2 -->
-						<!--
-						<div class="group relative bg-surface-container-low p-6 border border-primary/5 hover:border-primary/20 transition-all rounded-lg overflow-hidden">
-							<div class="absolute top-0 right-0 p-2 text-primary/10">
-								<span class="material-symbols-outlined text-6xl">temple_hindu</span>
-							</div>
-							<div class="relative z-10 space-y-4">
-								<h4 class="text-xl font-black font-headline tracking-tighter uppercase italic">Ancient Ruins Pack</h4>
-								<p class="text-[10px] uppercase font-bold text-on-surface-variant tracking-widest">7 Cards • Guaranteed Rare</p>
-								<img class="w-full aspect-video object-cover rounded group-hover:scale-105 transition-all duration-500" data-alt="Stone textured card pack box art" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZ5LJLarBjcOvfeVZ6CKddfbqeoSZTd3DefI3HQxwfRNcyxATEOwk2uY7024OByPcb5Npmh-0Kuk4B0w9KgtzvCoZ_ETh8kTY4fRVEnaSixMYjormqClB9nUAWE5X6iawtm6-RDVyXn9mKrnC1uAHU6a6CY7IjZQPneJjfYnhbyMyUsSEQJb59CjKiL-FQTIskveisQBm_sJqJxUWjKgkSBfI7NgUzA3rnCs0RbOkJ4wl8xuOnrk2UCh-FznI3RgKzW4cJu5LVO9I"/>
-								<button class="w-full bg-primary text-background-dark flex items-center justify-between px-4 py-2.5 rounded transition-all active:scale-95 hover:brightness-110 shadow-lg shadow-primary/20">
-									<span class="text-[12px] font-black uppercase tracking-widest">Acquire</span>
-									<div class="flex items-center gap-1">
-										<span class="material-symbols-outlined text-lg" data-icon="monetization_on">monetization_on</span>
-										<span class="font-bold">1200</span>
-									</div>
-								</button>
-							</div>
-						</div>
-						-->
-						<!-- Pack 3 -->
-						<!--
-						<div class="group relative bg-surface-container-low p-6 border-2 border-primary/30 hover:border-primary transition-all rounded-lg overflow-hidden shadow-[0_10px_30px_rgba(244,209,37,0.05)]">
-							<div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent pointer-events-none"></div>
-							<div class="absolute top-0 right-0 p-2 text-primary/20">
-								<span class="material-symbols-outlined text-6xl">bolt</span>
-							</div>
-							<div class="relative z-10 space-y-4">
-								<h4 class="text-xl font-black font-headline tracking-tighter uppercase italic text-primary">Chaos Surge Pack</h4>
-								<p class="text-[10px] uppercase font-bold text-on-surface-variant tracking-widest">12 Cards • Guaranteed Epic+</p>
-								<img class="w-full aspect-video object-cover rounded group-hover:scale-105 transition-all duration-500" data-alt="Electrical storm themed card pack box art" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGa2cfaIHmmnvO01gcNEgLthAkW3JXel5woljRGuAoOHDNOquKRyScMpO4sEl0VA4W_KLbXB08bOD4XAkafnyLzjbVtla-KOv0vwlqbsjuSDlOxBYoQOkHKOQFf3iHoMQ03r7Z-AQXGD_UBRqSjNwIiXRbbB5Yn2yaVncAk6i6fCup8tCSaaNRfOe_4M8BH2OYYKgEzRv5M3zrrsgaUNbtyViXl7k5xdfYlxjVo-C041UUXgosm2YKdky1h5mr2-yDHeWGDUoWwsU"/>
-								<button class="w-full bg-primary text-background-dark flex items-center justify-between px-4 py-2.5 rounded transition-all active:scale-95 hover:brightness-110 shadow-lg shadow-primary/20">
-									<span class="text-[12px] font-black uppercase tracking-widest">Acquire</span>
-									<div class="flex items-center gap-1">
-										<span class="material-symbols-outlined text-lg" data-icon="monetization_on">monetization_on</span>
-										<span class="font-bold">3000</span>
 									</div>
 								</button>
 							</div>
 						</div>
 					</div>
 				</section>
-				-->
 			</main>
-			
+
 			<!-- Footer -->
-            <footer th:replace="~{fragments/layout :: footer}"></footer>
+			<footer th:replace="~{fragments/layout :: footer}"></footer>
 		</div>
 	</div>
+	<div id="shop-config" th:data-server-time="${serverTime}" class="hidden"></div>
+	<script th:src="@{/js/shop-timer.js}"></script>
 </body>
 
 </html>

@@ -12,12 +12,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.dami.tcg.modelo.*;
 
 import jakarta.servlet.http.HttpSession;
 import org.mindrot.jbcrypt.BCrypt;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 @Controller
@@ -25,7 +29,18 @@ public class PlayerController {
     PlayerDAO dao = new ImplPlayerBD();
     DeckDAO deckDao = new ImplDeckBD();
 
-    // ==================== AUTH ENDPOINTS ====================
+    @GetMapping("/api/check-username")
+    @ResponseBody
+    public Map<String, Boolean> checkUsername(@RequestParam String username) {
+        Map<String, Boolean> response = new HashMap<>();
+        if (username == null || username.trim().isEmpty()) {
+            response.put("available", false);
+            return response;
+        }
+        Player existing = dao.queryPlayerByUsername(username);
+        response.put("available", existing == null);
+        return response;
+    }
 
     @GetMapping("/login")
     public String showLogin() {

@@ -1,15 +1,19 @@
+/*
+Database creation
+*/
 DROP DATABASE IF EXISTS CHAOSMONKEYS;
 CREATE DATABASE CHAOSMONKEYS;
-
 USE CHAOSMONKEYS;
 
+/* 
+Tables creation 
+*/
 CREATE TABLE Players (
     PlayerID INT AUTO_INCREMENT PRIMARY KEY,
     Username VARCHAR(50) NOT NULL UNIQUE,
     PlayerPassword VARCHAR(255) NOT NULL,
     Coins INT CHECK(Coins>=0 AND Coins<=999999)
 );
-
 CREATE TABLE Decks (
     DeckID INT AUTO_INCREMENT PRIMARY KEY,
     DeckTitle VARCHAR(30) NOT NULL,
@@ -17,16 +21,14 @@ CREATE TABLE Decks (
     DeckDescription VARCHAR(255),
 	FOREIGN KEY (PlayerID) REFERENCES Players(PlayerID)
 );
-
 CREATE TABLE Cards (
     CardID INT AUTO_INCREMENT PRIMARY KEY,
     CardName VARCHAR(30) NOT NULL,
     CardDescription VARCHAR(255) ,
     Quality ENUM('Common', 'Rare', 'Epic', 'Legendary', 'Mythic', 'Arok'),
-    PurchaseValue INT,
-    SellValue INT
+    PurchasePrice INT,
+    SellPrice INT
 );
-
 CREATE TABLE PlayersCards (
     PlayerID INT,
     CardID INT,
@@ -35,7 +37,13 @@ CREATE TABLE PlayersCards (
     FOREIGN KEY (PlayerID) REFERENCES Players(PlayerID),
     FOREIGN KEY (CardID) REFERENCES Cards(CardID)
 );
-
+CREATE TABLE ShopCards (
+	PlayerID INT,
+    CardID INT,
+    Purchased BOOLEAN,
+    FOREIGN KEY (PlayerID) REFERENCES Players(PlayerID),
+    FOREIGN KEY (CardID) REFERENCES Cards(CardID)
+);
 CREATE TABLE DecksCards (
     DeckID INT,
     CardID INT,
@@ -45,7 +53,10 @@ CREATE TABLE DecksCards (
     FOREIGN KEY (CardID) REFERENCES Cards(CardID)
 );
 
-INSERT INTO Cards (CardName, Quality, CardDescription, PurchaseValue, SellValue) VALUES
+/*
+Data insertion 
+*/
+INSERT INTO Cards (CardName, Quality, CardDescription, PurchasePrice, SellPrice) VALUES
 ('Royal Mandrill', 'Legendary', 'A natural leader with vibrant facial colors and a fierce gaze.',2000,150),
 ('Common Marmoset', 'Common', 'Tiny, elusive, and has a great love for tropical fruits.',500,10),
 ('Mountain Gorilla', 'Epic', 'Pure brute strength capable of uprooting entire trees.',1500,75),
@@ -122,7 +133,7 @@ INSERT INTO Cards (CardName, Quality, CardDescription, PurchaseValue, SellValue)
 ('Fat-Tailed Lemur', 'Rare', 'Stores fat in his tail to survive the lean winter months.',1000,25),
 ('Schouteden Chimpanzee', 'Common', 'A regional variant from the thick Congo basin.',500,10),
 ('Young Mandrill', 'Common', 'Has not yet developed the bright colors of an adult.',500,10),
-('Lowland Gorilla', 'Epic', 'Smaller than the mountain variety but much more agile.',1500,75),
+('Lowland Gorilla', 'Epic', 'Lowland Gorilla.',1500,75),
 ('Sumatran Orangutan', 'Rare', 'Spends almost his entire life high up in the trees.',1000,25),
 ('White-Handed Gibbon', 'Common', 'Perfectly balanced swinging through the high canopy.',500,10),
 ('White-Lipped Tamarin', 'Rare', 'Looks as if he just finished drinking a glass of milk.',1000,25),
@@ -148,12 +159,163 @@ INSERT INTO Cards (CardName, Quality, CardDescription, PurchaseValue, SellValue)
 ('Infinite Monkey', 'Mythic', 'Given enough time and a typewriter, he will write Shakespeare.',3000,250),
 ('Kora', 'Arok', 'I´m Kora',0,0);
 
+/* 
+Player table population with Stored Procedure
+*/
+DROP PROCEDURE IF EXISTS PopulatePlayers
 DELIMITER $$
-CREATE TRIGGER autoSell BEFORE INSERT ON PlayerCards
+CREATE PROCEDURE PopulatePlayers()
+BEGIN
+    DECLARE playerCount INT DEFAULT 0;
+
+    WHILE playerCount < 1000 DO
+        INSERT INTO Players (Username, PlayerPassword, Coins)
+        VALUES (
+            CONCAT('monkey', LPAD(playerCount, 3, '0')),
+            '$2a$10$tGoDWiVt.6grA/fEC8.hqu8VHLYaWPUFzWFU3.fXAquaXwnE9flwa',
+            FLOOR(RAND() * 1000000)
+        );
+        SET playerCount = playerCount + 1;
+    END WHILE;
+END$$
+DELIMITER ;
+CALL PopulatePlayers();
+
+/*
+Stored procedure to populate PlayersCards
+*/
+DROP PROCEDURE IF EXISTS PopulatePlayersCards;
+DELIMITER $$
+
+CREATE PROCEDURE PopulatePlayersCards()
+BEGIN
+    DECLARE player INT DEFAULT 1;
+    DECLARE qtyCardsIdToInsert INT;
+    DECLARE jsonCards JSON;
+
+    WHILE player <= 1000 DO
+
+        -- Random number of diferent cards between 20 and 80
+        SET qtyCardsIdToInsert = FLOOR(20 + RAND() * 60);
+
+        -- Weighted random card selection based on Quality
+        SET jsonCards = (
+            SELECT JSON_ARRAYAGG(CardID)
+            FROM (
+                SELECT CardID
+                FROM Cards
+                WHERE Quality NOT IN ('Arok')
+                ORDER BY 
+                    CASE Quality
+                        WHEN 'Common'    THEN RAND() * 70
+                        WHEN 'Rare'      THEN RAND() * 15
+                        WHEN 'Epic'      THEN RAND() * 10
+                        WHEN 'Legendary' THEN RAND() * 3
+                        WHEN 'Mythic'    THEN RAND() * 2
+                    END
+                LIMIT qtyCardsIdToInsert
+            ) AS t
+        );
+
+        -- Insert unique card IDs with weighted quantities
+        INSERT INTO PlayersCards (PlayerID, CardID, Quantity)
+        SELECT 
+            player AS PlayerID,
+            c.CardID AS CardID,
+            CASE c.Quality
+                WHEN 'Common'    THEN FLOOR(3 + RAND() * 3)   -- 3–5
+                WHEN 'Rare'      THEN FLOOR(2 + RAND() * 3)   -- 2–4
+                WHEN 'Epic'      THEN FLOOR(1 + RAND() * 3)   -- 1–3
+                WHEN 'Legendary' THEN 1   					  -- always 1
+                WHEN 'Mythic'    THEN 1                       -- always 1
+            END AS Quantity
+        FROM JSON_TABLE(
+            jsonCards,
+            "$[*]" COLUMNS(card_id INT PATH "$")
+        ) AS jt
+        JOIN Cards c ON c.CardID = jt.card_id
+        GROUP BY c.CardID;
+
+        SET player = player + 1;
+    END WHILE;
+
+END$$
+DELIMITER ;
+CALL PopulatePlayersCards();
+
+/* 
+Stored Procedure to refresh ShopCards table
+*/
+DROP PROCEDURE IF EXISTS RefreshShopCards;
+DELIMITER $$
+CREATE PROCEDURE RefreshShopCards()
+BEGIN
+	DECLARE playerCount INT;
+    DECLARE noPlayer INT;
+    DECLARE noCard INT;
+    DECLARE randomNum DECIMAL(4,4);
+    DECLARE newCardID INT;
+    SELECT COUNT(*) INTO playerCount FROM Players; -- How many players are already in the DB
+    SET noPlayer = 0;
+    DELETE FROM ShopCards WHERE CardID BETWEEN 1 AND 100;
+    WHILE noPlayer < playerCount DO -- Loop until reached the amount of players registered
+		SET noCard = 0;
+		SET noPlayer = noPlayer + 1;
+        WHILE noCard < 3 DO -- Loop until reached 3 cards for each player
+			SET noCard = noCard + 1;
+			SELECT RAND() INTO randomNum;
+            IF noCard <= 2 THEN -- Two first cards are totally random
+				IF randomNum < 0.009 THEN
+					SELECT CardID INTO newCardID FROM Cards WHERE Quality = "Mythic" ORDER BY RAND() LIMIT 1;
+				ELSEIF randomNum < 0.04 THEN
+					SELECT CardID INTO newCardID FROM Cards WHERE Quality = "Legendary" ORDER BY RAND() LIMIT 1;
+				ELSEIF randomNum < 0.1 THEN
+					SELECT CardID INTO newCardID FROM Cards WHERE Quality = "Epic" ORDER BY RAND() LIMIT 1;
+				ELSEIF randomNum < 0.25 THEN
+					SELECT CardID INTO newCardID FROM Cards WHERE Quality = "Rare" ORDER BY RAND() LIMIT 1;
+				ELSE
+					SELECT CardID INTO newCardID FROM Cards WHERE Quality = "Common" ORDER BY RAND() LIMIT 1;
+				END IF;
+			ELSE -- Last card must be RARE or higher
+				IF randomNum < 0.04 THEN
+					SELECT CardID INTO newCardID FROM Cards WHERE Quality = "Mythic" ORDER BY RAND() LIMIT 1;
+				ELSEIF randomNum < 0.1 THEN
+					SELECT CardID INTO newCardID FROM Cards WHERE Quality = "Legendary" ORDER BY RAND() LIMIT 1;
+				ELSEIF randomNum < 0.25 THEN
+					SELECT CardID INTO newCardID FROM Cards WHERE Quality = "Epic" ORDER BY RAND() LIMIT 1;
+				ELSE
+					SELECT CardID INTO newCardID FROM Cards WHERE Quality = "Rare" ORDER BY RAND() LIMIT 1;
+				END IF;
+            END IF;
+            
+			INSERT INTO ShopCards VALUES
+			(noPlayer,newCardID,false);
+		END WHILE;
+    END WHILE;
+    SELECT S.PlayerID, S.CardID, S.Purchased, C.Quality FROM ShopCards S
+    JOIN Cards C ON S.CardID=C.CardID;
+END$$
+DELIMITER ;
+
+/*
+Event to refresh ShopCards
+*/
+DROP EVENT IF EXISTS Refresh;
+CREATE EVENT Refresh
+ON SCHEDULE EVERY 1 MINUTE
+STARTS '2026-03-27 13:10:00'
+DO
+	CALL RefreshShopCards();
+
+/*
+AutoSell cards trigger
+*/
+DELIMITER $$
+CREATE TRIGGER autoSell BEFORE INSERT ON PlayersCards
 FOR EACH ROW
 BEGIN
 	DECLARE existingQuantity INT;
-    SELECT Quantity into existingQuantity FROM PlayerCards
+    SELECT Quantity into existingQuantity FROM PlayersCards
     WHERE PlayerID = NEW.PlayerID AND CardID = NEW.CardID 
     LIMIT 1;
 	IF existingQuantity IS NOT NULL THEN
@@ -163,12 +325,15 @@ BEGIN
             SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Maximum card limit reached card sold automatically.';
 		END IF;
     END IF;
-
 END$$
 DELIMITER ;
 
-DELIMITER $$
 
+/*
+Duplicated trigger
+*/
+/*
+DELIMITER $$
 CREATE TRIGGER autoSell BEFORE INSERT ON PlayerCards
 FOR EACH ROW
 BEGIN
@@ -188,13 +353,97 @@ BEGIN
         END IF;
     END IF;
 END$$
+DELIMITER ;
+*/
 
+/*
+Stored Procedure to unlock Kora card
+*/
+DELIMITER $$
+CREATE PROCEDURE unlockKora(IN id int) 
+BEGIN
+	IF (SELECT COUNT(*) FROM PlayersCards WHERE PlayerID = id) = 100 THEN
+		INSERT INTO PlayersCards VALUES
+        (id, 101, 1);
+		SELECT 'Congratulations! You have completed the collection, and as a reward you have unlocked the secret card KORA.';
+    END IF;
+    END $$
 DELIMITER ;
 
 
+DELIMITER $$
+CREATE FUNCTION rarestCard()
+RETURNS INT
+DETERMINISTIC
+BEGIN
+	DECLARE rarest INT;
+    DECLARE currentCard INT;
+    DECLARE currentQuantity INT;
+    DECLARE minQuantity INT DEFAULT NULL;
+    DECLARE fin bool default 0;
+	DECLARE c CURSOR FOR
+        SELECT CardID, SUM(Quantity) AS totalQuantity
+        FROM PlayersCards
+        GROUP BY CardID;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET fin = 1;
+    OPEN c;
+    FETCH c INTO currentCard, currentQuantity;
+    WHILE fin = 0 DO
+		IF minQuantity IS NULL OR currentQuantity < minQuantity THEN
+			SET minQuantity = currentQuantity;
+			SET rarest = currentCard;
+		END IF;
+        FETCH c INTO currentCard, currentQuantity;
+    END WHILE;
 
--- Test Player Insert
-INSERT INTO Player (Username, PlayerPassword) VALUES ('player1', 'pass1');
-INSERT INTO Player (Username, PlayerPassword) VALUES ('player2', 'pass2');
+    CLOSE c;
 
-INSERT INTO PlayerCards (PlayerID, CardID) VALUES (1, 1);
+	RETURN rarest;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE tradeCard(in card int , in recivPlayer int, in givePlayer int)
+BEGIN
+	DECLARE gQuantity INT;
+    DECLARE rQuantity INT;
+	BEGIN
+        DECLARE EXIT HANDLER FOR NOT FOUND
+        BEGIN
+			SELECT 'Error: No se ha podido realizar el intercambio' as mensaje;
+        END;
+        SELECT Quantity INTO gQuantity 
+        FROM PlayersCards 
+        WHERE PlayerID = givePlayer AND CardID = card;
+    END;
+    SET rQuantity = (SELECT Quantity FROM PlayersCards WHERE PlayerID = recivPlayer AND  CardID = card);
+	IF  gQuantity > 1 THEN
+		IF rQuantity IS NOT NULL THEN
+			UPDATE PlayersCards SET Quantity = rQuantity + 1
+            WHERE PlayerID = recivPlayer AND  CardID = card;
+		ELSE
+			INSERT INTO PlayersCards VALUES
+            (recivPlayer, card, 1);
+        END IF;
+        UPDATE PlayersCards SET Quantity = gQuantity - 1
+            WHERE PlayerID = givePlayer AND  CardID = card;
+	ELSE 
+		SELECT 'Error: No se ha podido realizar el intercambio' as mensaje;
+    END IF;
+END $$
+DELIMITER ;
+
+
+/*
+UPDATE Cards
+SET SellPrice=250
+WHERE Quality='Mythic';
+
+INSERT INTO PlayersCards (PlayerID, CardID) VALUES (1, 1);
+
+SELECT COUNT(CardID) FROM Cards WHERE Quality='Common';
+SELECT COUNT(CardID) FROM Cards WHERE Quality='Rare';
+SELECT COUNT(CardID) FROM Cards WHERE Quality='Epic';
+SELECT COUNT(CardID) FROM Cards WHERE Quality='Legendary';
+SELECT COUNT(CardID) FROM Cards WHERE Quality='Mythic';
+*/

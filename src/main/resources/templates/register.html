@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html th:with="loadPasswordScript=true" class="dark" lang="en" xmlns:th="http://www.thymeleaf.org">
+<html th:with="loadPasswordScript=true loadCheckUsernameScript=true" class="dark" lang="en"
+    xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="~{fragments/layout :: head('Chaos and Monkeys - Register')}">
     <meta charset="utf-8">
@@ -72,13 +73,18 @@
                                     class="block text-[10px] uppercase tracking-widest font-bold text-primary/70 ml-1">Username</label>
                                 <div class="group relative">
                                     <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                        <span
+                                        <span id="usernameIcon"
                                             class="material-symbols-outlined text-primary/40 group-focus-within:text-primary transition-colors">person</span>
                                     </div>
-                                    <input name="username"
-                                        class="w-full bg-background-dark border border-primary/10 focus:border-primary/50 focus:ring-1 focus:ring-primary/20 text-slate-100 pl-12 pr-4 py-4 rounded-lg transition-all font-mono text-sm placeholder:text-slate-600"
+                                    <input name="username" id="usernameInput"
+                                        class="w-full bg-background-dark border border-primary/10 focus:border-primary/50 focus:ring-1 focus:ring-primary/20 text-slate-100 pl-12 pr-10 py-4 rounded-lg transition-all font-mono text-sm placeholder:text-slate-600"
                                         placeholder="player_username" type="text" required />
+                                    <!-- Status Icon -->
+                                    <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                                        <span id="usernameStatusIcon" class="material-symbols-outlined hidden"></span>
+                                    </div>
                                 </div>
+                                <p id="usernameStatusMsg" class="text-[10px] hidden mt-1 ml-1"></p>
                             </div>
 
                             <!-- Password Field -->
@@ -156,6 +162,7 @@
             <footer th:replace="~{fragments/layout :: footer}"></footer>
         </div>
     </div>
+
 </body>
 
 </html>
