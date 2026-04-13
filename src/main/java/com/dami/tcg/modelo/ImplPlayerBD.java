@@ -230,7 +230,6 @@ public class ImplPlayerBD implements PlayerDAO {
 			statement.close();
 			connection.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return quantity;
@@ -304,7 +303,6 @@ public class ImplPlayerBD implements PlayerDAO {
 			statement.close();
 			connection.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return coins;
@@ -322,7 +320,6 @@ public class ImplPlayerBD implements PlayerDAO {
 			statement.close();
 			connection.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
