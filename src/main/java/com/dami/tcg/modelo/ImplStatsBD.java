@@ -19,6 +19,22 @@ public class ImplStatsBD implements StatsDAO {
     private String userBD;
     private String passwordBD;
 
+    // SQL statements
+    final String SQLACTIVEPLAYERS = "SELECT COUNT(*) as count FROM Players";
+    final String SQLMOSTCOMMONCARD = "SELECT c.*, SUM(pc.Quantity) as total " +
+            "FROM Cards c JOIN PlayersCards pc ON c.CardId = pc.CardID " +
+            "GROUP BY c.CardId ORDER BY total DESC LIMIT 1";
+    final String SQLMOSTCOMMONCARDQUANTITY = "SELECT SUM(Quantity) as total " +
+            "FROM PlayersCards GROUP BY CardID ORDER BY total DESC LIMIT 1";
+    final String SQLLEASTFOUNDCARD = "SELECT c.*, SUM(pc.Quantity) as total " +
+            "FROM Cards c JOIN PlayersCards pc ON c.CardId = pc.CardID " +
+            "GROUP BY c.CardId ORDER BY total ASC LIMIT 1";
+    final String SQLLEASTFOUNDCARDQUANTITY = "SELECT SUM(Quantity) as total " +
+            "FROM PlayersCards GROUP BY CardID ORDER BY total ASC LIMIT 1";
+    final String SQLUNCLAIMEDCARDS = "SELECT * " +
+            "FROM Cards WHERE CardId NOT IN (SELECT CardID FROM PlayersCards)";
+    final String SQLLATESTCARDS = "SELECT * FROM Cards ORDER BY CardId DESC LIMIT ?";
+
     public ImplStatsBD() {
         this.configFile = ResourceBundle.getBundle("configDB");
         this.driverBD = this.configFile.getString("Driver");
@@ -41,7 +57,7 @@ public class ImplStatsBD implements StatsDAO {
         int count = 0;
         this.openConnection();
         try {
-            statement = connection.prepareStatement("SELECT COUNT(*) as count FROM Players");
+            statement = connection.prepareStatement(SQLACTIVEPLAYERS);
             ResultSet resultado = statement.executeQuery();
             if (resultado.next()) {
                 count = resultado.getInt("count");
@@ -60,9 +76,7 @@ public class ImplStatsBD implements StatsDAO {
         Card card = null;
         this.openConnection();
         try {
-            statement = connection.prepareStatement("SELECT c.*, SUM(pc.Quantity) as total " +
-                    "FROM Cards c JOIN PlayersCards pc ON c.CardId = pc.CardID " +
-                    "GROUP BY c.CardId ORDER BY total DESC LIMIT 1");
+            statement = connection.prepareStatement(SQLMOSTCOMMONCARD);
             ResultSet resultado = statement.executeQuery();
             if (resultado.next()) {
                 card = new Card(resultado.getInt("CardId"), resultado.getString("CardName"),
@@ -83,8 +97,7 @@ public class ImplStatsBD implements StatsDAO {
         int qty = 0;
         this.openConnection();
         try {
-            statement = connection.prepareStatement("SELECT SUM(Quantity) as total " +
-                    "FROM PlayersCards GROUP BY CardID ORDER BY total DESC LIMIT 1");
+            statement = connection.prepareStatement(SQLMOSTCOMMONCARDQUANTITY);
             ResultSet resultado = statement.executeQuery();
             if (resultado.next()) {
                 qty = resultado.getInt("total");
@@ -103,9 +116,7 @@ public class ImplStatsBD implements StatsDAO {
         Card card = null;
         this.openConnection();
         try {
-            statement = connection.prepareStatement("SELECT c.*, SUM(pc.Quantity) as total " +
-                    "FROM Cards c JOIN PlayersCards pc ON c.CardId = pc.CardID " +
-                    "GROUP BY c.CardId ORDER BY total ASC LIMIT 1");
+            statement = connection.prepareStatement(SQLLEASTFOUNDCARD);
             ResultSet resultado = statement.executeQuery();
             if (resultado.next()) {
                 card = new Card(resultado.getInt("CardId"), resultado.getString("CardName"),
@@ -126,8 +137,7 @@ public class ImplStatsBD implements StatsDAO {
         int qty = 0;
         this.openConnection();
         try {
-            statement = connection.prepareStatement("SELECT SUM(Quantity) as total " +
-                    "FROM PlayersCards GROUP BY CardID ORDER BY total ASC LIMIT 1");
+            statement = connection.prepareStatement(SQLLEASTFOUNDCARDQUANTITY);
             ResultSet resultado = statement.executeQuery();
             if (resultado.next()) {
                 qty = resultado.getInt("total");
@@ -146,8 +156,7 @@ public class ImplStatsBD implements StatsDAO {
         List<Card> cards = new ArrayList<>();
         this.openConnection();
         try {
-            statement = connection.prepareStatement("SELECT * " +
-                    "FROM Cards WHERE CardId NOT IN (SELECT CardID FROM PlayersCards)");
+            statement = connection.prepareStatement(SQLUNCLAIMEDCARDS);
             ResultSet resultado = statement.executeQuery();
             while (resultado.next()) {
                 cards.add(new Card(resultado.getInt("CardId"), resultado.getString("CardName"),
@@ -168,7 +177,7 @@ public class ImplStatsBD implements StatsDAO {
         List<Card> cards = new ArrayList<>();
         this.openConnection();
         try {
-            statement = connection.prepareStatement("SELECT * FROM Cards ORDER BY CardId DESC LIMIT ?");
+            statement = connection.prepareStatement(SQLLATESTCARDS);
             statement.setInt(1, limit);
             ResultSet resultado = statement.executeQuery();
             while (resultado.next()) {
