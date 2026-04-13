@@ -160,7 +160,91 @@ INSERT INTO Cards (CardName, Quality, CardDescription, PurchasePrice, SellPrice)
 ('Kora', 'Arok', 'I´m Kora',0,0);
 
 /* 
-Stored Procedures
+Player table population with Stored Procedure
+*/
+DROP PROCEDURE IF EXISTS PopulatePlayers
+DELIMITER $$
+CREATE PROCEDURE PopulatePlayers()
+BEGIN
+    DECLARE playerCount INT DEFAULT 0;
+
+    WHILE playerCount < 1000 DO
+        INSERT INTO Players (Username, PlayerPassword, Coins)
+        VALUES (
+            CONCAT('monkey', LPAD(playerCount, 3, '0')),
+            '$2a$10$tGoDWiVt.6grA/fEC8.hqu8VHLYaWPUFzWFU3.fXAquaXwnE9flwa',
+            FLOOR(RAND() * 1000000)
+        );
+        SET playerCount = playerCount + 1;
+    END WHILE;
+END$$
+DELIMITER ;
+CALL PopulatePlayers();
+
+/*
+Stored procedure to populate PlayersCards
+*/
+DROP PROCEDURE IF EXISTS PopulatePlayersCards;
+DELIMITER $$
+
+CREATE PROCEDURE PopulatePlayersCards()
+BEGIN
+    DECLARE player INT DEFAULT 1;
+    DECLARE qtyCardsIdToInsert INT;
+    DECLARE jsonCards JSON;
+
+    WHILE player <= 1000 DO
+
+        -- Random number of diferent cards between 20 and 80
+        SET qtyCardsIdToInsert = FLOOR(20 + RAND() * 60);
+
+        -- Weighted random card selection based on Quality
+        SET jsonCards = (
+            SELECT JSON_ARRAYAGG(CardID)
+            FROM (
+                SELECT CardID
+                FROM Cards
+                WHERE Quality NOT IN ('Arok')
+                ORDER BY 
+                    CASE Quality
+                        WHEN 'Common'    THEN RAND() * 70
+                        WHEN 'Rare'      THEN RAND() * 15
+                        WHEN 'Epic'      THEN RAND() * 10
+                        WHEN 'Legendary' THEN RAND() * 3
+                        WHEN 'Mythic'    THEN RAND() * 2
+                    END
+                LIMIT qtyCardsIdToInsert
+            ) AS t
+        );
+
+        -- Insert unique card IDs with weighted quantities
+        INSERT INTO PlayersCards (PlayerID, CardID, Quantity)
+        SELECT 
+            player AS PlayerID,
+            c.CardID AS CardID,
+            CASE c.Quality
+                WHEN 'Common'    THEN FLOOR(3 + RAND() * 3)   -- 3–5
+                WHEN 'Rare'      THEN FLOOR(2 + RAND() * 3)   -- 2–4
+                WHEN 'Epic'      THEN FLOOR(1 + RAND() * 3)   -- 1–3
+                WHEN 'Legendary' THEN 1   					  -- always 1
+                WHEN 'Mythic'    THEN 1                       -- always 1
+            END AS Quantity
+        FROM JSON_TABLE(
+            jsonCards,
+            "$[*]" COLUMNS(card_id INT PATH "$")
+        ) AS jt
+        JOIN Cards c ON c.CardID = jt.card_id
+        GROUP BY c.CardID;
+
+        SET player = player + 1;
+    END WHILE;
+
+END$$
+DELIMITER ;
+CALL PopulatePlayersCards();
+
+/* 
+Stored Procedure to refresh ShopCards table
 */
 DROP PROCEDURE IF EXISTS RefreshShopCards;
 DELIMITER $$
@@ -241,9 +325,9 @@ BEGIN
             SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Maximum card limit reached card sold automatically.';
 		END IF;
     END IF;
-
 END$$
 DELIMITER ;
+
 
 /*
 Duplicated trigger
@@ -350,7 +434,7 @@ END $$
 DELIMITER ;
 
 
-
+/*
 UPDATE Cards
 SET SellPrice=250
 WHERE Quality='Mythic';
@@ -362,3 +446,4 @@ SELECT COUNT(CardID) FROM Cards WHERE Quality='Rare';
 SELECT COUNT(CardID) FROM Cards WHERE Quality='Epic';
 SELECT COUNT(CardID) FROM Cards WHERE Quality='Legendary';
 SELECT COUNT(CardID) FROM Cards WHERE Quality='Mythic';
+*/
