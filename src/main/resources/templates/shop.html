@@ -41,8 +41,7 @@
 								class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent">
 							</div>
 							<div class="absolute inset-0 flex items-center justify-center">
-								<span class="material-symbols-outlined text-primary text-7xl opacity-50"
-									style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+								<span class="material-symbols-outlined text-primary text-7xl opacity-50 icon-filled">auto_awesome</span>
 							</div>
 						</div>
 						<div class="flex-1 space-y-6 text-center md:text-left z-10">
@@ -248,7 +247,7 @@
 			<footer th:replace="~{fragments/layout :: footer}"></footer>
 		</div>
 	</div>
-	<div id="shop-config" th:data-server-time="${serverTime}" style="display: none;"></div>
+	<div id="shop-config" th:data-server-time="${serverTime}" class="hidden"></div>
 	<script th:src="@{/js/shop-timer.js}"></script>
 </body>
 
