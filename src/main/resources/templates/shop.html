@@ -113,15 +113,17 @@
 							<div class="px-3 pb-4 space-y-3">
 								<h4 class="text-lg font-bold font-headline leading-tight text-primary"
 									th:text="${card.name}"></h4>
-								<button
-									class="w-full bg-primary text-background-dark flex items-center justify-between px-4 py-2.5 rounded transition-all active:scale-95 hover:brightness-110 shadow-lg shadow-primary/20">
-									<span class="text-[12px] font-black uppercase tracking-widest">Purchase</span>
-									<div class="flex items-center gap-1">
-										<span class="material-symbols-outlined text-lg"
-											data-icon="monetization_on">monetization_on</span>
-										<span class="font-bold" th:text="${card.purchasePrice}">Price</span>
-									</div>
-								</button>
+								<form th:action="@{/shopCards(cardId=${card.cardID}, action='buy-card')}" method="post">	
+									<button
+										class="w-full bg-primary text-background-dark flex items-center justify-between px-4 py-2.5 rounded transition-all active:scale-95 hover:brightness-110 shadow-lg shadow-primary/20">
+										<span class="text-[12px] font-black uppercase tracking-widest">Purchase</span>
+										<div class="flex items-center gap-1">
+											<span class="material-symbols-outlined text-lg"
+												data-icon="monetization_on">monetization_on</span>
+											<span class="font-bold" th:text="${card.purchasePrice}">Price</span>
+										</div>
+									</button>
+								</form>	
 							</div>
 						</div>
 					</div>

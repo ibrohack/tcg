@@ -72,6 +72,26 @@ public class ShopController {
 		return "shop";
 	}
 
+	@PostMapping(value = "/shopCards", params = "action=buy-card")
+	public String buyCards(@RequestParam int cardId, RedirectAttributes redirectAttributes, HttpSession session) {
+		Player player = (Player) session.getAttribute("loggedPlayer");
+		Card card = null;
+		for(Card c : cardDao.queryShopCards(player.getPlayerId())) {
+			if(c.getCardID()==cardId) {
+				card=c;
+			}
+		}	
+		if (player.getCoins() >= card.getPurchasePrice()) {
+			playerDao.addCoins(player, Math.negateExact(card.getPurchasePrice()));
+			player.setCoins(playerDao.getGold(player));
+			playerDao.addCard(player, card);
+		}else{
+			redirectAttributes.addFlashAttribute("error", "Not enough coins to buy the card");
+			return "redirect:/shop";
+		}
+		return "redirect:/";
+	}
+
 	@PostMapping(value = "/shop", params = "action=buy")
 	public String buyCoins(@RequestParam int price, @RequestParam int coins, RedirectAttributes redirectAttributes, HttpSession session) {
 		Player player = (Player) session.getAttribute("loggedPlayer");
