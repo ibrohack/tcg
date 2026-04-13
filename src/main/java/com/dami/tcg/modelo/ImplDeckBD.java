@@ -198,8 +198,8 @@ public class ImplDeckBD implements DeckDAO {
                         resultado.getString("CardName"),
                         resultado.getString("CardDescription"),
                         resultado.getString("Quality"),
-                        resultado.getInt("PurchaseValue"),
-                        resultado.getInt("SellValue")));
+                        resultado.getInt("PurchasePrice"),
+                        resultado.getInt("SellPrice")));
             }
             resultado.close();
             statement.close();

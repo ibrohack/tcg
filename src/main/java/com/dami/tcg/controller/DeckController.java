@@ -57,8 +57,21 @@ public class DeckController {
 		return dao.deleteDeck(deck);
 	}
 
-	public boolean updateDeck(Deck deck) {
-		return dao.updateDeck(deck);
+	@GetMapping("/deckdelete")
+	public String deckDelete(Model model, HttpSession session, Deck deck, RedirectAttributes redirectAttributes) {
+		Player player = (Player) session.getAttribute("loggedPlayer");
+		if (player == null) {
+			return "redirect:/login";
+		}
+		List<Deck> decks = dao.queryPlayerDecks(player.getPlayerId());
+		model.addAttribute("decks", decks);
+		model.addAttribute("player", player);
+		if (decks.isEmpty()) {
+			model.addAttribute("message", "You have no decks to delete");
+			return "deckdelete";
+		} else {
+			return "deckdelete";
+		}
 	}
 
 	@GetMapping("/deckcheck")
