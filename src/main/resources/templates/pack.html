@@ -68,7 +68,7 @@
 				        <button class="bg-primary rounded-xl font-bold text-background-dark flex items-center gap-2 px-6 py-3">
 				            <span class="material-symbols-outlined text-xl">payments</span>
 							
-				            <span th:text="${price}"></span>
+				            <span id="packPrice" th:text="${price}"></span>
 				            <span class="material-symbols-outlined text-xl">auto_fix_high</span>
 				            <span class="text-sm font-black uppercase tracking-widest">Open Pack</span>
 				        </button>
@@ -134,5 +134,7 @@
 
             <footer th:replace="~{fragments/layout :: footer}"></footer>
         </div>
+		<div id="pack-config" th:data-pack-avilable="${packAvilable}" class="hidden"></div>
+		<script th:src="@{/js/updateFreePack.js}"></script>
     </body>
 </html>
