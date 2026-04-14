@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 @Controller
 public class DeckController {
 	DeckDAO dao = new ImplDeckBD();
+	PlayerDAO playerDao = new ImplPlayerBD();
 
 	public boolean checkCard(Deck deck) {
 		return dao.checkCard(deck);

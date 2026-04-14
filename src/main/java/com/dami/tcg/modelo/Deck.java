@@ -73,6 +73,14 @@ public class Deck {
 		this.cards = cards;
 	}
 
+	public int getCardCount() {
+		int count = 0;
+		for (Integer q : cards.values()) {
+			count += q;
+		}
+		return count;
+	}
+
 	@Override
 	public String toString() {
 		return "Deck [deckID=" + deckID + ", title=" + title + ", description=" + description + ", cards=" + cards

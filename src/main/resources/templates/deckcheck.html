@@ -6,7 +6,7 @@
 
 <body
     class="font-body text-on-background selection:bg-primary selection:text-on-primary min-h-screen bg-background-dark">
-    <header th:replace="~{fragments/layout :: navbar('decks')}"></header>
+    <header th:replace="~{fragments/layout :: navbar('deckcheck')}"></header>
     <main class="max-w-screen-2xl mx-auto px-6 pt-24 pb-12">
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div>
@@ -42,21 +42,23 @@
                         <div>
                             <h2 class="font-headline text-3xl font-black text-on-background tracking-tight uppercase"
                                 th:text="${deck.title}"></h2>
+                            <h4 class="font-headline text-l font-black text-on-background tracking-tight uppercase"
+                                th:text="${deck.description}"></h4>
                             <div class="flex items-center gap-2 text-primary mt-1">
                                 <span class="material-symbols-outlined text-sm">style</span>
                                 <span class="text-xs font-bold tracking-widest uppercase"
-                                    th:text="${deck.cards.size()} + ' Cards'"></span>
+                                    th:text="${deck.getCardCount()} + ' Cards'"></span>
                             </div>
                         </div>
                         <div class="flex gap-2">
-                            <button th:onclick="window.location.href='deckedit'"
+                            <a th:href="@{/deckedit(deckId=${deck.deckID})}"
                                 class="h-10 w-10 bg-primary/10 backdrop-blur-md border border-primary/30 flex items-center justify-center text-primary hover:bg-primary hover:text-background transition-colors rounded">
                                 <span class="material-symbols-outlined">edit</span>
-                            </button>
-                            <button th:onclick="window.location.href='deckdelete'"
+                            </a>
+                            <a th:href="@{/deckdelete(deckId=${deck.deckID})}"
                                 class="h-10 w-10 bg-error/10 backdrop-blur-md border border-error/30 flex items-center justify-center text-error hover:bg-error hover:text-on-error transition-colors rounded">
                                 <span class="material-symbols-outlined">delete</span>
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>

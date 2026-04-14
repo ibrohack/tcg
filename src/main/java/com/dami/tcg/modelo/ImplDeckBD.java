@@ -159,6 +159,24 @@ public class ImplDeckBD implements DeckDAO {
         return ok;
     }
 
+    private HashMap<Integer, Integer> getCardsForDeck(int deckId) {
+        HashMap<Integer, Integer> cards = new HashMap<>();
+        String sql = "SELECT CardID, Quantity FROM DecksCards WHERE DeckID = ?";
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, deckId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                cards.put(rs.getInt("CardID"), rs.getInt("Quantity"));
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            System.out.println("Error getting cards for deck: " + e.getMessage());
+        }
+        return cards;
+    }
+
     @Override
     public List<Deck> queryAll() {
         List<Deck> decks = new ArrayList<>();
@@ -167,8 +185,9 @@ public class ImplDeckBD implements DeckDAO {
             statement = connection.prepareStatement(SQLCONSULTA);
             ResultSet resultado = statement.executeQuery();
             while (resultado.next()) {
-                decks.add(new Deck(resultado.getInt("DeckId"), resultado.getString("Title"),
-                        resultado.getString("Description"), new HashMap<Integer, Integer>()));
+                decks.add(new Deck(resultado.getInt("DeckId"), resultado.getString("DeckTitle"),
+                        resultado.getString("DeckDescription"), resultado.getInt("PlayerID"),
+                        getCardsForDeck(resultado.getInt("DeckId"))));
             }
             resultado.close();
             statement.close();
@@ -190,9 +209,10 @@ public class ImplDeckBD implements DeckDAO {
             if (resultado.next()) {
                 deck = new Deck(
                         resultado.getInt("DeckId"),
-                        resultado.getString("Title"),
-                        resultado.getString("Description"),
-                        new HashMap<Integer, Integer>());
+                        resultado.getString("DeckTitle"),
+                        resultado.getString("DeckDescription"),
+                        resultado.getInt("PlayerID"),
+                        getCardsForDeck(deckId));
             }
             resultado.close();
             statement.close();
@@ -242,7 +262,8 @@ public class ImplDeckBD implements DeckDAO {
                         resultado.getInt("DeckId"),
                         resultado.getString("DeckTitle"),
                         resultado.getString("DeckDescription"),
-                        new HashMap<Integer, Integer>()));
+                        playerId,
+                        getCardsForDeck(resultado.getInt("DeckId"))));
             }
             resultado.close();
             statement.close();
