@@ -151,12 +151,22 @@ public class ShopController {
 	@PostMapping(value = "/shopCards", params = "action=buy-card")
 	public String buyCards(@RequestParam int cardId, RedirectAttributes redirectAttributes, HttpSession session) {
 		Player player = (Player) session.getAttribute("loggedPlayer");
+		if (player == null) {
+			return "redirect:/login";
+		}
 		Card card = null;
 		for(Card c : cardDao.queryShopCards(player.getPlayerId())) {
 			if(c.getCardID()==cardId) {
 				card=c;
+				break;
 			}
 		}	
+		
+		if (card == null) {
+			redirectAttributes.addFlashAttribute("error", "Card not found in the shop");
+			return "redirect:/shop";
+		}
+		
 		if (player.getCoins() >= card.getPurchasePrice()) {
 			playerDao.addCoins(player, Math.negateExact(card.getPurchasePrice()));
 			player.setCoins(playerDao.getGold(player));
