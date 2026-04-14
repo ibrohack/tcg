@@ -25,8 +25,8 @@ public class ImplDeckBD implements DeckDAO {
     private String passwordBD;
 
     // SQL Statements
-    final String SQLSELECT = "SELECT * FROM Decks WHERE Name = ?";
-    final String SQLINSERT = "INSERT INTO Decks VALUES (?,?,?)";
+    final String SQLSELECT = "SELECT * FROM Decks WHERE DeckID = ?";
+    final String SQLINSERT = "INSERT INTO Decks (DeckTitle, PlayerID, DeckDescription) VALUES (?,?,?)";
     final String SQLCONSULTA = "SELECT * FROM Decks";
     final String SQLBORRAR = "DELETE FROM Decks WHERE DeckId=?";
     final String SQLMODIFICAR = "UPDATE Decks SET Title=?, Description=? WHERE DeckId=?";
@@ -83,16 +83,35 @@ public class ImplDeckBD implements DeckDAO {
         if (!checkCard(deck)) {
             this.openConnection();
             try {
-                statement = connection.prepareStatement(SQLINSERT);
+                statement = connection.prepareStatement(SQLINSERT, java.sql.Statement.RETURN_GENERATED_KEYS);
                 statement.setString(1, deck.getTitle());
-                statement.setString(2, deck.getDescription());
+                statement.setInt(2, deck.getPlayerID());
+                statement.setString(3, deck.getDescription());
                 if (statement.executeUpdate() > 0) {
+                    ResultSet generatedKeys = statement.getGeneratedKeys();
+                    if (generatedKeys.next()) {
+                        deck.setDeckID(generatedKeys.getInt(1));
+                    }
+
+                    if (deck.getCards() != null && !deck.getCards().isEmpty()) {
+                        String insertCardSql = "INSERT INTO DecksCards (DeckID, CardID, Quantity) VALUES (?, ?, ?)";
+                        try (PreparedStatement cardStmt = connection.prepareStatement(insertCardSql)) {
+                            for (java.util.Map.Entry<Integer, Integer> entry : deck.getCards().entrySet()) {
+                                cardStmt.setInt(1, deck.getDeckID());
+                                cardStmt.setInt(2, entry.getKey());
+                                cardStmt.setInt(3, entry.getValue());
+                                cardStmt.addBatch();
+                            }
+                            cardStmt.executeBatch();
+                        }
+                    }
                     ok = true;
                 }
                 statement.close();
                 connection.close();
             } catch (SQLException e) {
                 System.out.println("Error inserting deck: " + e.getMessage());
+                e.printStackTrace();
             }
         }
         return ok;
@@ -196,8 +215,8 @@ public class ImplDeckBD implements DeckDAO {
                 cards.add(new Card(
                         resultado.getInt("CardId"),
                         resultado.getString("CardName"),
-                        resultado.getString("CardDescription"),
                         resultado.getString("Quality"),
+                        resultado.getString("CardDescription"),
                         resultado.getInt("PurchasePrice"),
                         resultado.getInt("SellPrice")));
             }

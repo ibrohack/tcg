@@ -6,19 +6,30 @@ public class Deck {
 	private int deckID;
 	private String title;
 	private String description;
+	private int playerID;
 	private HashMap<Integer, Integer> cards;
 
 	public Deck() {
 		this.deckID = 0;
 		this.title = "";
 		this.description = "";
+		this.playerID = 0;
 		this.cards = new HashMap<Integer, Integer>();
+	}
+
+	public Deck(int deckID, String title, String description, int playerID, HashMap<Integer, Integer> cards) {
+		this.deckID = deckID;
+		this.title = title;
+		this.description = description;
+		this.playerID = playerID;
+		this.cards = cards;
 	}
 
 	public Deck(int deckID, String title, String description, HashMap<Integer, Integer> cards) {
 		this.deckID = deckID;
 		this.title = title;
 		this.description = description;
+		this.playerID = 0;
 		this.cards = cards;
 	}
 
@@ -44,6 +55,14 @@ public class Deck {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public int getPlayerID() {
+		return playerID;
+	}
+
+	public void setPlayerID(int playerID) {
+		this.playerID = playerID;
 	}
 
 	public HashMap<Integer, Integer> getCards() {

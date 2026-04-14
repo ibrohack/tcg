@@ -1,6 +1,5 @@
 package com.dami.tcg.controller;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -37,12 +36,14 @@ public class DeckController {
 	}
 
 	@PostMapping("/deckcreate")
-	public String insertDeck(Model model, RedirectAttributes redirectAttributes,
-			@RequestParam String title,
-			@RequestParam String description,
-			@RequestParam HashMap<Integer, Integer> cards) {
+	public String insertDeck(Model model, RedirectAttributes redirectAttributes, HttpSession session,
+			@ModelAttribute Deck deck) {
+		Player player = (Player) session.getAttribute("loggedPlayer");
+		if (player == null) {
+			return "redirect:/login";
+		}
+		deck.setPlayerID(player.getPlayerId());
 
-		Deck deck = new Deck(0, title, description, cards);
 		boolean created = dao.insertDeck(deck);
 		if (created) {
 			redirectAttributes.addFlashAttribute("success", "Deck created successfully");

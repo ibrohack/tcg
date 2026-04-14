@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html class="dark" lang="en">
+<html th:with="loadDeckBuilding=true" class="dark" lang="en">
 
 <head th:replace="~{fragments/layout :: head('Chaos and Monkeys - Deck Creation')}"></head>
 
@@ -43,7 +43,8 @@
                 <div
                     class="flex-1 overflow-y-auto p-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
                     <!-- Card Items -->
-                    <div th:each="card : ${cards}" class="flex flex-col gap-2 group cursor-pointer">
+                    <div th:each="card : ${cards}" class="flex flex-col gap-2 group cursor-pointer"
+                        th:onclick="'addCardToDeck(' + ${card.cardID} + ')'" th:id="'card-' + ${card.cardID}">
                         <div class="relative aspect-[3/4] rounded-lg overflow-hidden border-2 border-transparent group-hover:border-quality-mythic transition-all bg-slate-800 shadow-xl"
                             th:classappend="${card.quality.equalsIgnoreCase('Common')} ? 'border border-card-common/20 hover:border-card-common' :
                                      (${card.quality.equalsIgnoreCase('Rare')} ? 'border border-card-rare/20 hover:border-card-rare hover:shadow-card-rare/20' :
@@ -51,47 +52,73 @@
                                      (${card.quality.equalsIgnoreCase('Legendary')} ? 'border border-card-legendary/20 hover:border-card-legendary hover:shadow-card-legendary/30' :
                                      (${card.quality.equalsIgnoreCase('Mythic')} ? 'border border-card-mythic/20 hover:border-card-mythic hover:shadow-card-mythic/40' :
                                      (${card.quality.equalsIgnoreCase('Arok')} ? 'border border-card-arok/20 hover:border-card-arok hover:shadow-card-arok/50' :
-                                     'border border-white/20')))))" th:data-alt="${card.description}">
-                            <div class="absolute top-2 left-2 size-8 rounded-full bg-quality-mythic flex items-center justify-center font-bold text-white shadow-md"
-                                th:text="${deckQuantity}"></div>
-                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+                                     'border border-white/20')))))" th:data-alt="${card.quality}">
+                            <img th:src="@{'/images/cards/' + ${card.cardID} + '.png'}" th:alt="${card.name}"
+                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
+                            <div class="absolute top-2 right-2 size-8 rounded-full bg-quality-mythic flex items-center justify-center font-bold text-white shadow-md card-quantity-display"
+                                th:text="${card.quality}"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent">
+                            </div>
                             <div class="absolute bottom-3 left-3 right-3 text-white">
                                 <p class="text-[10px] font-bold uppercase tracking-widest text-quality-mythic"
-                                    th:classappend="${card.quality.equalsIgnoreCase('Common')} ? 'bg-card-common/20 border border-card-common/50' :
-                                             (${card.quality.equalsIgnoreCase('Rare')} ? 'bg-card-rare/20 border border-card-rare/50' :
-                                             (${card.quality.equalsIgnoreCase('Epic')} ? 'bg-card-epic/20 border border-card-epic/50' :
-                                             (${card.quality.equalsIgnoreCase('Legendary')} ? 'bg-card-legendary/20 border border-card-legendary/50' :
-                                             (${card.quality.equalsIgnoreCase('Mythic')} ? 'bg-card-mythic/20 border border-card-mythic/50 text-card-mythic' :
-                                             (${card.quality.equalsIgnoreCase('Arok')} ? 'bg-card-arok/20 border border-card-arok/50 text-card-arok' :
-                                             'bg-white/20 border border-white/50')))))" th:text="${card.quality}">
-                                </p>
-                                <p class="text-sm font-bold leading-tight mb-1" th:text="${card.name}"></p>
+                                    th:text="${card.quality}"></p>
+                                <p class="text-sm font-bold leading-tight mb-1 card-name-display" th:classappend=" ${card.quality.equalsIgnoreCase('Common')} ? 'text-common' :
+                                    (${card.quality.equalsIgnoreCase('Rare')} ? 'text-rare' :
+                                    (${card.quality.equalsIgnoreCase('Epic')} ? 'text-epic' :
+                                    (${card.quality.equalsIgnoreCase('Legendary')} ? 'text-legendary' :
+                                    (${card.quality.equalsIgnoreCase('Mythic')} ? 'text-mythic' :
+                                    (${card.quality.equalsIgnoreCase('Arok')} ? 'text-arok' : 'text-white' )))))"
+                                    th:text="${card.name}"></p>
                                 <p class="text-[10px] text-slate-300 leading-tight line-clamp-2"
                                     th:text="${card.description}"></p>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
             <!-- Right Side: Current Deck -->
             <aside class="w-80 md:w-96 bg-background-light dark:bg-background-dark flex flex-col">
-                <div class="p-6 border-b border-primary/10">
+                <div class="p-6 border-b border-primary/10" id="deck-header">
                     <div class="flex items-center justify-between mb-2">
                         <h2 class="text-xl text-yellow-500 font-bold ">Current Deck</h2>
-                        <span class="bg-primary/20 text-primary px-2 py-1 rounded text-sm font-bold"
+                        <span class="bg-primary/20 text-primary px-2 py-1 rounded text-sm font-bold" id="deck-quantity"
                             th:text="${deckQuantity + '/30'}"></span>
                     </div>
 
                 </div>
                 <!-- Card List -->
-                <div class="flex-1 overflow-y-auto">
+                <div class="flex-1 overflow-y-auto" id="deck-sidebar">
                     <div class="divide-y divide-primary/5">
+                        <!--CARD DIV-->
+                        <template id="card-template">
+                            <div class="p-4 hover:bg-primary/5 flex items-center gap-3 transition-colors item-card-div">
+                                <div
+                                    class="size-10 bg-quality-mythic/20 rounded-lg flex items-center justify-center font-bold text-quality-mythic card-id-display">
+                                </div>
+                                <div class="flex-1">
+                                    <h4 class="text-sm font-bold card-name-display"></h4>
+                                    <p
+                                        class="text-[10px] uppercase text-quality-mythic font-bold card-quality-display card-cost-display">
+                                    </p>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xs font-bold text-slate-400 card-quantity-display"></span>
+                                    <button type="button"
+                                        class="size-6 rounded bg-slate-200 dark:bg-slate-700 flex items-center justify-center hover:bg-primary/50 remove-btn">
+                                        <span class="material-symbols-outlined text-sm">remove</span>
+                                    </button>
+                                </div>
+                                <input type="hidden" class="hidden-card-id" value="">
+                            </div>
+                        </template>
+                        <!--END CARD DIV-->
 
                     </div>
                 </div>
 
                 <div class="p-4 bg-slate-100 dark:bg-background-dark border-t border-primary/20 flex flex-col gap-2">
-                    <form th:action="@{/deckcreate}" method="post">
+                    <form th:action="@{/deckcreate}" method="post" id="deck-form">
                         <input type="hidden" name="deckID" th:value="${deck.deckID}">
                         <h2 class="text-yellow-500 font-bold ">Deck Title</h2>
                         <input name="title"
@@ -101,6 +128,7 @@
                         <input name="description"
                             class="w-full bg-background-dark border border-primary/20 focus:border-primary focus:ring-1 focus:ring-primary/20 text-slate-100 pl-12 pr-4 py-4 rounded-lg transition-all font-mono text-sm placeholder:text-slate-600 my-2"
                             placeholder="Deck Description" type="text" required />
+                        <div id="hidden-cards-container"></div>
                         <button
                             class="flex items-center gap-2 bg-primary text-background-dark px-6 py-2 rounded-lg font-bold hover:bg-primary/90 hover:text-background-dark hover:border-primary/50 hover:shadow-primary/20 transition-all my-1">
                             <span class="material-symbols-outlined">save</span>
