@@ -76,11 +76,13 @@
                     <span class="material-symbols-outlined">notifications</span>
                 </button>
             </div>
-            <div
-                class="flex items-center gap-2 bg-primary text-background-dark px-4 py-1.5 rounded-lg font-bold text-sm">
-                <span class="material-symbols-outlined text-lg">payments</span>
-                <span th:text="${session.loggedPlayer.coins}"></span>
-            </div>
+            <a th:href="@{/shop#gold-purchase-section}">
+                <div
+                    class="flex items-center gap-2 bg-primary text-background-dark px-4 py-1.5 rounded-lg font-bold text-sm">
+                    <span class="material-symbols-outlined text-lg">payments</span>
+                    <span th:text="${session.loggedPlayer.coins}"></span>
+                </div>
+            </a>
             <div class="flex items-center gap-3">
                 <div
                     class="h-10 w-10 rounded-full bg-primary/20 border-2 border-primary overflow-hidden flex items-center justify-center">

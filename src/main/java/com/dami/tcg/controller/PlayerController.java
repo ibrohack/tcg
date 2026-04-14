@@ -43,7 +43,10 @@ public class PlayerController {
     }
 
     @GetMapping("/login")
-    public String showLogin() {
+    public String showLogin(HttpSession session) {
+        if (session.getAttribute("loggedPlayer") != null) {
+            return "redirect:/player";
+        }
         return "login";
     }
 
@@ -63,7 +66,10 @@ public class PlayerController {
     }
 
     @GetMapping("/register")
-    public String showRegister() {
+    public String showRegister(HttpSession session) {
+        if (session.getAttribute("loggedPlayer") != null) {
+            return "redirect:/player";
+        }
         return "register";
     }
 
