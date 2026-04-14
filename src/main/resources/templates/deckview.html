@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head th:replace="~{fragments/layout :: head('Chaos and Monkeys - ' + ${player.username})}"></head>
+
+<body class="bg-background text-on-background font-body min-h-screen selection:bg-primary selection:text-on-primary">
+    <!-- TopNavBar -->
+    <header
+        class="bg-[#221f10]/80 backdrop-blur-xl docked full-width top-0 sticky z-50 shadow-xl shadow-[#f4d125]/10 bg-gradient-to-b from-[#f4d125]/5 to-transparent">
+        <div class="flex justify-between items-center w-full px-6 py-4 max-w-[1920px] mx-auto">
+            <div class="text-2xl font-black text-[#f4d125] italic tracking-tighter">Chaos and Monkeys</div>
+            <nav class="hidden md:flex items-center space-x-8">
+                <a class="font-['Space_Grotesk'] tracking-tight text-sm uppercase font-bold text-[#f4d125]/60 hover:text-[#f4d125] transition-colors hover:bg-[#f4d125]/10 transition-all duration-200"
+                    href="#">Dashboard</a>
+                <a class="font-['Space_Grotesk'] tracking-tight text-sm uppercase font-bold text-[#f4d125]/60 hover:text-[#f4d125] transition-colors hover:bg-[#f4d125]/10 transition-all duration-200"
+                    href="#">Collection</a>
+                <a class="font-['Space_Grotesk'] tracking-tight text-sm uppercase font-bold text-[#f4d125]/60 hover:text-[#f4d125] transition-colors hover:bg-[#f4d125]/10 transition-all duration-200"
+                    href="#">Shop</a>
+                <a class="font-['Space_Grotesk'] tracking-tight text-sm uppercase font-bold text-[#f4d125] border-b-2 border-[#f4d125] pb-1 hover:bg-[#f4d125]/10 transition-all duration-200"
+                    href="#">Decks</a>
+            </nav>
+            <div class="flex items-center space-x-6">
+                <div
+                    class="flex items-center space-x-2 bg-primary-container/30 px-3 py-1 rounded-full border border-primary/20">
+                    <span class="material-symbols-outlined text-primary text-sm"
+                        data-icon="account_balance_wallet">account_balance_wallet</span>
+                    <span class="font-['Space_Grotesk'] tracking-tight text-sm uppercase font-bold text-[#f4d125]">9,999
+                        GP</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="material-symbols-outlined text-[#f4d125]/60 hover:text-[#f4d125] transition-colors"
+                        data-icon="notifications">notifications</button>
+                    <button class="material-symbols-outlined text-[#f4d125]/60 hover:text-[#f4d125] transition-colors"
+                        data-icon="person">person</button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="flex min-h-[calc(100vh-72px)]">
+        <!-- SideNavBar -->
+        <aside
+            class="hidden lg:flex flex-col h-[calc(100vh-72px)] w-64 sticky top-[72px] border-r border-[#f4d125]/10 bg-[#221f10] py-8">
+            <div class="px-6 mb-8">
+                <div class="flex items-center space-x-3 mb-4">
+                    <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-primary shadow-lg">
+                        <img alt="Player Avatar" class="w-full h-full object-cover"
+                            data-alt="close-up portrait of a stylized digital avatar with neon yellow highlights and tactical gear"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmAiSDGZSwPiogG8Cm0fr89ArAhLBYNEa5mgo1Djs1CXAS3LoS5NRNNmVIMFRJqwKTSZKqZlODeM7jrhWLy_KAr_GDQ_hnClXF6Mhuz9DUlFldVWmBTYDYs--FjWTl-1-39XX1C_PwB45ni6Ht9Jxx3kX7hUo1G7bZovxbsPK_4X5O4OQIiIOxwd36yZEK-SAj1Z9kCsdWqCAjJ4X9iiza6MwNYvz-eODi7Faxz6My9Ly6gEWPoGZgRqSI1JWrBccuNAvJEpZv5VOe" />
+                    </div>
+                    <div>
+                        <div class="text-[#f4d125] font-black font-headline uppercase tracking-tight text-sm">Deck
+                            Master</div>
+                        <div
+                            class="font-['Space_Grotesk'] text-[10px] font-bold uppercase tracking-[0.05em] text-[#f4d125]/40">
+                            Rank: Legendary</div>
+                    </div>
+                </div>
+            </div>
+            <nav class="flex-1 space-y-1">
+                <a class="flex items-center space-x-4 px-6 py-3 font-['Space_Grotesk'] text-xs font-bold uppercase tracking-[0.05em] text-[#f4d125]/40 hover:text-[#f4d125]/80 hover:bg-[#f4d125]/5 transition-all duration-300 ease-in-out"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                    <span>Overview</span>
+                </a>
+                <a class="flex items-center space-x-4 px-6 py-3 font-['Space_Grotesk'] text-xs font-bold uppercase tracking-[0.05em] bg-[#f4d125]/10 text-[#f4d125] border-r-4 border-[#f4d125] transition-all duration-300 ease-in-out"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+                    <span>Stats</span>
+                </a>
+                <a class="flex items-center space-x-4 px-6 py-3 font-['Space_Grotesk'] text-xs font-bold uppercase tracking-[0.05em] text-[#f4d125]/40 hover:text-[#f4d125]/80 hover:bg-[#f4d125]/5 transition-all duration-300 ease-in-out"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="history">history</span>
+                    <span>History</span>
+                </a>
+                <a class="flex items-center space-x-4 px-6 py-3 font-['Space_Grotesk'] text-xs font-bold uppercase tracking-[0.05em] text-[#f4d125]/40 hover:text-[#f4d125]/80 hover:bg-[#f4d125]/5 transition-all duration-300 ease-in-out"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="settings">settings</span>
+                    <span>Settings</span>
+                </a>
+            </nav>
+        </aside>
+        <!-- Main Content -->
+        <main class="flex-1 p-6 md:p-10 max-w-[1600px] mx-auto w-full">
+            <!-- Header Area -->
+            <section class="mb-12">
+                <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
+                    <div>
+                        <span class="font-label text-xs uppercase tracking-[0.2em] text-primary mb-2 block">Tactical
+                            Configuration</span>
+                        <h1
+                            class="font-headline text-5xl md:text-6xl font-black text-on-background tracking-tighter italic">
+                            Deck: <span class="text-primary">Primal Fury</span>
+                        </h1>
+                    </div>
+                    <div class="flex gap-4">
+                        <button
+                            class="bg-surface-variant hover:bg-surface-container-highest text-primary font-bold uppercase tracking-wider text-xs px-8 py-4 transition-all active:scale-95 flex items-center gap-2 border border-primary/10">
+                            <span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
+                            Edit Deck
+                        </button>
+                        <button
+                            class="bg-primary hover:brightness-110 text-on-primary font-black uppercase tracking-wider text-xs px-8 py-4 shadow-[0_0_20px_rgba(244,209,37,0.3)] transition-all active:scale-95 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-sm" data-icon="bolt">bolt</span>
+                            Set as Active
+                        </button>
+                    </div>
+                </div>
+                <!-- Stats Bento -->
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mt-10">
+                    <div class="col-span-2 bg-primary/5 p-6 border-l-2 border-primary">
+                        <div class="font-label text-[10px] text-primary/60 uppercase mb-1">Total Cards</div>
+                        <div class="font-headline text-4xl font-black italic">40</div>
+                    </div>
+                    <div class="col-span-2 bg-primary/5 p-6 border-l-2 border-primary">
+                        <div class="font-label text-[10px] text-primary/60 uppercase mb-1">Win Rate</div>
+                        <div class="font-headline text-4xl font-black italic text-secondary">68%</div>
+                    </div>
+                    <div class="bg-surface-container-low p-4 text-center border-t border-outline/20">
+                        <div class="font-label text-[10px] text-on-surface-variant uppercase mb-2">Common</div>
+                        <div class="font-headline text-xl font-bold">20</div>
+                        <div class="w-full h-1 bg-white/10 mt-2">
+                            <div class="h-full bg-white w-[50%]"></div>
+                        </div>
+                    </div>
+                    <div class="bg-surface-container-low p-4 text-center border-t border-outline/20">
+                        <div class="font-label text-[10px] text-blue-400 uppercase mb-2">Rare</div>
+                        <div class="font-headline text-xl font-bold text-blue-400">10</div>
+                        <div class="w-full h-1 bg-blue-400/10 mt-2">
+                            <div class="h-full bg-blue-400 w-[25%]"></div>
+                        </div>
+                    </div>
+                    <div class="bg-surface-container-low p-4 text-center border-t border-outline/20">
+                        <div class="font-label text-[10px] text-purple-400 uppercase mb-2">Epic</div>
+                        <div class="font-headline text-xl font-bold text-purple-400">7</div>
+                        <div class="w-full h-1 bg-purple-400/10 mt-2">
+                            <div class="h-full bg-purple-400 w-[18%]"></div>
+                        </div>
+                    </div>
+                    <div class="bg-surface-container-low p-4 text-center border-t border-outline/20">
+                        <div class="font-label text-[10px] text-primary uppercase mb-2">Legendary</div>
+                        <div class="font-headline text-xl font-bold text-primary">3</div>
+                        <div class="w-full h-1 bg-primary/10 mt-2 shadow-[0_0_5px_rgba(244,209,37,0.5)]">
+                            <div class="h-full bg-primary w-[7.5%]"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Card Grid Section -->
+            <section>
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="font-headline text-2xl font-bold uppercase tracking-tight">Deck Contents</h2>
+                    <div class="flex items-center gap-4">
+                        <span class="font-label text-[10px] text-on-surface-variant">Sort by: Quality</span>
+                        <span class="material-symbols-outlined text-primary cursor-pointer"
+                            data-icon="filter_list">filter_list</span>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                    <!-- Cards (Repeated for effect) -->
+                    <!-- Legendary Card -->
+                    <div
+                        class="group relative bg-surface-container-lowest border-2 border-primary shadow-xl shadow-primary/10 overflow-hidden transform hover:-translate-y-2 transition-all duration-300">
+                        <div
+                            class="absolute top-2 right-2 z-10 bg-primary text-background px-2 py-0.5 font-label text-[8px] font-black italic uppercase">
+                            Legendary</div>
+                        <div class="h-48 relative">
+                            <img alt="Primal Alpha"
+                                class="w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 transition-all"
+                                data-alt="ferocious robotic silverback gorilla with glowing yellow tech eyes in a dark neon jungle setting"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfEKXLlBey2PRDOhqXgNl4i35k32l-21RrQfMoY9YBxz3Z-oXX6XFdmcPSCiuhZ34VpIeIfPFNeTk7FSF1W2LficTWhoDFvB5Wrzw9fNlwRVJHpouRw2GGmwB-mJ_7zuT4WMtpc4ld_delQllQ7SLnKshn_q6CJKEEqTY2Dw9FVqkwcm6Z8Txyo7LfanMJjwM45q2RPtMb3iKbENEnHW_pQKbioo8-7lU9sX6xg3KMSy61cYXwGUG4Ek-skSgSYBwpsSL12bWkrmEC" />
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent">
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-headline text-lg font-black uppercase text-primary leading-tight">Primal
+                                Alpha</h3>
+                            <p class="text-xs text-on-surface-variant mt-2 line-clamp-3">Commands all nearby jungle
+                                primates. Grants +4 Power to all "Monkey" units on board.</p>
+                            <div class="mt-4 flex justify-between items-center">
+                                <span class="text-xs font-black italic font-headline">Cost: 8</span>
+                                <span class="material-symbols-outlined text-primary text-sm" data-icon="star"
+                                    data-weight="fill">star</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Epic Card -->
+                    <div
+                        class="group relative bg-surface-container-lowest border border-purple-500/30 overflow-hidden transform hover:-translate-y-1 transition-all">
+                        <div
+                            class="absolute top-2 right-2 z-10 bg-purple-500 text-white px-2 py-0.5 font-label text-[8px] font-black italic uppercase">
+                            Epic</div>
+                        <div class="h-48 relative">
+                            <img alt="Storm Weaver"
+                                class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all"
+                                data-alt="mystical creature with swirling purple energy and electric sparks in a rain-soaked futuristic forest"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRGchxwrhr36SMr1ORy1TAm_ilWVcGrSZyUm_a3q8lhxCURTi5pcPTGyHPua9adiD4gN5unAKHGLxcn6iiICzbEV7Bc_65aGXPLabZ5fBPKt6fHW-CI2vuegP59AvWBMHZpjqTdo6_2NH3FsxuW8qgl5lPpFbe-jrtRHeIiAyCvaZ_qB9PHK2DBHhkswyT8eAAizBWTAvAOhv8JSlRXdyxtAbwlTVdSm-BFO4KYF97dytrAHrN9aKFwPr9DrfdmO2wtnZj0PA8kh9_" />
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent">
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-headline text-lg font-bold uppercase text-purple-400 leading-tight">Storm
+                                Weaver</h3>
+                            <p class="text-xs text-on-surface-variant mt-2 line-clamp-3">Chain lightning strikes 3
+                                targets for 2 damage each. High chance to stun mechanical foes.</p>
+                            <div class="mt-4 flex justify-between items-center">
+                                <span class="text-xs font-black italic font-headline">Cost: 5</span>
+                                <span class="material-symbols-outlined text-purple-400 text-sm"
+                                    data-icon="electric_bolt">electric_bolt</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Rare Card -->
+                    <div
+                        class="group relative bg-surface-container-lowest border border-blue-500/20 overflow-hidden transform hover:-translate-y-1 transition-all">
+                        <div
+                            class="absolute top-2 right-2 z-10 bg-blue-500 text-white px-2 py-0.5 font-label text-[8px] font-black italic uppercase">
+                            Rare</div>
+                        <div class="h-48 relative">
+                            <img alt="Neon Panther"
+                                class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all"
+                                data-alt="sleek cybernetic black panther with blue glowing circuitry standing on a dark industrial pipe"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAm_d2CrGSr7Y92ddQIFUa03qXp3lHxoVrZwJSspOZBvszw6QveUIJ-xJAFYJaqj3Pbmz3CvDOG3FPt76bP_WcGqkWy0DrWvurT5nRjMI0BtiNClDfthQWzs1cYeDv4klfsKtVZSIMoUOYlQtpmebbpLyUiVtzFf3T0djSsbCH2jT6BAMjmQlpziXggP4MTXrCvFibaBmUj4puV0gjSENorkTEBLNe1EiTcn3Rn1EFGBtRDNPLW9xfBpH6m4fVsfFn65j5_lv2KqjrG" />
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent">
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-headline text-lg font-bold uppercase text-blue-400 leading-tight">Neon
+                                Panther</h3>
+                            <p class="text-xs text-on-surface-variant mt-2 line-clamp-3">Stealth ability. Cannot be
+                                targeted for 1 turn after being played.</p>
+                            <div class="mt-4 flex justify-between items-center">
+                                <span class="text-xs font-black italic font-headline">Cost: 3</span>
+                                <span class="material-symbols-outlined text-blue-400 text-sm"
+                                    data-icon="visibility_off">visibility_off</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Common Cards (Generic) -->
+                    <div
+                        class="group relative bg-surface-container-lowest border border-outline/10 overflow-hidden transform hover:-translate-y-1 transition-all">
+                        <div
+                            class="absolute top-2 right-2 z-10 bg-on-surface-variant text-background px-2 py-0.5 font-label text-[8px] font-black italic uppercase">
+                            Common</div>
+                        <div class="h-48 relative bg-surface-container">
+                            <img alt="Jungle Sentry"
+                                class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all"
+                                data-alt="armored scout drone hovering through dense exotic jungle vines and large leaves"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8OZv5Y1MLzv00QXttBH3MkS2PsU4taa05GmImErhxq-NR_oan8gXhC6OJKQ9EiYhn7t_tZlT-z-q-cWvlYRMzwTpGiqjZLuIqZz_qJukXLkx8C2aMQKvB-29XXmgcl-XpV3Z80Ye2L84IqQI_Ao7oVdP_lywT6wh_yxos-VnfTfQwgI6YxPLmkJ-g9DOp5Knd4iyAbHK21euJJ7w7xYj1WYYCQ07V8ncV69ALaZqsx7XrpdHKbCst2cNC4FVqrtpRl4s7OQNs2hh7" />
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent">
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-headline text-lg font-bold uppercase text-on-surface leading-tight">Jungle
+                                Sentry</h3>
+                            <p class="text-xs text-on-surface-variant mt-2 line-clamp-3">Draw 1 card when this unit is
+                                destroyed. Reliable fodder.</p>
+                            <div class="mt-4 flex justify-between items-center">
+                                <span class="text-xs font-black italic font-headline">Cost: 1</span>
+                                <span class="material-symbols-outlined text-on-surface-variant text-sm"
+                                    data-icon="monitoring">monitoring</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Mythic/Arok Card (Special Rarity) -->
+                    <div
+                        class="group relative bg-surface-container-lowest border-2 border-orange-500 shadow-xl shadow-orange-500/20 overflow-hidden transform hover:-translate-y-2 transition-all duration-300">
+                        <div
+                            class="absolute top-2 right-2 z-10 bg-orange-500 text-white px-2 py-0.5 font-label text-[8px] font-black italic uppercase">
+                            Arok</div>
+                        <div class="h-48 relative">
+                            <img alt="Monkey God" class="w-full h-full object-cover"
+                                data-alt="colossal divine monkey statue carved from glowing orange crystal deep within a volcanic chamber"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2BgPo5bidh6WAcgObDd5QgkXXm4EvV5TmdLG_boUk4IowVfAr_13CRXuxVi6jbVDjBOk9AfHka-cOPCZ_f3E4Nwt2pSqlbh2TJkU19nnhVsPF69UqiaG0aU7swxAGDMTZ_qMofk84ci6FO3-KPMXFwLJ53k4PLJvi7JTce6a7wmREJuaivCVZEwlMhak2OPSOpQM0DcssOZhl-5RG955lWuA09WU21Q-c_KAhjVvIAdPx1OsYP43mI6PzDrjixWN9pb1GnSdUdobV" />
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent">
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-headline text-lg font-black uppercase text-orange-500 leading-tight">Sun
+                                Wukong's Echo</h3>
+                            <p class="text-xs text-on-surface-variant mt-2 line-clamp-3">Ultimate unit. Can only be
+                                played if you have 10 Energy. Devastates the entire enemy board.</p>
+                            <div class="mt-4 flex justify-between items-center">
+                                <span class="text-xs font-black italic font-headline">Cost: 10</span>
+                                <span class="material-symbols-outlined text-orange-500 text-sm"
+                                    data-icon="brightness_7">brightness_7</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Repeat Common/Rare to fill grid for visual demo -->
+                    <div
+                        class="group relative bg-surface-container-lowest border border-outline/10 overflow-hidden opacity-80">
+                        <div
+                            class="absolute top-2 right-2 z-10 bg-on-surface-variant text-background px-2 py-0.5 font-label text-[8px] font-black italic uppercase">
+                            Common</div>
+                        <div class="h-48 relative bg-surface-container-high flex items-center justify-center">
+                            <span class="material-symbols-outlined text-4xl text-outline" data-icon="style">style</span>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-headline text-lg font-bold uppercase text-on-surface leading-tight">Monkey
+                                Grunt</h3>
+                            <p class="text-xs text-on-surface-variant mt-2">Basic infantry with 2 ATK / 2 HP.</p>
+                        </div>
+                    </div>
+                    <div
+                        class="group relative bg-surface-container-lowest border border-outline/10 overflow-hidden opacity-80">
+                        <div
+                            class="absolute top-2 right-2 z-10 bg-on-surface-variant text-background px-2 py-0.5 font-label text-[8px] font-black italic uppercase">
+                            Common</div>
+                        <div class="h-48 relative bg-surface-container-high flex items-center justify-center">
+                            <span class="material-symbols-outlined text-4xl text-outline" data-icon="style">style</span>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-headline text-lg font-bold uppercase text-on-surface leading-tight">Monkey
+                                Grunt</h3>
+                            <p class="text-xs text-on-surface-variant mt-2">Basic infantry with 2 ATK / 2 HP.</p>
+                        </div>
+                    </div>
+                    <div
+                        class="group relative bg-surface-container-lowest border border-outline/10 overflow-hidden opacity-80">
+                        <div
+                            class="absolute top-2 right-2 z-10 bg-on-surface-variant text-background px-2 py-0.5 font-label text-[8px] font-black italic uppercase">
+                            Common</div>
+                        <div class="h-48 relative bg-surface-container-high flex items-center justify-center">
+                            <span class="material-symbols-outlined text-4xl text-outline" data-icon="style">style</span>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-headline text-lg font-bold uppercase text-on-surface leading-tight">Vinelash
+                                Trap</h3>
+                            <p class="text-xs text-on-surface-variant mt-2">Delayed trigger: Deals 3 damage to any unit
+                                that attacks next turn.</p>
+                        </div>
+                    </div>
+                    <div
+                        class="group relative bg-surface-container-lowest border border-blue-500/20 overflow-hidden opacity-80">
+                        <div
+                            class="absolute top-2 right-2 z-10 bg-blue-500 text-white px-2 py-0.5 font-label text-[8px] font-black italic uppercase">
+                            Rare</div>
+                        <div class="h-48 relative bg-surface-container-high flex items-center justify-center">
+                            <span class="material-symbols-outlined text-4xl text-blue-500/40"
+                                data-icon="layers">layers</span>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-headline text-lg font-bold uppercase text-blue-400 leading-tight">Scavenger
+                                Bot</h3>
+                            <p class="text-xs text-on-surface-variant mt-2">Recover a spent Spell card from your discard
+                                pile.</p>
+                        </div>
+                    </div>
+                    <div
+                        class="group relative bg-surface-container-lowest border border-outline/10 overflow-hidden opacity-80">
+                        <div
+                            class="absolute top-2 right-2 z-10 bg-on-surface-variant text-background px-2 py-0.5 font-label text-[8px] font-black italic uppercase">
+                            Common</div>
+                        <div class="h-48 relative bg-surface-container-high flex items-center justify-center">
+                            <span class="material-symbols-outlined text-4xl text-outline" data-icon="style">style</span>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-headline text-lg font-bold uppercase text-on-surface leading-tight">
+                                Bananabomb</h3>
+                            <p class="text-xs text-on-surface-variant mt-2">Explosive utility: 1 damage to all units in
+                                a lane.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Pagination/Load More Anchor -->
+                <div class="mt-12 flex justify-center">
+                    <button
+                        class="flex items-center gap-3 font-label text-xs uppercase text-primary/60 hover:text-primary transition-all">
+                        <span class="w-12 h-[1px] bg-primary/20"></span>
+                        Load Remaining 30 Cards
+                        <span class="w-12 h-[1px] bg-primary/20"></span>
+                    </button>
+                </div>
+            </section>
+        </main>
+    </div>
+    <!-- Mobile Nav Anchor -->
+    <div
+        class="md:hidden fixed bottom-0 left-0 right-0 bg-surface-container-lowest border-t border-primary/10 flex justify-around items-center py-4 z-50">
+        <button class="material-symbols-outlined text-primary" data-icon="dashboard">dashboard</button>
+        <button class="material-symbols-outlined text-primary/40" data-icon="style">style</button>
+        <div class="bg-primary p-3 rounded-full -mt-10 border-4 border-background shadow-lg">
+            <span class="material-symbols-outlined text-background font-bold" data-icon="add">add</span>
+        </div>
+        <button class="material-symbols-outlined text-primary/40" data-icon="store">store</button>
+        <button class="material-symbols-outlined text-primary/40" data-icon="settings">settings</button>
+    </div>
+</body>
+
+</html>

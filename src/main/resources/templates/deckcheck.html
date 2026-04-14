@@ -15,6 +15,16 @@
                     class="font-headline text-5xl md:text-6xl font-black text-on-background tracking-tighter leading-none">
                     MY DECKS</h1>
             </div>
+            <div th:if="${error}"
+                class="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm font-medium text-center">
+                <span class="material-symbols-outlined text-sm align-middle mr-1">error</span>
+                <span th:text="${error}"></span>
+            </div>
+            <div th:if="${success}"
+                class="mb-6 p-4 bg-green-500/10 border border-green-500/30 rounded-lg text-green-400 text-sm font-medium text-center">
+                <span class="material-symbols-outlined text-sm align-middle mr-1">check</span>
+                <span th:text="${success}"></span>
+            </div>
             <div class="flex items-center gap-3 bg-surface-container-high px-4 py-3 border-l-4 border-primary">
                 <span class="material-symbols-outlined text-primary">info</span>
                 <span class="text-sm font-medium" th:text="${decks.size() + ' active decks ready for battle.'}"></span>
@@ -32,36 +42,38 @@
             </a>
             <div class="md:col-span-2 lg:col-span-2 relative group overflow-hidden bg-surface-container rounded-xl border border-primary/10 hover:border-primary/50 transition-all aspect-square"
                 th:each="deck : ${decks}">
-                <div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent z-10">
-                </div>
-                <img class="absolute inset-0 w-full h-full object-cover grayscale-[20%] group-hover:scale-105 group-hover:grayscale-0 transition-all duration-700"
-                    data-alt="Lush jungle environment with glowing flora"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6N7hwRQCB6icf3hz25CEpqrYhA7SchY2ATbY6MLMY-Ncmk7siUQ45IBoTiQh6qiCPb7_Tdxiz-XHxprLDQnmSg3Lg3MXBJrN4bUkDxlVyO2IL_VTylgFFCBM60QDCY-cH6jAgA1BS5XAM8oMXjvGDda-u5RUAqK5SZvqIMNHsJ6txXuFLwLy6u2LI4p_yinVENLxzSMJyornwWJBGksOUOrfZ_izJnduICcQqfysS-ydRpXcT-k6-iu01grWS0pqbxH3DbZ5ww9T3" />
-                <div class="absolute bottom-0 left-0 right-0 p-6 z-20">
-                    <div class="flex justify-between items-end">
-                        <div>
-                            <h2 class="font-headline text-3xl font-black text-on-background tracking-tight uppercase"
-                                th:text="${deck.title}"></h2>
-                            <h4 class="font-headline text-l font-black text-on-background tracking-tight uppercase"
-                                th:text="${deck.description}"></h4>
-                            <div class="flex items-center gap-2 text-primary mt-1">
-                                <span class="material-symbols-outlined text-sm">style</span>
-                                <span class="text-xs font-bold tracking-widest uppercase"
-                                    th:text="${deck.getCardCount()} + ' Cards'"></span>
+                <a th:href="@{/deckview(deckId=${deck.deckID})}">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent z-10">
+                    </div>
+                    <img class="absolute inset-0 w-full h-full object-cover grayscale-[20%] group-hover:scale-105 group-hover:grayscale-0 transition-all duration-700"
+                        data-alt="Lush jungle environment with glowing flora"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6N7hwRQCB6icf3hz25CEpqrYhA7SchY2ATbY6MLMY-Ncmk7siUQ45IBoTiQh6qiCPb7_Tdxiz-XHxprLDQnmSg3Lg3MXBJrN4bUkDxlVyO2IL_VTylgFFCBM60QDCY-cH6jAgA1BS5XAM8oMXjvGDda-u5RUAqK5SZvqIMNHsJ6txXuFLwLy6u2LI4p_yinVENLxzSMJyornwWJBGksOUOrfZ_izJnduICcQqfysS-ydRpXcT-k6-iu01grWS0pqbxH3DbZ5ww9T3" />
+                    <div class="absolute bottom-0 left-0 right-0 p-6 z-20">
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <h2 class="font-headline text-3xl font-black text-on-background tracking-tight uppercase"
+                                    th:text="${deck.title}"></h2>
+                                <h4 class="font-headline text-l font-black text-on-background tracking-tight uppercase"
+                                    th:text="${deck.description}"></h4>
+                                <div class="flex items-center gap-2 text-primary mt-1">
+                                    <span class="material-symbols-outlined text-sm">style</span>
+                                    <span class="text-xs font-bold tracking-widest uppercase"
+                                        th:text="${deck.getCardCount()} + ' Cards'"></span>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <a th:href="@{/deckedit(deckId=${deck.deckID})}"
+                                    class="h-10 w-10 bg-primary/10 backdrop-blur-md border border-primary/30 flex items-center justify-center text-primary hover:bg-primary hover:text-background transition-colors rounded">
+                                    <span class="material-symbols-outlined">edit</span>
+                                </a>
+                                <a th:href="@{/deckdelete(deckId=${deck.deckID})}"
+                                    class="h-10 w-10 bg-error/10 backdrop-blur-md border border-error/30 flex items-center justify-center text-error hover:bg-error hover:text-on-error transition-colors rounded">
+                                    <span class="material-symbols-outlined">delete</span>
+                                </a>
                             </div>
                         </div>
-                        <div class="flex gap-2">
-                            <a th:href="@{/deckedit(deckId=${deck.deckID})}"
-                                class="h-10 w-10 bg-primary/10 backdrop-blur-md border border-primary/30 flex items-center justify-center text-primary hover:bg-primary hover:text-background transition-colors rounded">
-                                <span class="material-symbols-outlined">edit</span>
-                            </a>
-                            <a th:href="@{/deckdelete(deckId=${deck.deckID})}"
-                                class="h-10 w-10 bg-error/10 backdrop-blur-md border border-error/30 flex items-center justify-center text-error hover:bg-error hover:text-on-error transition-colors rounded">
-                                <span class="material-symbols-outlined">delete</span>
-                            </a>
-                        </div>
                     </div>
-                </div>
             </div>
     </main>
     <footer th:replace="~{fragments/layout :: footer}"></footer>

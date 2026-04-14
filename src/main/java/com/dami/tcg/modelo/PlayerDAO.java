@@ -16,16 +16,16 @@ public interface PlayerDAO {
     public HashMap<Integer, Integer> queryPlayerCards(int playerID);
 
     public Player queryPlayerByUsername(String username);
-    
+
     public boolean addCard(Player player, Card card);
-    
+
     public int getGold(Player player);
-    
+
     public void buyPack(Player player);
-    
+
     public void addCoins(Player player, int gold);
-    
+
     public boolean checkFreePack(Player player);
-    
+
     public boolean freePackOpend(Player player);
 }

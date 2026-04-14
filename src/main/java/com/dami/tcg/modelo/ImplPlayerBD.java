@@ -34,8 +34,9 @@ public class ImplPlayerBD implements PlayerDAO {
 	final String SQLGETGOLD = "SELECT Coins FROM Players WHERE PlayerId=?";
 	final String SQLUPDTEGOLD = "UPDATE Players SET Coins = ? WHERE PlayerId=?";
 	final String SQLGETCARDQUANTITY = "SELECT Quantity FROM PlayersCards WHERE PlayerID = ? AND CardID = ?";
-	final String SQLCHECKFREEPACK = "SELECT PackAvilable FROM Players WHERE PlayerId=?"; 
+	final String SQLCHECKFREEPACK = "SELECT PackAvilable FROM Players WHERE PlayerId=?";
 	final String SQLUPDATEFREEPACK = "UPDATE Players SET PackAvilable = 0 WHERE PlayerId=?";
+	final String SQLSELECTDECK = "SELECT * FROM Decks WHERE DeckID = ?";
 
 	public ImplPlayerBD() {
 		this.configFile = ResourceBundle.getBundle("configDB");
@@ -341,7 +342,7 @@ public class ImplPlayerBD implements PlayerDAO {
 			resultado.close();
 			statement.close();
 			connection.close();
-		}catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return avilable;
@@ -349,7 +350,7 @@ public class ImplPlayerBD implements PlayerDAO {
 
 	@Override
 	public boolean freePackOpend(Player player) {
-		boolean ok= false;
+		boolean ok = false;
 		this.openConnection();
 		try {
 			statement = connection.prepareStatement(SQLUPDATEFREEPACK);
@@ -359,12 +360,10 @@ public class ImplPlayerBD implements PlayerDAO {
 			}
 			statement.close();
 			connection.close();
-		}catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return ok;
 	}
-
-
 
 }

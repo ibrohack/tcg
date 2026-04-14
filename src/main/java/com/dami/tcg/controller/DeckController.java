@@ -55,24 +55,20 @@ public class DeckController {
 		}
 	}
 
-	public boolean deleteDeck(Deck deck) {
-		return dao.deleteDeck(deck);
-	}
-
 	@GetMapping("/deckdelete")
-	public String deckDelete(Model model, HttpSession session, Deck deck, RedirectAttributes redirectAttributes) {
+	public String deckDelete(Model model, HttpSession session, @RequestParam int deckId,
+			RedirectAttributes redirectAttributes) {
 		Player player = (Player) session.getAttribute("loggedPlayer");
 		if (player == null) {
 			return "redirect:/login";
 		}
-		List<Deck> decks = dao.queryPlayerDecks(player.getPlayerId());
-		model.addAttribute("decks", decks);
-		model.addAttribute("player", player);
-		if (decks.isEmpty()) {
-			model.addAttribute("message", "You have no decks to delete");
-			return "deckdelete";
+		boolean deleted = dao.deleteDeck(dao.queryDeck(deckId));
+		if (deleted) {
+			redirectAttributes.addFlashAttribute("success", "Deck deleted successfully");
+			return "redirect:/deckcheck";
 		} else {
-			return "deckdelete";
+			redirectAttributes.addFlashAttribute("error", "Error deleting deck");
+			return "redirect:/deckcheck";
 		}
 	}
 
@@ -90,6 +86,24 @@ public class DeckController {
 			return "deckcheck";
 		} else {
 			return "deckcheck";
+		}
+	}
+
+	@GetMapping("/deckview")
+	public String deckView(Model model, HttpSession session, RedirectAttributes redirectAttributes,
+			@RequestParam int deckId) {
+		Player player = (Player) session.getAttribute("loggedPlayer");
+		if (player == null) {
+			return "redirect:/login";
+		}
+		Deck deck = dao.queryDeck(deckId);
+		if (deck == null) {
+			redirectAttributes.addFlashAttribute("error", "Deck not found");
+			return "redirect:/deckcheck";
+		} else {
+			model.addAttribute("deck", deck);
+			model.addAttribute("player", player);
+			return "deckview";
 		}
 	}
 

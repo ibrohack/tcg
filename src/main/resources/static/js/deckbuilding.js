@@ -7,8 +7,8 @@ function addCardToDeck(cardId) {
             let quantity = cardDiv.querySelector(".card-quantity-display");
             if (parseInt(document.getElementById("card-" + cardId).querySelector(".card-quantity-display").innerText) > 0) {
                 document.getElementById("deck-header").querySelector("#deck-quantity").innerText = parseInt(document.getElementById("deck-header").querySelector("#deck-quantity").innerText.split("/")[0]) + 1 + "/30";
-                quantity.innerText = parseInt(quantity.innerText) - 1;
-                document.getElementById("card-" + cardId).querySelector(".card-quantity-display").innerText = parseInt(quantity.innerText) - 1;
+                quantity.innerText = parseInt(quantity.innerText) + 1;
+                document.getElementById("card-" + cardId).querySelector(".card-quantity-display").innerText = parseInt(document.getElementById("card-" + cardId).querySelector(".card-quantity-display").innerText) - 1;
             }
         } else {
             let template = document.getElementById("card-template");

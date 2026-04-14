@@ -28,6 +28,7 @@ public class ImplDeckBD implements DeckDAO {
     final String SQLSELECT = "SELECT * FROM Decks WHERE DeckID = ?";
     final String SQLINSERT = "INSERT INTO Decks (DeckTitle, PlayerID, DeckDescription) VALUES (?,?,?)";
     final String SQLCONSULTA = "SELECT * FROM Decks";
+    final String SQLDELETEDECKCARDS = "DELETE FROM DecksCards WHERE DeckID=?";
     final String SQLBORRAR = "DELETE FROM Decks WHERE DeckId=?";
     final String SQLMODIFICAR = "UPDATE Decks SET Title=?, Description=? WHERE DeckId=?";
     final String SQLPLAYERCARD = "SELECT * FROM Cards WHERE CardId IN (SELECT CardId FROM PlayersCards WHERE PlayerId=?)";
@@ -123,6 +124,9 @@ public class ImplDeckBD implements DeckDAO {
         if (checkCard(deck)) {
             this.openConnection();
             try {
+                statement = connection.prepareStatement(SQLDELETEDECKCARDS);
+                statement.setInt(1, deck.getDeckID());
+                statement.executeUpdate();
                 statement = connection.prepareStatement(SQLBORRAR);
                 statement.setInt(1, deck.getDeckID());
                 if (statement.executeUpdate() > 0) {
