@@ -47,14 +47,10 @@
                         the tech-noir canopy.
                     </p>
                     <div class="flex flex-wrap gap-4">
-                        <button
+                        <a th:href="@{/login}"
                             class="bg-primary text-on-primary px-10 py-4 font-black text-lg uppercase tracking-widest hover:scale-105 transition-transform active:scale-95">
                             Join the Jungle
-                        </button>
-                        <button
-                            class="border-2 border-primary/20 bg-primary/5 text-primary px-10 py-4 font-black text-lg uppercase tracking-widest hover:bg-primary/10 transition-colors">
-                            View Deck
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -76,7 +72,7 @@
                         <h2 class="text-4xl font-black font-headline italic uppercase">Latest Card Releases</h2>
                     </div>
                     <a class="text-primary font-bold text-sm uppercase tracking-widest border-b border-primary/20 pb-1 hover:border-primary"
-                        href="#">View Full Set</a>
+                        href="/cards">View Collection</a>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     <div th:each="card : ${latestCards}"
