@@ -30,10 +30,24 @@
                                         class="material-symbols-outlined text-primary text-4xl">person</span>
                                 </div>
                             </div>
-                            <div>
+                            <div th:switch="${player.cards.size()}">
                                 <h1 class="text-3xl font-bold text-slate-900 dark:text-slate-100"><a
                                         th:href="@{/profile/edit}" th:text="${player.username}"></a></h1>
-                                <p class="text-slate-500 dark:text-slate-400 font-medium">Primate Raider</p>
+                                <p class="text-slate-500 dark:text-slate-400 font-medium"
+                                    th:case="${player.cards.size() == 0}">Noob Monkey
+                                </p>
+                                <p class="text-slate-500 dark:text-slate-400 font-medium"
+                                    th:case="${player.cards.size() > 9}">
+                                    Veteran Monkey
+                                </p>
+                                <p class="text-slate-500 dark:text-slate-400 font-medium"
+                                    th:case="${player.cards.size() > 50}">
+                                    Primate Lord
+                                </p>
+                                <p class="text-slate-500 dark:text-slate-400 font-medium"
+                                    th:case="${player.cards.size() > 100}">
+                                    Primate King
+                                </p>
                             </div>
                         </div>
                         <div class="flex gap-4">
