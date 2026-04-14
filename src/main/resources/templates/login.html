@@ -66,29 +66,29 @@
                         <form th:action="@{/login}" method="post" class="space-y-6">
                             <!-- Username -->
                             <div class="space-y-2">
-                                <label
+                                <label for="usernameInput"
                                     class="block text-[10px] uppercase tracking-widest font-bold text-primary/70 ml-1">Username</label>
                                 <div class="group relative">
                                     <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                                         <span
                                             class="material-symbols-outlined text-primary/40 group-focus-within:text-primary transition-colors">person</span>
                                     </div>
-                                    <input name="username"
+                                    <input name="username" id="usernameInput"
                                         class="w-full bg-background-dark border border-primary/10 focus:border-primary/50 focus:ring-1 focus:ring-primary/20 text-slate-100 pl-12 pr-4 py-4 rounded-lg transition-all font-mono text-sm placeholder:text-slate-600"
-                                        placeholder="player_username" type="text" required />
+                                        placeholder="player_username" type="text" autocomplete="on" required />
                                 </div>
                             </div>
 
                             <!-- Password -->
                             <div class="space-y-2">
-                                <label
+                                <label for="passwordInput"
                                     class="block text-[10px] uppercase tracking-widest font-bold text-primary/70 ml-1">Password</label>
                                 <div class="group relative">
                                     <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                                         <span
                                             class="material-symbols-outlined text-primary/40 group-focus-within:text-primary transition-colors">lock</span>
                                     </div>
-                                    <input name="password"
+                                    <input name="password" id="passwordInput"
                                         class="w-full bg-background-dark border border-primary/10 focus:border-primary/50 focus:ring-1 focus:ring-primary/20 text-slate-100 pl-12 pr-4 py-4 rounded-lg transition-all font-mono text-sm placeholder:text-slate-600"
                                         placeholder="••••••••••••" type="password" required />
                                     <div class="absolute inset-y-0 right-0 pr-4 flex items-center">
