@@ -8,68 +8,117 @@
 
 <body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
     <div
-        class="layout-container flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark overflow-x-hidden">
-        <header th:replace="~{fragments/layout :: navbar('')}"></header>
-        <main class="flex-grow container mx-auto px-4 py-8">
-            <div th:if="${page == 'privacy'}" class="flex flex-col items-center justify-center">
-                <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-4">Privacy Policy</h1>
-                <p class="text-slate-500 dark:text-slate-400 font-medium text-center max-w-3xl">Consentimiento de Uso de
-                    Imagen y Renuncia de
-                    Reclamaciones
-                    Al aceptar estos términos o proporcionar tu fotografía para Chaos&Monkeys, confirmas lo siguiente:
-                    Autorización de Uso: Otorgas permiso voluntario para que tu imagen sea integrada, editada y mostrada
-                    dentro del videojuego con fines de entretenimiento y humor.
-                    Renuncia a Acciones Legales: Aceptas que el uso de tu imagen se realiza "para risas" y de forma
-                    consensuada. Por lo tanto, renuncias a cualquier derecho de presentar denuncias, demandas o
-                    reclamaciones legales contra los desarrolladores por difamación, invasión de la privacidad o
-                    derechos de
-                    imagen derivados del uso acordado.
-                    Carácter Irrevocable: Entiendes que, una vez que la imagen forma parte del código o contenido del
-                    juego,
-                    su eliminación posterior podría no ser técnicamente posible o requerida, salvo que la ley local
-                    dicte lo
-                    contrario.
-                    Confirmación de Edad: Declaras que eres mayor de edad y tienes la capacidad legal para otorgar este
-                    consentimiento.</p>
-            </div>
-            <div th:if="${page == 'terms'}" class="flex flex-col items-center justify-center">
-                <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-4">Terms of Service</h1>
-                <p class="text-slate-500 dark:text-slate-400 font-medium text-center max-w-3xl">Términos y Condiciones
-                    del Juego
-                    Al jugar Chaos&Monkeys, aceptas los siguientes términos:
-                    Propiedad Intelectual: El juego, su código, arte y contenido son propiedad exclusiva de sus
-                    creadores.
-                    No está permitido copiar, modificar o distribuir el juego sin permiso.
-                    Uso Personal: El juego es para uso personal y no comercial. No puedes vender, alquilar o transferir
-                    tu
-                    cuenta o el juego.
-                    Conducta del Jugador: Debes jugar de manera respetuosa. No se permite el uso de trampas, exploits o
-                    cualquier comportamiento que arruine la experiencia de otros jugadores.
-                    Contenido Generado por el Usuario: Si subes imágenes o contenido al juego, garantizas que tienes los
-                    derechos para hacerlo y que no infringe los derechos de terceros.
-                    Exclusión de Garantía: El juego se proporciona "tal cual", sin garantías de que funcione
-                    perfectamente o
-                    sin errores. Los desarrolladores no se hacen responsables de ningún daño que pueda surgir del uso
-                    del
-                    juego.
-                    Terminación: Nos reservamos el derecho de suspender o cancelar tu acceso al juego si violas estos
-                    términos.
-                    Cambios en los Términos: Podemos actualizar estos términos en cualquier momento. Si continúas usando
-                    el
-                    juego después de los cambios, aceptas los nuevos términos.</p>
-            </div>
-            <div th:if="${page == 'support'}" class="flex flex-col items-center justify-center">
-                <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-4">Support</h1>
-                <p class="text-slate-500 dark:text-slate-400 font-medium text-center max-w-3xl">Soporte y Contacto
-                    Si tienes preguntas, problemas o sugerencias sobre Chaos&Monkeys, no dudes en contactarnos:
-                    Correo Electrónico: algoalgo@Chaos&Monkeys.com
-                    Redes Sociales: @ChaosAndMonkeysTCG
-                    Discord: chaosandmonkeys
-                    Horario de Atención: Lunes a Viernes, de 9:00 a 17:00 (UTC-5)
-                    Responderemos a todos los mensajes en un plazo de 48 horas hábiles.</p>
-            </div>
-        </main>
-        <footer th:replace="~{fragments/layout :: footer}"></footer>
+        class="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            <header th:replace="~{fragments/layout :: navbar('')}"></header>
+
+            <main class="flex-1 max-w-[1200px] mx-auto w-full px-6 py-8">
+                <div th:if="${page == 'privacy'}" class="flex flex-col items-center justify-center">
+                    <h1 class="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-2">Privacy Policy</h1>
+                    <h2 class="text-lg font-semibold text-primary mb-8 text-center max-w-3xl">Image Use Consent and
+                        Waiver of Claims</h2>
+
+                    <div
+                        class="text-slate-600 dark:text-slate-400 font-medium text-left max-w-3xl space-y-6 bg-white dark:bg-primary/5 p-8 rounded-xl border border-slate-200 dark:border-primary/10">
+                        <p>By accepting these terms or providing your photograph for Chaos&amp;Monkeys, you confirm the
+                            following:</p>
+
+                        <ul class="space-y-4 list-disc list-outside ml-6">
+                            <li><strong class="text-slate-800 dark:text-slate-200">Authorization of Use:</strong> You
+                                grant voluntary permission for your image to be integrated, edited, and displayed within
+                                the video game for entertainment and humorous purposes.</li>
+                            <li><strong class="text-slate-800 dark:text-slate-200">Waiver of Legal Action:</strong> You
+                                agree that the use of your image is done "for laughs" and by mutual consent. Therefore,
+                                you waive any right to file complaints, lawsuits, or legal claims against the developers
+                                for defamation, invasion of privacy, or image rights derived from the agreed use.</li>
+                            <li><strong class="text-slate-800 dark:text-slate-200">Irrevocable Nature:</strong> You
+                                understand that once the image becomes part of the game's code or content, its
+                                subsequent removal may not be technically possible or required, unless local law
+                                dictates otherwise.</li>
+                            <li><strong class="text-slate-800 dark:text-slate-200">Age Confirmation:</strong> You
+                                declare that you are of legal age and have the legal capacity to grant this consent.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div th:if="${page == 'terms'}" class="flex flex-col items-center justify-center">
+                    <h1 class="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-8">Terms of Service</h1>
+                    <h2 class="text-lg font-semibold text-primary mb-8 text-center max-w-3xl">Terms and Conditions
+                    </h2>
+                    <div
+                        class="text-slate-600 dark:text-slate-400 font-medium text-left max-w-3xl space-y-6 bg-white dark:bg-primary/5 p-8 rounded-xl border border-slate-200 dark:border-primary/10">
+                        <p>By playing Chaos&amp;Monkeys, you accept the following terms:</p>
+
+                        <ul class="space-y-4 list-disc list-outside ml-6">
+                            <li><strong class="text-slate-800 dark:text-slate-200">Intellectual Property:</strong> The
+                                game, its code, art, and content are the exclusive property of its creators. Copying,
+                                modifying, or distributing the game without permission is not allowed.</li>
+                            <li><strong class="text-slate-800 dark:text-slate-200">Personal Use:</strong> The game is
+                                for personal and non-commercial use. You may not sell, rent, or transfer your account or
+                                the game.</li>
+                            <li><strong class="text-slate-800 dark:text-slate-200">Player Conduct:</strong> You must
+                                play respectfully. The use of cheats, exploits, or any behavior that ruins the
+                                experience of other players is not permitted.</li>
+                            <li><strong class="text-slate-800 dark:text-slate-200">User-Generated Content:</strong> If
+                                you upload images or content to the game, you guarantee that you have the rights to do
+                                so and that it does not infringe on the rights of third parties.</li>
+                            <li><strong class="text-slate-800 dark:text-slate-200">Exclusion of Warranty:</strong> The
+                                game is provided "as is", without warranties that it will work perfectly or without
+                                errors. The developers are not responsible for any damage that may arise from the use of
+                                the game.</li>
+                            <li><strong class="text-slate-800 dark:text-slate-200">Termination:</strong> We reserve the
+                                right to suspend or cancel your access to the game if you violate these terms.</li>
+                            <li><strong class="text-slate-800 dark:text-slate-200">Changes to Terms:</strong> We may
+                                update these terms at any time. If you continue to use the game after the changes, you
+                                accept the new terms.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div th:if="${page == 'support'}" class="flex flex-col items-center justify-center">
+                    <h1 class="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-2">Support</h1>
+                    <h2 class="text-lg font-semibold text-primary mb-8 text-center max-w-3xl">Support and Contact</h2>
+
+                    <div
+                        class="text-slate-600 dark:text-slate-400 font-medium text-left max-w-2xl w-full space-y-6 bg-white dark:bg-primary/5 p-8 rounded-xl border border-slate-200 dark:border-primary/10">
+                        <p>If you have questions, problems, or suggestions about Chaos&amp;Monkeys, do not hesitate to
+                            contact us:</p>
+
+                        <ul class="space-y-4">
+                            <li class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-primary text-xl">mail</span>
+                                <strong class="text-slate-800 dark:text-slate-200 min-w-44">Email Address:</strong>
+                                <a href="mailto:support@chaosandmonkeys.com"
+                                    class="text-primary hover:underline transition-all">support@chaosandmonkeys.com</a>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-primary text-xl">share</span>
+                                <strong class="text-slate-800 dark:text-slate-200 min-w-44">Social Media:</strong>
+                                <span>@ChaosAndMonkeysTCG</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-primary text-xl">forum</span>
+                                <strong class="text-slate-800 dark:text-slate-200 min-w-44">Discord:</strong>
+                                <span>chaosandmonkeys</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-primary text-xl">schedule</span>
+                                <strong class="text-slate-800 dark:text-slate-200 min-w-44">Hours of Operation:</strong>
+                                <span>Monday to Friday, 9:00 a.m. to 5:00 p.m. (UTC-5)</span>
+                            </li>
+                        </ul>
+
+                        <div class="mt-8 p-4 bg-primary/10 border border-primary/20 rounded-xl text-center">
+                            <p class="text-slate-800 dark:text-slate-200 text-sm">We will respond to all messages within
+                                <strong class="text-primary">48 business hours</strong>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <footer th:replace="~{fragments/layout :: footer}"></footer>
+        </div>
     </div>
 </body>
 

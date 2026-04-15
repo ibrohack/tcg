@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html class="dark" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Oops! - Chaos and Monkeys')}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
+    <div
+        class="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            <header th:replace="~{fragments/layout :: navbar('')}"></header>
+
+            <main class="flex-1 max-w-[1200px] mx-auto w-full px-6 py-8 flex flex-col items-center justify-center">
+
+                <div
+                    class="bg-white dark:bg-primary/5 p-8 md:p-12 rounded-2xl border border-slate-200 dark:border-primary/10 shadow-lg shadow-primary/5 flex flex-col items-center text-center max-w-2xl w-full relative overflow-hidden">
+
+                    <div
+                        class="absolute -top-20 -right-20 w-40 h-40 bg-primary/20 blur-3xl rounded-full z-0 pointer-events-none">
+                    </div>
+                    <div
+                        class="absolute -bottom-20 -left-20 w-40 h-40 bg-primary/20 blur-3xl rounded-full z-0 pointer-events-none">
+                    </div>
+
+                    <div
+                        class="relative z-10 w-full max-w-[280px] aspect-square rounded-full overflow-hidden border-4 border-primary/20 bg-background-light dark:bg-background-dark mb-8 flex items-center justify-center shadow-inner">
+                        <img th:src="@{/images/error_monkey.png}" alt="Confused Monkey Mechanic"
+                            class="w-full h-full object-cover">
+                    </div>
+
+                    <h1 class="text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-br from-primary to-primary/40 mb-2 drop-shadow-sm"
+                        th:text="${status != null ? status : '404'}">404</h1>
+                    <h2 class="text-2xl md:text-3xl font-bold text-slate-800 dark:text-slate-100 mb-6 uppercase tracking-widest text-balance"
+                        th:text="${error != null ? error : 'Out of Service'}">Out of Service</h2>
+
+                    <p class="text-slate-500 dark:text-slate-400 font-medium mb-8 text-balance max-w-lg">
+                        <th:block th:if="${message != null and !message.isEmpty()}" th:text="${message}"></th:block>
+                        <th:block th:unless="${message != null and !message.isEmpty()}">
+                            Yikes! Our mechanic monkeys seem to have misplaced this page or blown a fuse trying to load
+                            it.
+                        </th:block>
+                    </p>
+
+                    <div class="flex gap-4">
+                        <a href="javascript:history.back()"
+                            class="px-6 py-3 rounded-xl border-2 border-primary text-primary font-bold hover:bg-primary/10 transition-colors uppercase tracking-wider text-sm flex items-center gap-2">
+                            <span class="material-symbols-outlined text-lg">arrow_back</span>
+                            Go Back
+                        </a>
+                        <a th:href="@{/}"
+                            class="px-6 py-3 rounded-xl bg-primary text-background-dark font-bold hover:brightness-110 hover:shadow-lg hover:shadow-primary/20 transition-all uppercase tracking-wider text-sm flex items-center gap-2">
+                            <span class="material-symbols-outlined text-lg">home</span>
+                            Home
+                        </a>
+                    </div>
+                </div>
+
+            </main>
+
+            <footer th:replace="~{fragments/layout :: footer}"></footer>
+        </div>
+    </div>
+</body>
+
+</html>
