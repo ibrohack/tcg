@@ -30,6 +30,7 @@ public class ImplCardBD implements CardDAO {
 	final String SQLMODIFICAR = "UPDATE Cards SET CardName=?, Quality=?, CardDescription=? WHERE CardId=?";
 	final String SQLRANDOM = "SELECT * FROM Cards WHERE Quality = ? ORDER BY RAND() LIMIT 1";
 	final String SQLQUERYSHOPCARDS = "SELECT * FROM Cards C JOIN ShopCards S ON C.CardID=S.CardID WHERE S.PlayerID = ?";
+	final String SQLQUERYDEFAULTSHOPCARDS = "SELECT * FROM Cards ORDER BY RAND() LIMIT 3";
 
 	public ImplCardBD() {
 		this.configFile = ResourceBundle.getBundle("configDB");
@@ -227,8 +228,12 @@ public class ImplCardBD implements CardDAO {
 		ArrayList<Card> cards = new ArrayList<Card>();
 		this.openConnection();
 		try {
-			statement = connection.prepareStatement(SQLQUERYSHOPCARDS);
-			statement.setInt(1, playerId);
+			if (playerId == 0) {
+				statement = connection.prepareStatement(SQLQUERYDEFAULTSHOPCARDS);
+			} else {
+				statement = connection.prepareStatement(SQLQUERYSHOPCARDS);
+				statement.setInt(1, playerId);
+			}
 			ResultSet resultado = statement.executeQuery();
 			while (resultado.next()) {
 				Card card = new Card();
