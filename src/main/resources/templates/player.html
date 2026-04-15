@@ -86,7 +86,7 @@
                             </a>
                             <div th:each="deck : ${decks}"
                                 class="group flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-300 dark:border-primary/20 bg-transparent p-3 hover:border-primary transition-all cursor-pointer min-h-[200px]">
-                                <a th:text="${deck.title}" th:href="@{/deckcreate?id=}" + ${deck.id}
+                                <a th:text="${deck.title}" th:href="@{/deckview(deckId=${deck.deckID})}"
                                     class="text-slate-500 dark:text-primary/60 font-bold group-hover:text-primary">
                                 </a>
                             </div>
