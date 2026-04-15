@@ -11,7 +11,7 @@
         <div class="layout-container flex h-full grow flex-col">
 
             <!-- Navbar -->
-            <header th:replace="~{fragments/layout :: navbar('collection')}"></header>
+            <header th:replace="~{fragments/layout :: navbar('card-gallery')}"></header>
 
             <main class="flex-1 px-6 lg:px-20 py-8">
                 <!-- Search and Hero Section -->
@@ -57,8 +57,9 @@
                                     <span class="text-xs font-bold text-slate-500 uppercase"
                                         th:text="${card.quality}">Type</span>
                                     <div class="flex gap-2 text-primary font-bold">
-                                        <span class="material-symbols-outlined text-sm">payments</span>
-                                        <span th:text="${card.purchasePrice}">0</span>
+                                        <span class="material-symbols-outlined text-sm">license</span>
+                                        <!-- Google fonts thingy -->
+                                        <span th:text="${card.cardID}"></span>
                                     </div>
                                 </div>
                             </div>

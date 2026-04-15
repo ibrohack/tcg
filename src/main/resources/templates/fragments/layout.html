@@ -48,8 +48,8 @@
         <nav class="hidden md:flex gap-6">
             <!-- Always visible: Collection (cards gallery) -->
             <a th:href="@{/cards}"
-                th:classappend="${currentPage == 'collection'} ? 'text-primary font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-primary transition-colors font-medium'"
-                class="text-sm" href="#">Collection</a>
+                th:classappend="${currentPage == 'card-gallery'} ? 'text-primary font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-primary transition-colors font-medium'"
+                class="text-sm" href="#">Card Gallery</a>
             <!-- Always visible: Shop -->
             <a th:href="@{/shop}"
                 th:classappend="${currentPage == 'shop'} ? 'text-primary font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-primary transition-colors font-medium'"
