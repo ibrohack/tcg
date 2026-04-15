@@ -84,12 +84,18 @@
                                     New
                                     Deck</div>
                             </a>
-                            <div th:each="deck : ${decks}"
-                                class="group flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-300 dark:border-primary/20 bg-transparent p-3 hover:border-primary transition-all cursor-pointer min-h-[200px]">
-                                <a th:text="${deck.title}" th:href="@{/deckview(deckId=${deck.deckID})}"
-                                    class="text-slate-500 dark:text-primary/60 font-bold group-hover:text-primary">
-                                </a>
-                            </div>
+                            <a th:each="deck : ${decks}" th:href="@{/deckview(deckId=${deck.deckID})}"
+                                class="relative group flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-300 dark:border-primary/20 overflow-hidden bg-transparent p-3 hover:border-primary transition-all cursor-pointer min-h-[200px]">
+                                <img class="absolute inset-0 w-full h-full object-cover z-0 grayscale-[20%] group-hover:scale-105 group-hover:grayscale-0 transition-all duration-700"
+                                    data-alt="Deck Image"
+                                    th:src="@{'/images/cards/' + ${deck.cards.keySet().toArray()[0]} + '.png'}" />
+                                <div
+                                    class="absolute inset-0 bg-background/80 group-hover:bg-background/40 transition-all duration-700 z-10">
+                                </div>
+                                <span th:text="${deck.title}"
+                                    class="relative z-20 text-slate-800 dark:text-slate-200 font-bold group-hover:text-primary text-xl uppercase tracking-widest drop-shadow-lg">
+                                </span>
+                            </a>
                         </div>
                     </div>
                     <!-- Stats / Quick Nav -->

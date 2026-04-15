@@ -14,8 +14,8 @@
             <section class="mb-12">
                 <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
                     <div>
-                        <span class="font-label text-xs uppercase tracking-[0.2em] text-primary mb-2 block">Tactical
-                            Configuration</span>
+                        <span class="font-label text-xs uppercase tracking-[0.2em] text-primary mb-2 block"
+                            th:text="${player.username} + '\'s Deck'"> </span>
                         <h1
                             class="font-headline text-5xl md:text-6xl font-black text-on-background tracking-tighter italic">
                             Deck: <span class="text-primary" th:text="${deck.title}"></span>
@@ -34,11 +34,6 @@
             <section>
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="font-headline text-2xl font-bold uppercase tracking-tight">Deck Contents</h2>
-                    <div class="flex items-center gap-4">
-                        <span class="font-label text-[10px] text-on-surface-variant">Sort by: Quality</span>
-                        <span class="material-symbols-outlined text-primary cursor-pointer"
-                            data-icon="filter_list">filter_list</span>
-                    </div>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
                     <!-- Cards (Repeated for effect) -->
