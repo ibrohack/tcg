@@ -1,6 +1,7 @@
 package com.dami.tcg.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -133,12 +134,18 @@ public class ShopController {
 		Player player = (Player) session.getAttribute("loggedPlayer");
 		int playerId = 0;
 		boolean isPackAvailable = true;
+		HashMap<Integer,Boolean> cardsPurchase = new HashMap<Integer,Boolean>();
 		ArrayList<Card> cards = null;
+		cards = cardDao.queryShopCards(playerId);
 		if (player != null) {
 			playerId = player.getPlayerId();
 			isPackAvailable = playerDao.checkFreePack(player);
+			cards = cardDao.queryShopCards(playerId);
+			for(Card c : cards) {
+				cardsPurchase.put(c.getCardID(),cardDao.queryPurchasedCard(c,player));
+			}
 		}
-		cards = cardDao.queryShopCards(playerId);
+		model.addAttribute("cardsPurchase", cardsPurchase);
 		model.addAttribute("cards", cards);
 		model.addAttribute("packAvailable", isPackAvailable);
 		model.addAttribute("serverTime", System.currentTimeMillis());
@@ -146,15 +153,15 @@ public class ShopController {
 	}
 
 	/**
-	 * This method checks if there's a player logged and if theres's any when clicking at each cards button it adds the card to the player and disables that button.
-	 * @param cardId is the Id of the card the user has selected.
-	 * @param redirectAttributes is used add and show error messages.  
-	 * @param session gets the information of the logged player.
+	 * 
+	 * @param cardId
+	 * @param redirectAttributes
+	 * @param session
 	 * @author Asier
-	 * @return if there's no player logged it sends to the login section and if there's a logged player it stays at the shop.
+	 * @return
 	 */
 	@PostMapping(value = "/shopCards", params = "action=buy-card")
-	public String buyCards(@RequestParam int cardId, RedirectAttributes redirectAttributes, HttpSession session) {
+	public String buyCards(@RequestParam int cardId, Model model, RedirectAttributes redirectAttributes, HttpSession session) {
 		Player player = (Player) session.getAttribute("loggedPlayer");
 		if (player == null) {
 			return "redirect:/login";
@@ -163,7 +170,6 @@ public class ShopController {
 		for (Card c : cardDao.queryShopCards(player.getPlayerId())) {
 			if (c.getCardID() == cardId) {
 				card = c;
-				break;
 			}
 		}
 
@@ -176,11 +182,12 @@ public class ShopController {
 			playerDao.addCoins(player, Math.negateExact(card.getPurchasePrice()));
 			player.setCoins(playerDao.getGold(player));
 			playerDao.addCard(player, card);
+			cardDao.purchaseShopCard(card, player);
 		} else {
 			redirectAttributes.addFlashAttribute("error", "Not enough coins to buy the card");
 			return "redirect:/shop";
 		}
-		return "redirect:/";
+		return "redirect:/shop";
 	}
 
 	/**
