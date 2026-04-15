@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title th:text="${pageTitle}">Chaos and Monkeys</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="stylesheet" th:href="@{/css/output.css}" />
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap"
         rel="stylesheet" />
     <link
@@ -19,7 +19,6 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css" />
     <script th:if="${loadImageCrop}"
         src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
-    <script src="/js/tailwind-config.js"></script>
     <script src="https://code.jquery.com/jquery-4.0.0.min.js"></script>
 </head>
 
