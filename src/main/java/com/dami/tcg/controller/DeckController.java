@@ -34,6 +34,7 @@ public class DeckController {
 		model.addAttribute("deck", deck);
 		model.addAttribute("player", player);
 		model.addAttribute("cards", cards);
+		model.addAttribute("playerCardQuantities", playerDao.queryPlayerCards(player.getPlayerId()));
 		model.addAttribute("deckQuantity", deck.getCards().size());
 		return "deckcreate";
 	}
