@@ -1,7 +1,6 @@
 package com.dami.tcg.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +24,7 @@ import org.springframework.ui.Model;
 import com.dami.tcg.modelo.CardDAO;
 
 /**
- * This class works as a controller for all the methods related to the shop.
+ * This controller manages all shop-related actions, including pack opening,card purchases, coin bundle purchases, and displaying shop content. It also interacts with the PlayerDAO and CardDAO to update player data and retrieve available shop cards.
  * @author Brayan, Adam, Oihan and Asier
  */
 @Controller
@@ -37,7 +36,7 @@ public class ShopController {
 	 * This method is used to show the pack opening screen, it also checks if there is a player logged and if there's no player logged it returns the user to the login screen. Finally, it sets the price of the pack if the player has the free pack. 
 	 * @param session is used to get the logged player's information.
 	 * @param model is used to add attributes to the html code like the price of the pack.
-	 * @author Brayan
+	 * author Brayan
 	 * @return if the player is not logged returns to the login screen and if it's logged it redirects to the pack screen.
 	 */
 	@GetMapping("/pack")
@@ -57,6 +56,11 @@ public class ShopController {
 		return "pack";
 	}
 
+	/**
+	 * This method checks if the logged player has the free pack available and changes the packs price on real time.
+	 * @param session is used to get the information of the logged player
+	 * @return returns a map with the price.
+	 */
 	@GetMapping("/pack/price")
 	@ResponseBody
 	public Map<String, Object> getPackPrice(HttpSession session) {
@@ -75,8 +79,8 @@ public class ShopController {
 	 * @param model is used to add parameters to the html.
 	 * @param session is used to get the logged player's information.
 	 * @param redirectAttributes is used add and show error messages.  
-	 * @author Adam
-	 * @return if the player isn't logged it redirects to the loging page and if the player is logged it sends the user to the pack opening screen
+	 * author Adam
+	 * @return if the player isn't logged it redirects to the loging page and if the player is logged it sends the user to the pack opening screen.
 	 */
 	@PostMapping("/pack")
 	public String openPack(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
@@ -100,7 +104,7 @@ public class ShopController {
 					cards.add(card);
 					playerDao.addCard(player, card);
 				}
-//				playerDao.buyPack(player);
+				playerDao.buyPack(player);
 				model.addAttribute("cards", cards);
 				player.setCoins(playerDao.getGold(player));
 				session.setAttribute("loggedPlayer", player);
@@ -126,7 +130,7 @@ public class ShopController {
 	 * This method shows the webs shop screen it also gets the cards that each player has in the shop, the current time and if the players have the free pack available and it sends them to the html to show them.
 	 * @param model sends if the player has the free pack available, the cards  to the html. 
 	 * @param session gets the information of the logged player.
-	 * @author Oihan
+	 * author Oihan
 	 * @return it sends the users to the shop.
 	 */
 	@GetMapping("/shop")
@@ -134,18 +138,12 @@ public class ShopController {
 		Player player = (Player) session.getAttribute("loggedPlayer");
 		int playerId = 0;
 		boolean isPackAvailable = true;
-		HashMap<Integer,Boolean> cardsPurchase = new HashMap<Integer,Boolean>();
 		ArrayList<Card> cards = null;
-		cards = cardDao.queryShopCards(playerId);
 		if (player != null) {
 			playerId = player.getPlayerId();
 			isPackAvailable = playerDao.checkFreePack(player);
-			cards = cardDao.queryShopCards(playerId);
-			for(Card c : cards) {
-				cardsPurchase.put(c.getCardID(),cardDao.queryPurchasedCard(c,player));
-			}
 		}
-		model.addAttribute("cardsPurchase", cardsPurchase);
+		cards = cardDao.queryShopCards(playerId);
 		model.addAttribute("cards", cards);
 		model.addAttribute("packAvailable", isPackAvailable);
 		model.addAttribute("serverTime", System.currentTimeMillis());
@@ -153,15 +151,15 @@ public class ShopController {
 	}
 
 	/**
-	 * 
-	 * @param cardId
-	 * @param redirectAttributes
-	 * @param session
-	 * @author Asier
-	 * @return
+	 * This method checks if there's a player logged and if theres's any when clicking at each cards button it adds the card to the player and disables that button.
+	 * @param cardId is the Id of the card the user has selected.
+	 * @param redirectAttributes is used add and show error messages.  
+	 * @param session gets the information of the logged player.
+	 * author Asier
+	 * @return if there's no player logged it sends to the login section and if there's a logged player it stays at the shop.
 	 */
 	@PostMapping(value = "/shopCards", params = "action=buy-card")
-	public String buyCards(@RequestParam int cardId, Model model, RedirectAttributes redirectAttributes, HttpSession session) {
+	public String buyCards(@RequestParam int cardId, RedirectAttributes redirectAttributes, HttpSession session) {
 		Player player = (Player) session.getAttribute("loggedPlayer");
 		if (player == null) {
 			return "redirect:/login";
@@ -170,6 +168,7 @@ public class ShopController {
 		for (Card c : cardDao.queryShopCards(player.getPlayerId())) {
 			if (c.getCardID() == cardId) {
 				card = c;
+				break;
 			}
 		}
 
@@ -182,12 +181,11 @@ public class ShopController {
 			playerDao.addCoins(player, Math.negateExact(card.getPurchasePrice()));
 			player.setCoins(playerDao.getGold(player));
 			playerDao.addCard(player, card);
-			cardDao.purchaseShopCard(card, player);
 		} else {
 			redirectAttributes.addFlashAttribute("error", "Not enough coins to buy the card");
 			return "redirect:/shop";
 		}
-		return "redirect:/shop";
+		return "redirect:/";
 	}
 
 	/**
@@ -196,7 +194,7 @@ public class ShopController {
 	 * @param coins is the amount of coins for the bundle selected.
 	 * @param redirectAttributes is used to send the price and the amount of gold of the bundle selected as attributes when redirecting to the confirmPurchase screen.
 	 * @param session gets the information of the logged player.
-	 * @author Brayan
+	 * author Brayan
 	 * @return it sends the user to the screen to confirm the coins purchase.
 	 */
 	@PostMapping(value = "/shop", params = "action=buy")
@@ -212,13 +210,13 @@ public class ShopController {
 	}
 
 	/**
-	 * 
-	 * @param price
-	 * @param coins
-	 * @param model
-	 * @param session
-	 * @author Adam
-	 * @return
+	 * This method shows a new window to confirm the purchase of coins.
+	 * @param price is the price of the coin bundle
+	 * @param coins is the amount of coins that the bundle selected has.
+	 * @param model sends the price of the bundle and the amount of coins to the html. 
+	 * @param session gets the information of the logged player.
+	 * author Adam
+	 * @return if theres no logged player it sends the user to the login page and if there's any it shows the confirm purchase page.
 	 */
 	@GetMapping("/confirmPurchase")
 	public String paymentPage(@RequestParam int price, @RequestParam int coins, Model model, HttpSession session) {
@@ -232,21 +230,15 @@ public class ShopController {
 	}
 
 	/**
-	 * This method shows a new window to confirm the purchase of coins.
-	 * @param price is the price of the coin bundle
+	 * This method adds coins to the player logged and sends the user back to the shop.
 	 * @param coins is the amount of coins that the bundle selected has.
-	 * @param model sends the price of the bundle and the amount of coins to the html. 
-	 * @param session gets the information of the logged player.
-	 * @author Adam
+	 * @param session updates the coin amount to the logged player.
+	 * author Adam
 	 * @return if theres no logged player it sends the user to the login page and if there's any it shows the confirm purchase page.
 	 */
 	@PostMapping(value = "/confirmPurchase")
-	public String buyCoins(@RequestParam int coins, RedirectAttributes redirectAttributes, HttpSession session) {
+	public String buyCoins(@RequestParam int coins, HttpSession session) {
 		Player player = (Player) session.getAttribute("loggedPlayer");
-		if (player == null) {
-			return "redirect:/login";
-		}
-		redirectAttributes.addAttribute("coins", coins);
 		playerDao.addCoins(player, coins);
 		player.setCoins(playerDao.getGold(player));
 		session.setAttribute("loggedPlayer", player);
