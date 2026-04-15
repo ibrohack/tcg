@@ -32,9 +32,6 @@
             </section>
             <!-- Card Grid Section -->
             <section>
-                <div th:each="card : ${deck.cards}">
-                    <span th:text="${card.title}"></span>
-                </div>
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="font-headline text-2xl font-bold uppercase tracking-tight">Deck Contents</h2>
                     <div class="flex items-center gap-4">
@@ -45,220 +42,73 @@
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
                     <!-- Cards (Repeated for effect) -->
-                    <!-- Legendary Card -->
-                    <div
-                        class="group relative bg-surface-container-lowest border-2 border-primary shadow-xl shadow-primary/10 overflow-hidden transform hover:-translate-y-2 transition-all duration-300">
-                        <div
-                            class="absolute top-2 right-2 z-10 bg-primary text-background px-2 py-0.5 font-label text-[8px] font-black italic uppercase">
-                            Legendary</div>
-                        <div class="h-48 relative">
-                            <img alt="Primal Alpha"
-                                class="w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 transition-all"
-                                data-alt="ferocious robotic silverback gorilla with glowing yellow tech eyes in a dark neon jungle setting"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfEKXLlBey2PRDOhqXgNl4i35k32l-21RrQfMoY9YBxz3Z-oXX6XFdmcPSCiuhZ34VpIeIfPFNeTk7FSF1W2LficTWhoDFvB5Wrzw9fNlwRVJHpouRw2GGmwB-mJ_7zuT4WMtpc4ld_delQllQ7SLnKshn_q6CJKEEqTY2Dw9FVqkwcm6Z8Txyo7LfanMJjwM45q2RPtMb3iKbENEnHW_pQKbioo8-7lU9sX6xg3KMSy61cYXwGUG4Ek-skSgSYBwpsSL12bWkrmEC" />
-                            <div
-                                class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent">
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-headline text-lg font-black uppercase text-primary leading-tight">Primal
-                                Alpha</h3>
-                            <p class="text-xs text-on-surface-variant mt-2 line-clamp-3">Commands all nearby jungle
-                                primates. Grants +4 Power to all "Monkey" units on board.</p>
-                            <div class="mt-4 flex justify-between items-center">
-                                <span class="text-xs font-black italic font-headline">Cost: 8</span>
-                                <span class="material-symbols-outlined text-primary text-sm" data-icon="star"
-                                    data-weight="fill">star</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Epic Card -->
-                    <div
-                        class="group relative bg-surface-container-lowest border border-purple-500/30 overflow-hidden transform hover:-translate-y-1 transition-all">
-                        <div
-                            class="absolute top-2 right-2 z-10 bg-purple-500 text-white px-2 py-0.5 font-label text-[8px] font-black italic uppercase">
-                            Epic</div>
-                        <div class="h-48 relative">
-                            <img alt="Storm Weaver"
+                    <div th:each="card : ${cards}"
+                        class="group relative bg-surface-container-lowest border border-purple-500/30 overflow-hidden transition-all shadow-l rounded-lg"
+                        th:classappend="${card.quality.equalsIgnoreCase('Common')} ? 'border border-card-common/20 hover:border-card-common' :
+                                     (${card.quality.equalsIgnoreCase('Rare')} ? 'border border-card-rare/20 hover:border-card-rare hover:shadow-card-rare/20' :
+                                     (${card.quality.equalsIgnoreCase('Epic')} ? 'border border-card-epic/20 hover:border-card-epic hover:shadow-card-epic/20' :
+                                     (${card.quality.equalsIgnoreCase('Legendary')} ? 'border border-card-legendary/20 hover:border-card-legendary hover:shadow-card-legendary/30' :
+                                     (${card.quality.equalsIgnoreCase('Mythic')} ? 'border border-card-mythic/20 hover:border-card-mythic hover:shadow-card-mythic/40' :
+                                     (${card.quality.equalsIgnoreCase('Arok')} ? 'border border-card-arok/20 hover:border-card-arok hover:shadow-card-arok/50' :
+                                     'border border-white/20')))))">
+                        <div class="aspect-[3/4] relative overflow-hidden">
+                            <img th:alt="${card.cardID}"
                                 class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all"
                                 data-alt="mystical creature with swirling purple energy and electric sparks in a rain-soaked futuristic forest"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRGchxwrhr36SMr1ORy1TAm_ilWVcGrSZyUm_a3q8lhxCURTi5pcPTGyHPua9adiD4gN5unAKHGLxcn6iiICzbEV7Bc_65aGXPLabZ5fBPKt6fHW-CI2vuegP59AvWBMHZpjqTdo6_2NH3FsxuW8qgl5lPpFbe-jrtRHeIiAyCvaZ_qB9PHK2DBHhkswyT8eAAizBWTAvAOhv8JSlRXdyxtAbwlTVdSm-BFO4KYF97dytrAHrN9aKFwPr9DrfdmO2wtnZj0PA8kh9_" />
+                                th:src="@{'/images/cards/' + ${card.cardID} + '.png'}" />
                             <div
                                 class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent">
                             </div>
                         </div>
+                        <div class="absolute top-3 left-3 z-20 backdrop-blur-md px-2 py-1 rounded text-[10px] font-bold uppercase tracking-tighter"
+                            th:classappend="${card.quality.equalsIgnoreCase('Common')} ? 'bg-card-common/20 border border-card-common/50' :
+                                             (${card.quality.equalsIgnoreCase('Rare')} ? 'bg-card-rare/20 border border-card-rare/50' :
+                                             (${card.quality.equalsIgnoreCase('Epic')} ? 'bg-card-epic/20 border border-card-epic/50' :
+                                             (${card.quality.equalsIgnoreCase('Legendary')} ? 'bg-card-legendary/20 border border-card-legendary/50' :
+                                             (${card.quality.equalsIgnoreCase('Mythic')} ? 'bg-card-mythic/20 border border-card-mythic/50 text-card-mythic' :
+                                             (${card.quality.equalsIgnoreCase('Arok')} ? 'bg-card-arok/20 border border-card-arok/50 text-card-arok' :
+                                             'bg-white/20 border border-white/50')))))" th:text="${card.quality}">
+                        </div>
                         <div class="p-4">
-                            <h3 class="font-headline text-lg font-bold uppercase text-purple-400 leading-tight">Storm
-                                Weaver</h3>
-                            <p class="text-xs text-on-surface-variant mt-2 line-clamp-3">Chain lightning strikes 3
-                                targets for 2 damage each. High chance to stun mechanical foes.</p>
+                            <h3 class="font-headline text-xl font-bold uppercase leading-tight" th:classappend="${card.quality.equalsIgnoreCase('Common')} ? 'text-card-common' :
+                                             (${card.quality.equalsIgnoreCase('Rare')} ? 'text-card-rare' :
+                                             (${card.quality.equalsIgnoreCase('Epic')} ? 'text-card-epic' :
+                                             (${card.quality.equalsIgnoreCase('Legendary')} ? 'text-card-legendary' :
+                                             (${card.quality.equalsIgnoreCase('Mythic')} ? 'text-card-mythic' :
+                                             (${card.quality.equalsIgnoreCase('Arok')} ? 'text-card-arok' :
+                                             'bg-white/20 border border-white/50')))))" th:text="${card.name}"></h3>
+                            </h3>
+                            <span class="text-s font-black italic font-headline" th:classappend="${card.quality.equalsIgnoreCase('Common')} ? 'text-card-common' :
+                                             (${card.quality.equalsIgnoreCase('Rare')} ? 'text-card-rare' :
+                                             (${card.quality.equalsIgnoreCase('Epic')} ? 'text-card-epic' :
+                                             (${card.quality.equalsIgnoreCase('Legendary')} ? 'text-card-legendary' :
+                                             (${card.quality.equalsIgnoreCase('Mythic')} ? 'text-card-mythic' :
+                                             (${card.quality.equalsIgnoreCase('Arok')} ? 'text-card-arok' :
+                                             'bg-white/20 border border-white/50')))))"
+                                th:text="${card.quality}"></span>
                             <div class="mt-4 flex justify-between items-center">
-                                <span class="text-xs font-black italic font-headline">Cost: 5</span>
-                                <span class="material-symbols-outlined text-purple-400 text-sm"
-                                    data-icon="electric_bolt">electric_bolt</span>
+                                <span class="text-xs font-black italic font-headline" th:classappend="${card.quality.equalsIgnoreCase('Common')} ? 'text-card-common' :
+                                             (${card.quality.equalsIgnoreCase('Rare')} ? 'text-card-rare' :
+                                             (${card.quality.equalsIgnoreCase('Epic')} ? 'text-card-epic' :
+                                             (${card.quality.equalsIgnoreCase('Legendary')} ? 'text-card-legendary' :
+                                             (${card.quality.equalsIgnoreCase('Mythic')} ? 'text-card-mythic' :
+                                             (${card.quality.equalsIgnoreCase('Arok')} ? 'text-card-arok' :
+                                             'bg-white/20 border border-white/50')))))"
+                                    th:text="${card.description}"></span>
+                                <div class="flex gap-2 text-primary font-bold">
+                                    <span class="material-symbols-outlined text-sm">stack_group</span>
+                                    <span th:text="${cardQuantities.get(card.cardID)}"></span>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <!-- Rare Card -->
-                    <div
-                        class="group relative bg-surface-container-lowest border border-blue-500/20 overflow-hidden transform hover:-translate-y-1 transition-all">
-                        <div
-                            class="absolute top-2 right-2 z-10 bg-blue-500 text-white px-2 py-0.5 font-label text-[8px] font-black italic uppercase">
-                            Rare</div>
-                        <div class="h-48 relative">
-                            <img alt="Neon Panther"
-                                class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all"
-                                data-alt="sleek cybernetic black panther with blue glowing circuitry standing on a dark industrial pipe"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAm_d2CrGSr7Y92ddQIFUa03qXp3lHxoVrZwJSspOZBvszw6QveUIJ-xJAFYJaqj3Pbmz3CvDOG3FPt76bP_WcGqkWy0DrWvurT5nRjMI0BtiNClDfthQWzs1cYeDv4klfsKtVZSIMoUOYlQtpmebbpLyUiVtzFf3T0djSsbCH2jT6BAMjmQlpziXggP4MTXrCvFibaBmUj4puV0gjSENorkTEBLNe1EiTcn3Rn1EFGBtRDNPLW9xfBpH6m4fVsfFn65j5_lv2KqjrG" />
-                            <div
-                                class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent">
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-headline text-lg font-bold uppercase text-blue-400 leading-tight">Neon
-                                Panther</h3>
-                            <p class="text-xs text-on-surface-variant mt-2 line-clamp-3">Stealth ability. Cannot be
-                                targeted for 1 turn after being played.</p>
-                            <div class="mt-4 flex justify-between items-center">
-                                <span class="text-xs font-black italic font-headline">Cost: 3</span>
-                                <span class="material-symbols-outlined text-blue-400 text-sm"
-                                    data-icon="visibility_off">visibility_off</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Common Cards (Generic) -->
-                    <div
-                        class="group relative bg-surface-container-lowest border border-outline/10 overflow-hidden transform hover:-translate-y-1 transition-all">
-                        <div
-                            class="absolute top-2 right-2 z-10 bg-on-surface-variant text-background px-2 py-0.5 font-label text-[8px] font-black italic uppercase">
-                            Common</div>
-                        <div class="h-48 relative bg-surface-container">
-                            <img alt="Jungle Sentry"
-                                class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all"
-                                data-alt="armored scout drone hovering through dense exotic jungle vines and large leaves"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8OZv5Y1MLzv00QXttBH3MkS2PsU4taa05GmImErhxq-NR_oan8gXhC6OJKQ9EiYhn7t_tZlT-z-q-cWvlYRMzwTpGiqjZLuIqZz_qJukXLkx8C2aMQKvB-29XXmgcl-XpV3Z80Ye2L84IqQI_Ao7oVdP_lywT6wh_yxos-VnfTfQwgI6YxPLmkJ-g9DOp5Knd4iyAbHK21euJJ7w7xYj1WYYCQ07V8ncV69ALaZqsx7XrpdHKbCst2cNC4FVqrtpRl4s7OQNs2hh7" />
-                            <div
-                                class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent">
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-headline text-lg font-bold uppercase text-on-surface leading-tight">Jungle
-                                Sentry</h3>
-                            <p class="text-xs text-on-surface-variant mt-2 line-clamp-3">Draw 1 card when this unit is
-                                destroyed. Reliable fodder.</p>
-                            <div class="mt-4 flex justify-between items-center">
-                                <span class="text-xs font-black italic font-headline">Cost: 1</span>
-                                <span class="material-symbols-outlined text-on-surface-variant text-sm"
-                                    data-icon="monitoring">monitoring</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Mythic/Arok Card (Special Rarity) -->
-                    <div
-                        class="group relative bg-surface-container-lowest border-2 border-orange-500 shadow-xl shadow-orange-500/20 overflow-hidden transform hover:-translate-y-2 transition-all duration-300">
-                        <div
-                            class="absolute top-2 right-2 z-10 bg-orange-500 text-white px-2 py-0.5 font-label text-[8px] font-black italic uppercase">
-                            Arok</div>
-                        <div class="h-48 relative">
-                            <img alt="Monkey God" class="w-full h-full object-cover"
-                                data-alt="colossal divine monkey statue carved from glowing orange crystal deep within a volcanic chamber"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2BgPo5bidh6WAcgObDd5QgkXXm4EvV5TmdLG_boUk4IowVfAr_13CRXuxVi6jbVDjBOk9AfHka-cOPCZ_f3E4Nwt2pSqlbh2TJkU19nnhVsPF69UqiaG0aU7swxAGDMTZ_qMofk84ci6FO3-KPMXFwLJ53k4PLJvi7JTce6a7wmREJuaivCVZEwlMhak2OPSOpQM0DcssOZhl-5RG955lWuA09WU21Q-c_KAhjVvIAdPx1OsYP43mI6PzDrjixWN9pb1GnSdUdobV" />
-                            <div
-                                class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent">
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-headline text-lg font-black uppercase text-orange-500 leading-tight">Sun
-                                Wukong's Echo</h3>
-                            <p class="text-xs text-on-surface-variant mt-2 line-clamp-3">Ultimate unit. Can only be
-                                played if you have 10 Energy. Devastates the entire enemy board.</p>
-                            <div class="mt-4 flex justify-between items-center">
-                                <span class="text-xs font-black italic font-headline">Cost: 10</span>
-                                <span class="material-symbols-outlined text-orange-500 text-sm"
-                                    data-icon="brightness_7">brightness_7</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Repeat Common/Rare to fill grid for visual demo -->
-                    <div
-                        class="group relative bg-surface-container-lowest border border-outline/10 overflow-hidden opacity-80">
-                        <div
-                            class="absolute top-2 right-2 z-10 bg-on-surface-variant text-background px-2 py-0.5 font-label text-[8px] font-black italic uppercase">
-                            Common</div>
-                        <div class="h-48 relative bg-surface-container-high flex items-center justify-center">
-                            <span class="material-symbols-outlined text-4xl text-outline" data-icon="style">style</span>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-headline text-lg font-bold uppercase text-on-surface leading-tight">Monkey
-                                Grunt</h3>
-                            <p class="text-xs text-on-surface-variant mt-2">Basic infantry with 2 ATK / 2 HP.</p>
-                        </div>
-                    </div>
-                    <div
-                        class="group relative bg-surface-container-lowest border border-outline/10 overflow-hidden opacity-80">
-                        <div
-                            class="absolute top-2 right-2 z-10 bg-on-surface-variant text-background px-2 py-0.5 font-label text-[8px] font-black italic uppercase">
-                            Common</div>
-                        <div class="h-48 relative bg-surface-container-high flex items-center justify-center">
-                            <span class="material-symbols-outlined text-4xl text-outline" data-icon="style">style</span>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-headline text-lg font-bold uppercase text-on-surface leading-tight">Monkey
-                                Grunt</h3>
-                            <p class="text-xs text-on-surface-variant mt-2">Basic infantry with 2 ATK / 2 HP.</p>
-                        </div>
-                    </div>
-                    <div
-                        class="group relative bg-surface-container-lowest border border-outline/10 overflow-hidden opacity-80">
-                        <div
-                            class="absolute top-2 right-2 z-10 bg-on-surface-variant text-background px-2 py-0.5 font-label text-[8px] font-black italic uppercase">
-                            Common</div>
-                        <div class="h-48 relative bg-surface-container-high flex items-center justify-center">
-                            <span class="material-symbols-outlined text-4xl text-outline" data-icon="style">style</span>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-headline text-lg font-bold uppercase text-on-surface leading-tight">Vinelash
-                                Trap</h3>
-                            <p class="text-xs text-on-surface-variant mt-2">Delayed trigger: Deals 3 damage to any unit
-                                that attacks next turn.</p>
-                        </div>
-                    </div>
-                    <div
-                        class="group relative bg-surface-container-lowest border border-blue-500/20 overflow-hidden opacity-80">
-                        <div
-                            class="absolute top-2 right-2 z-10 bg-blue-500 text-white px-2 py-0.5 font-label text-[8px] font-black italic uppercase">
-                            Rare</div>
-                        <div class="h-48 relative bg-surface-container-high flex items-center justify-center">
-                            <span class="material-symbols-outlined text-4xl text-blue-500/40"
-                                data-icon="layers">layers</span>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-headline text-lg font-bold uppercase text-blue-400 leading-tight">Scavenger
-                                Bot</h3>
-                            <p class="text-xs text-on-surface-variant mt-2">Recover a spent Spell card from your discard
-                                pile.</p>
-                        </div>
-                    </div>
-                    <div
-                        class="group relative bg-surface-container-lowest border border-outline/10 overflow-hidden opacity-80">
-                        <div
-                            class="absolute top-2 right-2 z-10 bg-on-surface-variant text-background px-2 py-0.5 font-label text-[8px] font-black italic uppercase">
-                            Common</div>
-                        <div class="h-48 relative bg-surface-container-high flex items-center justify-center">
-                            <span class="material-symbols-outlined text-4xl text-outline" data-icon="style">style</span>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-headline text-lg font-bold uppercase text-on-surface leading-tight">
-                                Bananabomb</h3>
-                            <p class="text-xs text-on-surface-variant mt-2">Explosive utility: 1 damage to all units in
-                                a lane.</p>
+
                         </div>
                     </div>
                 </div>
             </section>
         </main>
     </div>
-    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <footer th:replace=" ~{fragments/layout :: footer}">
+    </footer>
 </body>
 
 </html>

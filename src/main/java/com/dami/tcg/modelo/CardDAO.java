@@ -15,8 +15,10 @@ public interface CardDAO {
     public List<Card> queryAll();
 
     public Card queryCard(String name);
-    
+
     public Card queryRandomCard();
-    
+
+    public Card queryCardId(int cardId);
+
     public ArrayList<Card> queryShopCards(int playerId);
 }

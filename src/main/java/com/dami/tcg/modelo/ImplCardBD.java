@@ -24,6 +24,7 @@ public class ImplCardBD implements CardDAO {
 
 	// SQL Statements
 	final String SQLSELECT = "SELECT * FROM Cards WHERE CardName = ?";
+	final String SQLSELECTID = "SELECT * FROM Cards WHERE CardId = ?";
 	final String SQLINSERT = "INSERT INTO Cards VALUES (?,?,?)";
 	final String SQLCONSULTA = "SELECT * FROM Cards";
 	final String SQLBORRAR = "DELETE FROM Cards WHERE CardId=?";
@@ -183,6 +184,32 @@ public class ImplCardBD implements CardDAO {
 			connection.close();
 		} catch (SQLException e) {
 			System.out.println("Error getting card by name: " + e.getMessage());
+		}
+		return card;
+	}
+
+	@Override
+	public Card queryCardId(int cardId) {
+		Card card = null;
+		this.openConnection();
+		try {
+			statement = connection.prepareStatement(SQLSELECTID);
+			statement.setInt(1, cardId);
+			ResultSet resultado = statement.executeQuery();
+			if (resultado.next()) {
+				card = new Card(
+						resultado.getInt("CardId"),
+						resultado.getString("CardName"),
+						resultado.getString("Quality"),
+						resultado.getString("CardDescription"),
+						resultado.getInt("PurchasePrice"),
+						resultado.getInt("SellPrice"));
+			}
+			resultado.close();
+			statement.close();
+			connection.close();
+		} catch (SQLException e) {
+			System.out.println("Error getting card by id: " + e.getMessage());
 		}
 		return card;
 	}
