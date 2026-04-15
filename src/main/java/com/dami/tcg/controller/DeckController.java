@@ -13,16 +13,33 @@ import jakarta.servlet.http.HttpSession;
 
 import org.springframework.ui.Model;
 
+/**
+ * This controller manages all deck-related actions, including creating, deleting, viewing, and editing decks. It interacts with the DeckDAO, PlayerDAO, and CardDAO to retrieve and update deck and card data.
+ * @author Adan, Oihan, Asier, Brayan
+ */
 @Controller
 public class DeckController {
 	DeckDAO dao = new ImplDeckBD();
 	PlayerDAO playerDao = new ImplPlayerBD();
 	CardDAO cardDao = new ImplCardBD();
 
+	/**
+	 * Checks whether a specific card exists in the given deck.
+	 * @param deck the deck to verify
+	 * @return true if the card is present, false otherwise
+	 * author Oihan
+	 */
 	public boolean checkCard(Deck deck) {
 		return dao.checkCard(deck);
 	}
 
+	/**
+	 * Displays the deck creation page, loading the player's cards and preparing an empty deck structure for editing.
+	 * @param model sends data to the view
+	 * @param session retrieves the logged player's information
+	 * @return the deck creation page or a redirect to login if not logged in
+	 * author Adam
+	 */
 	@GetMapping("/deckcreate")
 	public String showDeckCreate(Model model, HttpSession session) {
 		Player player = (Player) session.getAttribute("loggedPlayer");
@@ -39,6 +56,15 @@ public class DeckController {
 		return "deckcreate";
 	}
 
+	/**
+	 * Inserts a new deck for the logged player and redirects depending on whether the creation was successful.
+	 * @param model sends data to the view
+	 * @param redirectAttributes used to show success or error messages
+	 * @param session retrieves the logged player's information
+	 * @param deck the deck submitted from the form
+	 * @return redirect to the player page or back to deck creation on error
+	 * author Asier
+	 */
 	@PostMapping("/deckcreate")
 	public String insertDeck(Model model, RedirectAttributes redirectAttributes, HttpSession session,
 			@ModelAttribute Deck deck) {
@@ -58,6 +84,15 @@ public class DeckController {
 		}
 	}
 
+	/**
+	 * Deletes a deck by its ID and redirects to the deck list with a success or error message.
+	 * @param model sends data to the view
+	 * @param session retrieves the logged player's information
+	 * @param deckId the ID of the deck to delete
+	 * @param redirectAttributes used to show messages
+	 * @return redirect to the deck check page or login if not logged in
+	 * author Brayan
+	 */
 	@GetMapping("/deckdelete")
 	public String deckDelete(Model model, HttpSession session, @RequestParam int deckId,
 			RedirectAttributes redirectAttributes) {
@@ -75,6 +110,15 @@ public class DeckController {
 		}
 	}
 
+	/**
+	 * Displays all decks belonging to the logged player. If no decks exist, a message is shown.
+	 * @param model sends data to the view
+	 * @param session retrieves the logged player's information
+	 * @param deck unused deck parameter for binding
+	 * @param redirectAttributes used to show messages
+	 * @return the deck check page or a redirect to login if not logged in
+	 * author Adam
+	 */
 	@GetMapping("/deckcheck")
 	public String deckCheck(Model model, HttpSession session, Deck deck, RedirectAttributes redirectAttributes) {
 		Player player = (Player) session.getAttribute("loggedPlayer");
@@ -92,6 +136,15 @@ public class DeckController {
 		}
 	}
 
+	/**
+	 * Displays the details of a specific deck, including its cards and quantities. Redirects if the deck is empty or invalid.
+	 * @param model sends data to the view
+	 * @param session retrieves the logged player's information
+	 * @param redirectAttributes used to show error messages
+	 * @param deckId the ID of the deck to view
+	 * @return the deck view page or a redirect if the deck is invalid
+	 * author Oihan
+	 */
 	@GetMapping("/deckview")
 	public String deckView(Model model, HttpSession session, RedirectAttributes redirectAttributes,
 			@RequestParam int deckId) {
@@ -116,6 +169,16 @@ public class DeckController {
 		}
 	}
 
+	
+	/**
+	 * Loads a deck for editing, including its cards and quantities. Redirects if the deck is empty or invalid.
+	 * @param model sends data to the view
+	 * @param session retrieves the logged player's information
+	 * @param redirectAttributes used to show error messages
+	 * @param deckId the ID of the deck to edit
+	 * @return the deck edit page or a redirect if the deck is invalid
+	 * author Asier
+	 */
 	@GetMapping("/deckedit")
 	public String deckEdit(Model model, HttpSession session, RedirectAttributes redirectAttributes,
 			@RequestParam int deckId) {

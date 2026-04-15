@@ -24,11 +24,25 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+/**
+ * This controller manages player-related actions such as login, registration,
+ * profile editing, and basic CRUD operations. It also handles session
+ * management, avatar loading, and communication with the PlayerDAO and DeckDAO.
+ * 
+ * @author Brayan, Asier, Oihan, Adam
+ */
 @Controller
 public class PlayerController {
     PlayerDAO dao = new ImplPlayerBD();
     DeckDAO deckDao = new ImplDeckBD();
 
+    /**
+     * This method checks if the username that is being introduced is already used.
+     * 
+     * @param username is the username introduced.
+     *                 author Asier
+     * @return if the username introduced is already used or not.
+     */
     @GetMapping("/api/check-username")
     @ResponseBody
     public Map<String, Boolean> checkUsername(@RequestParam String username) {
@@ -42,6 +56,14 @@ public class PlayerController {
         return response;
     }
 
+    /**
+     * This method shows the login screen
+     * 
+     * @param session gives information of the logged player
+     *                author Brayan
+     * @return if ther's a logged player redirects the user to the player screen and
+     *         if ther's not any it shows the login page.
+     */
     @GetMapping("/login")
     public String showLogin(HttpSession session) {
         if (session.getAttribute("loggedPlayer") != null) {
@@ -50,6 +72,17 @@ public class PlayerController {
         return "login";
     }
 
+    /**
+     * This method checks if the inserted parameters in the login are correct.
+     * 
+     * @param username           is the username introduced by the user.
+     * @param password           is the password introduced by the user.
+     * @param session            gives information about the logged player.
+     * @param redirectAttributes it adds an error message.
+     *                           author Adam
+     * @return If the player login is successful sends the user to the main page and
+     *         if it's not it stays in the login.
+     */
     @PostMapping("/login")
     public String processLogin(@RequestParam String username,
             @RequestParam String password,
@@ -65,6 +98,14 @@ public class PlayerController {
         return "redirect:/login";
     }
 
+    /**
+     * This method shows to the users the page register
+     * 
+     * @param session gives information about the logged player.
+     *                author Oihan
+     * @return if there's a logged player it sends the user to the player screen and
+     *         if there's a player is shows the register page.
+     */
     @GetMapping("/register")
     public String showRegister(HttpSession session) {
         if (session.getAttribute("loggedPlayer") != null) {
@@ -73,6 +114,21 @@ public class PlayerController {
         return "register";
     }
 
+    /**
+     * This method gets the parameter of the register page and checks if they
+     * fulfill the parameter required.
+     * 
+     * @param username           is the username introduced by the user.
+     * @param password           is the password introduced by the user.
+     * @param confirmPassword    is the password introduced by the user to confirm
+     *                           the password.
+     * @param redirectAttributes is used to add a error message.
+     *                           author Asier
+     * @return if the parameters introduced don't fulfill the standard to register
+     *         it shows a error message and and the user stays at the register page
+     *         but if the parameters fulfill the standard it takes the user to the
+     *         login page.
+     */
     @PostMapping("/register")
     public String processRegister(@RequestParam String username,
             @RequestParam String password,
@@ -113,38 +169,53 @@ public class PlayerController {
         }
     }
 
-    @GetMapping("/logout")
-    public String logout(HttpSession session) {
-        session.invalidate();
-        return "redirect:/login";
-    }
+    // @GetMapping("/logout")
+    // public String logout(HttpSession session) {
+    // session.invalidate();
+    // return "redirect:/login";
+    // }
+    //
+    // // ==================== EXISTING ENDPOINTS ====================
+    //
+    //
+    // @GetMapping("/playerCheck")
+    // public String checkPlayer(Model model, Player player) {
+    // model.addAttribute("player", player);
+    // return "playerCheck";
+    // }
+    //
+    //
+    // @GetMapping("/playerInsert")
+    // public String insertPlayer(Model model, Player player) {
+    // model.addAttribute("player", dao.insertPlayer(player));
+    // return "playerInsert";
+    // }
+    //
+    //
+    // @GetMapping("/playerDelete")
+    // public String deletePlayer(Model model, Player player) {
+    // model.addAttribute("player", dao.deletePlayer(player));
+    // return "playerDelete";
+    // }
+    //
+    //
+    // @GetMapping("/playerUpdate")
+    // public String updatePlayer(Model model, Player player) {
+    // model.addAttribute("player", dao.updatePlayer(player));
+    // return "playerUpdate";
+    // }
 
-    // ==================== EXISTING ENDPOINTS ====================
-
-    @GetMapping("/playerCheck")
-    public String checkPlayer(Model model, Player player) {
-        model.addAttribute("player", player);
-        return "playerCheck";
-    }
-
-    @GetMapping("/playerInsert")
-    public String insertPlayer(Model model, Player player) {
-        model.addAttribute("player", dao.insertPlayer(player));
-        return "playerInsert";
-    }
-
-    @GetMapping("/playerDelete")
-    public String deletePlayer(Model model, Player player) {
-        model.addAttribute("player", dao.deletePlayer(player));
-        return "playerDelete";
-    }
-
-    @GetMapping("/playerUpdate")
-    public String updatePlayer(Model model, Player player) {
-        model.addAttribute("player", dao.updatePlayer(player));
-        return "playerUpdate";
-    }
-
+    /**
+     * Retrieves a player's profile either by ID or from the logged-in session.
+     * Also loads the player's avatar and associated decks.
+     *
+     * @param model    the model used to pass attributes to the view
+     * @param session  the current HTTP session
+     * @param playerId optional ID of the player to query
+     *                 author Brayan
+     * @return the player profile view, or a redirect to login if no player is
+     *         available
+     */
     @GetMapping("/player")
     public String queryPlayer(Model model, HttpSession session,
             @RequestParam(required = false) Integer playerId) {
@@ -163,14 +234,23 @@ public class PlayerController {
         return "player";
     }
 
-    @GetMapping("/playerCards")
-    public String queryPlayerCards(Model model, @RequestParam(defaultValue = "1") int playerID) {
-        model.addAttribute("playerCards", dao.queryPlayerCards(playerID));
-        return "playerCards";
-    }
+    // @GetMapping("/playerCards")
+    // public String queryPlayerCards(Model model, @RequestParam(defaultValue = "1")
+    // int playerID) {
+    // model.addAttribute("playerCards", dao.queryPlayerCards(playerID));
+    // return "playerCards";
+    // }
 
     // ==================== PROFILE EDIT ENDPOINTS ====================
 
+    /**
+     * Displays the profile edit page for the logged-in player.
+     * 
+     * @param model   the model used to pass attributes to the view
+     * @param session the current HTTP session
+     *                author Adam
+     * @return the profile edit view, or a redirect to login if no user is logged in
+     */
     @GetMapping("/profile/edit")
     public String showProfileEdit(Model model, HttpSession session) {
         if (session.getAttribute("loggedPlayer") == null) {
@@ -183,6 +263,20 @@ public class PlayerController {
         return "profile-edit";
     }
 
+    /**
+     * Processes profile edits including password changes and profile picture
+     * uploads. Validates password rules and handles file storage for profile
+     * images.
+     * 
+     * @param oldPassword        the player's current password
+     * @param newPassword        the new password requested
+     * @param confirmPassword    confirmation of the new password
+     * @param profilePicture     an optional uploaded profile image
+     * @param session            the current HTTP session
+     * @param redirectAttributes attributes used to pass success or error messages
+     *                           author Oihan
+     * @return a redirect back to the profile edit page
+     */
     @PostMapping("/profile/edit")
     public String processProfileEdit(
             @RequestParam(required = false) String oldPassword,
@@ -273,6 +367,13 @@ public class PlayerController {
         }
     }
 
+    /**
+     * Attempts to locate and assign an avatar image to the given player. Searches
+     * for supported image extensions in the external directory.
+     * 
+     * @param player the player whose avatar should be populated
+     *               author Asier
+     */
     private void populatePlayerWithAvatar(Player player) {
         if (player == null)
             return;
