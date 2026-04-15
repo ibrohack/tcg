@@ -32,7 +32,7 @@ build/
 ### VS Code ###
 .vscode/
 src/main/resources/configDB.properties
-.gitignore
 
+node_modules/
 .hintrc
 data/*
