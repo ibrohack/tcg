@@ -256,6 +256,23 @@ public class PlayerController {
         return "redirect:/profile/edit";
     }
 
+    @GetMapping("/profile/delete")
+    public String playerDelete(HttpSession session, RedirectAttributes redirectAttributes) {
+        Player player = (Player) session.getAttribute("loggedPlayer");
+        if (player == null) {
+            return "redirect:/login";
+        }
+        boolean deleted = dao.deletePlayer(dao.queryPlayer(player.getPlayerId()));
+        if (deleted) {
+            session.invalidate();
+            redirectAttributes.addFlashAttribute("success", "Player deleted successfully");
+            return "redirect:/login";
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Error deleting player");
+            return "redirect:/profile/edit";
+        }
+    }
+
     private void populatePlayerWithAvatar(Player player) {
         if (player == null)
             return;
