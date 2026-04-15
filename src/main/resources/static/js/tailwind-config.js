@@ -1,4 +1,8 @@
-tailwind.config = {
+module.exports = {
+    content: [
+        "./src/main/resources/templates/**/*.html",
+        "./src/main/resources/static/**/*.js"
+    ],
     darkMode: "class",
     theme: {
         extend: {
@@ -73,4 +77,8 @@ tailwind.config = {
             },
         },
     },
+    plugins: [
+        require('@tailwindcss/forms'),
+        require('@tailwindcss/container-queries')
+    ]
 }
