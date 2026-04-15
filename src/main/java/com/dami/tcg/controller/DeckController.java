@@ -34,6 +34,7 @@ public class DeckController {
 		model.addAttribute("deck", deck);
 		model.addAttribute("player", player);
 		model.addAttribute("cards", cards);
+		model.addAttribute("playerCardQuantities", playerDao.queryPlayerCards(player.getPlayerId()));
 		model.addAttribute("deckQuantity", deck.getCards().size());
 		return "deckcreate";
 	}
@@ -112,6 +113,30 @@ public class DeckController {
 			model.addAttribute("player", player);
 			model.addAttribute("cards", cards);
 			return "deckview";
+		}
+	}
+
+	@GetMapping("/deckedit")
+	public String deckEdit(Model model, HttpSession session, RedirectAttributes redirectAttributes,
+			@RequestParam int deckId) {
+		Player player = (Player) session.getAttribute("loggedPlayer");
+		if (player == null) {
+			return "redirect:/login";
+		}
+		Deck deck = dao.queryDeck(deckId);
+		if (deck.getCards().isEmpty()) {
+			redirectAttributes.addFlashAttribute("error", "Deck not found or no cards");
+			return "redirect:/deckcheck";
+		} else {
+			ArrayList<Card> cards = new ArrayList<Card>();
+			for (int cardId : deck.getCards().keySet()) {
+				cards.add(cardDao.queryCardId(cardId));
+			}
+			model.addAttribute("cardQuantities", deck.getCards());
+			model.addAttribute("deck", deck);
+			model.addAttribute("player", player);
+			model.addAttribute("cards", cards);
+			return "deckedit";
 		}
 	}
 

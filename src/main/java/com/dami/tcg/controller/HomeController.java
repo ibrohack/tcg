@@ -27,16 +27,34 @@ public class HomeController {
         model.addAttribute("mostCommonQty", mostCommonQty);
         model.addAttribute("leastFoundCard", leastFoundCard);
         model.addAttribute("leastFoundQty", leastFoundQty);
-        
+
         if (unclaimedCards != null && !unclaimedCards.isEmpty()) {
             model.addAttribute("unclaimedCard", unclaimedCards.get(0));
             model.addAttribute("hasUnclaimed", true);
         } else {
             model.addAttribute("hasUnclaimed", false);
         }
-        
+
         model.addAttribute("latestCards", latestCards);
 
         return "home";
+    }
+
+    @GetMapping("/privacy")
+    public String privacy(Model model) {
+        model.addAttribute("page", "privacy");
+        return "footerpages";
+    }
+
+    @GetMapping("/terms")
+    public String terms(Model model) {
+        model.addAttribute("page", "terms");
+        return "footerpages";
+    }
+
+    @GetMapping("/support")
+    public String support(Model model) {
+        model.addAttribute("page", "support");
+        return "footerpages";
     }
 }

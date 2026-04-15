@@ -31,7 +31,9 @@ public class ImplCardBD implements CardDAO {
 	final String SQLMODIFICAR = "UPDATE Cards SET CardName=?, Quality=?, CardDescription=? WHERE CardId=?";
 	final String SQLRANDOM = "SELECT * FROM Cards WHERE Quality = ? ORDER BY RAND() LIMIT 1";
 	final String SQLQUERYSHOPCARDS = "SELECT * FROM Cards C JOIN ShopCards S ON C.CardID=S.CardID WHERE S.PlayerID = ?";
+	final String SQLUPDATESHOPSTATUS = "UPDATE ShopCards SET Purchased=? WHERE CardID=? AND PlayerID=?";
 	final String SQLQUERYDEFAULTSHOPCARDS = "SELECT * FROM Cards ORDER BY RAND() LIMIT 3";
+	final String SQLSELECTCARDSHOPID = "SELECT Purchased FROM ShopCards WHERE CardId = ? AND PlayerID=?";
 
 	public ImplCardBD() {
 		this.configFile = ResourceBundle.getBundle("configDB");
@@ -278,5 +280,46 @@ public class ImplCardBD implements CardDAO {
 			System.out.println("Error getting card by name: " + e.getMessage());
 		}
 		return cards;
+	}
+
+	@Override
+	public boolean purchaseShopCard(Card card, Player player) {
+		boolean purchased=false;
+		this.openConnection();
+		try {
+			statement = connection.prepareStatement(SQLUPDATESHOPSTATUS);
+			statement.setBoolean(1, true);
+			statement.setInt(2, card.getCardID());
+			statement.setInt(3, player.getPlayerId());
+			if (statement.executeUpdate() > 0) {
+				purchased = true;
+			}
+			statement.close();
+			connection.close();
+		} catch (SQLException e) {
+			System.out.println("Error updating card: " + e.getMessage());
+		}
+		return purchased;
+	}
+
+	@Override
+	public boolean queryPurchasedCard(Card card, Player player) {
+		boolean purchased=false;
+		this.openConnection();
+		try {
+			statement = connection.prepareStatement(SQLSELECTCARDSHOPID);
+			statement.setInt(1, card.getCardID());
+			statement.setInt(2, player.getPlayerId());
+			ResultSet resultado = statement.executeQuery();
+			if (resultado.next()) {
+				purchased = resultado.getBoolean("Purchased");
+			}
+			resultado.close();
+			statement.close();
+			connection.close();
+		} catch (SQLException e) {
+			System.out.println("Error updating card: " + e.getMessage());
+		}
+		return purchased;
 	}
 }
