@@ -23,7 +23,6 @@ import org.springframework.ui.Model;
 
 import com.dami.tcg.modelo.CardDAO;
 
-
 /**
  * 
  */
@@ -32,13 +31,18 @@ public class ShopController {
 	PlayerDAO playerDao = new ImplPlayerBD();
 	CardDAO cardDao = new ImplCardBD();
 
-
 	/**
-	 * This method is used to show the pack opening screen, it also checks if there is a player logged and if there's no player logged it returns the user to the login screen. Finally, it sets the price of the pack if the player has the free pack. 
+	 * This method is used to show the pack opening screen, it also checks if there
+	 * is a player logged and if there's no player logged it returns the user to the
+	 * login screen. Finally, it sets the price of the pack if the player has the
+	 * free pack.
+	 * 
 	 * @param session is used to check the logged player.
-	 * @param model is used to add attributes to the html code like the price of the pack.
+	 * @param model   is used to add attributes to the html code like the price of
+	 *                the pack.
 	 * @author Brayan
-	 * @return if the player is not logged returns to the login screen and if it's logged it redirects to the pack screen.
+	 * @return if the player is not logged returns to the login screen and if it's
+	 *         logged it redirects to the pack screen.
 	 */
 	@GetMapping("/pack")
 	public String showPacks(HttpSession session, Model model) {
@@ -47,10 +51,10 @@ public class ShopController {
 		if (player == null) {
 			return "redirect:/login";
 		}
-		if(!playerDao.checkFreePack(player)) {
+		if (!playerDao.checkFreePack(player)) {
 			price = 500;
-		}else {
-			price = 0; 
+		} else {
+			price = 0;
 		}
 		model.addAttribute("packAvilable", playerDao.checkFreePack(player));
 		model.addAttribute("price", price);
@@ -62,17 +66,19 @@ public class ShopController {
 	public Map<String, Object> getPackPrice(HttpSession session) {
 		int price;
 		Player player = (Player) session.getAttribute("loggedPlayer");
-		if(!playerDao.checkFreePack(player)) {
+		if (!playerDao.checkFreePack(player)) {
 			price = 500;
-		}else {
-			price = 0; 
+		} else {
+			price = 0;
 		}
-	    return Map.of("price", price);
+		return Map.of("price", price);
 	}
-	
+
 	/**
-	 * This method is activated when clicking the the open pack button and it generates 5 random cards with set chances depending the cards rarity. 
-	 * @param model 
+	 * This method is activated when clicking the the open pack button and it
+	 * generates 5 random cards with set chances depending the cards rarity.
+	 * 
+	 * @param model
 	 * @param session
 	 * @param redirectAttributes
 	 * @author Adam
@@ -87,13 +93,13 @@ public class ShopController {
 		}
 		List<Card> cards = new ArrayList<Card>();
 		Card card;
-		if(!playerDao.checkFreePack(player)) {
+		if (!playerDao.checkFreePack(player)) {
 			price = 500;
-		}else {
-			price = 0; 
+		} else {
+			price = 0;
 		}
 		model.addAttribute("price", price);
-		if(!playerDao.checkFreePack(player)) {
+		if (!playerDao.checkFreePack(player)) {
 			if (playerDao.getGold(player) >= 500) {
 				for (int i = 0; i < 5; i++) {
 					card = cardDao.queryRandomCard();
@@ -109,7 +115,7 @@ public class ShopController {
 				redirectAttributes.addFlashAttribute("error", "Not enough coins to buy the pack");
 				return "redirect:/pack";
 			}
-		}else {
+		} else {
 			for (int i = 0; i < 5; i++) {
 				card = cardDao.queryRandomCard();
 				cards.add(card);
@@ -132,10 +138,16 @@ public class ShopController {
 	@GetMapping("/shop")
 	public String showShop(Model model, HttpSession session) {
 		Player player = (Player) session.getAttribute("loggedPlayer");
-		int playerId = (player != null) ? player.getPlayerId() : 0;
-		ArrayList<Card> cards = cardDao.queryShopCards(playerId);
+		int playerId = 0;
+		boolean isPackAvailable = true;
+		ArrayList<Card> cards = null;
+		if (player != null) {
+			playerId = player.getPlayerId();
+			isPackAvailable = playerDao.checkFreePack(player);
+		}
+		cards = cardDao.queryShopCards(playerId);
 		model.addAttribute("cards", cards);
-		model.addAttribute("packAvailable", playerDao.checkFreePack(player));
+		model.addAttribute("packAvailable", isPackAvailable);
 		model.addAttribute("serverTime", System.currentTimeMillis());
 		return "shop";
 	}
@@ -155,23 +167,23 @@ public class ShopController {
 			return "redirect:/login";
 		}
 		Card card = null;
-		for(Card c : cardDao.queryShopCards(player.getPlayerId())) {
-			if(c.getCardID()==cardId) {
-				card=c;
+		for (Card c : cardDao.queryShopCards(player.getPlayerId())) {
+			if (c.getCardID() == cardId) {
+				card = c;
 				break;
 			}
-		}	
-		
+		}
+
 		if (card == null) {
 			redirectAttributes.addFlashAttribute("error", "Card not found in the shop");
 			return "redirect:/shop";
 		}
-		
+
 		if (player.getCoins() >= card.getPurchasePrice()) {
 			playerDao.addCoins(player, Math.negateExact(card.getPurchasePrice()));
 			player.setCoins(playerDao.getGold(player));
 			playerDao.addCard(player, card);
-		}else{
+		} else {
 			redirectAttributes.addFlashAttribute("error", "Not enough coins to buy the card");
 			return "redirect:/shop";
 		}
@@ -188,7 +200,8 @@ public class ShopController {
 	 * @return
 	 */
 	@PostMapping(value = "/shop", params = "action=buy")
-	public String buyCoins(@RequestParam int price, @RequestParam int coins, RedirectAttributes redirectAttributes, HttpSession session) {
+	public String buyCoins(@RequestParam int price, @RequestParam int coins, RedirectAttributes redirectAttributes,
+			HttpSession session) {
 		Player player = (Player) session.getAttribute("loggedPlayer");
 		if (player == null) {
 			return "redirect:/login";
