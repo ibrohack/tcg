@@ -97,12 +97,13 @@ public class DeckController {
 			return "redirect:/login";
 		}
 		Deck deck = dao.queryDeck(deckId);
-		if (deck == null) {
+		if (deck.getCards().isEmpty()) {
 			redirectAttributes.addFlashAttribute("error", "Deck not found");
 			return "redirect:/deckcheck";
 		} else {
 			model.addAttribute("deck", deck);
 			model.addAttribute("player", player);
+			model.addAttribute("cards", deck.getCards());
 			return "deckview";
 		}
 	}
