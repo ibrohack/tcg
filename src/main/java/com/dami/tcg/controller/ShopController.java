@@ -1,6 +1,7 @@
 package com.dami.tcg.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -61,17 +62,14 @@ public class ShopController {
 	 * @param session is used to get the information of the logged player
 	 * @return returns a map with the price.
 	 */
-	@GetMapping("/pack/price")
+	@GetMapping("/pack/availability")
 	@ResponseBody
-	public Map<String, Object> getPackPrice(HttpSession session) {
-		int price;
+	public Map<String, Object> getPackAvailablety(HttpSession session) {
+		
 		Player player = (Player) session.getAttribute("loggedPlayer");
-		if (!playerDao.checkFreePack(player)) {
-			price = 500;
-		} else {
-			price = 0;
-		}
-		return Map.of("price", price);
+		boolean isAvailable = false;
+		isAvailable = playerDao.checkFreePack(player);
+		return Map.of("packAvailability",isAvailable );
 	}
 
 	/**
@@ -138,18 +136,26 @@ public class ShopController {
 		Player player = (Player) session.getAttribute("loggedPlayer");
 		int playerId = 0;
 		boolean isPackAvailable = true;
+		HashMap<Integer,Boolean> cardsPurchase = new HashMap<Integer,Boolean>();
 		ArrayList<Card> cards = null;
+		cards = cardDao.queryShopCards(playerId);
 		if (player != null) {
 			playerId = player.getPlayerId();
 			isPackAvailable = playerDao.checkFreePack(player);
-		}
-		cards = cardDao.queryShopCards(playerId);
+			cards = cardDao.queryShopCards(playerId);
+			for(Card c : cards) {
+				cardsPurchase.put(c.getCardID(),cardDao.queryPurchasedCard(c,player));
+			}
+		};
+		model.addAttribute("cardsPurchase", cardsPurchase);
 		model.addAttribute("cards", cards);
 		model.addAttribute("packAvailable", isPackAvailable);
 		model.addAttribute("serverTime", System.currentTimeMillis());
 		return "shop";
 	}
 
+
+	
 	/**
 	 * This method checks if there's a player logged and if theres's any when clicking at each cards button it adds the card to the player and disables that button.
 	 * @param cardId is the Id of the card the user has selected.

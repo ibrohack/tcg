@@ -57,8 +57,7 @@
 								class="text-4xl md:text-5xl font-black font-headline text-on-surface leading-none tracking-tight">
 								DAILY PRIMAL PACK</h3>
 							<p class="text-on-surface-variant max-w-md text-sm md:text-base leading-relaxed">Your daily
-								tribute from the jungle spirits. Contains 3 random cards with a guaranteed Rare or
-								higher drop rate.</p>
+								tribute from the jungle spirits. Contains 5 random cards.</p>
 							<div class="flex flex-wrap gap-4 justify-center md:justify-start">
 								<button
 									class="bg-primary text-background-dark px-8 py-4 font-black uppercase tracking-widest text-xs flex items-center gap-3 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-primary/20"
@@ -67,10 +66,10 @@
 									<span class="material-symbols-outlined text-sm"
 										data-icon="card_giftcard">card_giftcard</span>
 								</button>
-								<div
+								<div id = "pack-timer"
 									class="flex items-center gap-2 text-primary/60 text-[10px] font-bold uppercase tracking-wider px-4 py-2 border border-primary/10 rounded-lg">
 									<span class="material-symbols-outlined text-sm">schedule</span>
-									Next in 23h
+									Next in: --:--:--
 								</div>
 							</div>
 						</div>
@@ -254,7 +253,7 @@
 			<footer th:replace="~{fragments/layout :: footer}"></footer>
 		</div>
 	</div>
-	<div id="shop-config" th:data-server-time="${serverTime}" class="hidden"></div>
+	<div id="shop-config" th:data-server-time="${serverTime}" th:data-pack-available="${packAvailable}" class="hidden"></div>
 	<script th:src="@{/js/shop-timer.js}"></script>
 </body>
 
