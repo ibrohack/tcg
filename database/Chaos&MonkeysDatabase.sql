@@ -158,7 +158,11 @@ INSERT INTO Cards (CardName, Quality, CardDescription, PurchasePrice, SellPrice)
 ('Black-Faced Uakari', 'Rare', 'A dark-faced ghost of the flooded Amazonian forests.',1000,25),
 ('Bornean Gibbon', 'Common', 'An untiring acrobat of the high tropical forest canopy.',500,10),
 ('Infinite Monkey', 'Mythic', 'Given enough time and a typewriter, he will write Shakespeare.',3000,250),
-('Kora', 'Arok', 'I´m Kora',0,0);
+('SleepIvan','Mythic','Not even in a party can not stop him from sleeping.',3000,250),
+('Vaquero','Mythic','Vaquero',3000,250),
+('Navarro','Mythic','Navarro',3000,250),
+('Santi','Mythic','Santi Santi Santi',3000,250),
+('Kora', 'Arok', 'I´m Kora',500000000,0);
 
 /* 
 Player table population with Stored Procedure
@@ -323,7 +327,7 @@ END $$
 DELIMITER ;
 
 DROP EVENT IF EXISTS RefreshPack;
-CREATE EVENT RefreshPakck
+CREATE EVENT RefreshPack
 ON SCHEDULE EVERY 1 MINUTE
 STARTS '2026-03-27 13:10:00'
 DO
