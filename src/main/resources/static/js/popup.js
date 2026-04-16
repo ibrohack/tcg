@@ -4,6 +4,7 @@ var popupClose = document.getElementById("popupClose");
 
 popupOpen.onclick = function () {
     modal.classList.remove("hidden");
+    modal.querySelector("#modify-form").setAttribute("href", popupOpen.getAttribute("name"));
 }
 
 popupClose.onclick = function () {
