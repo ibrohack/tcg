@@ -9,14 +9,39 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * JDBC-based implementation of the {@link StatsDAO} interface.
+ * <p>
+ * Provides concrete database operations for retrieving aggregate game statistics
+ * displayed on the home page dashboard. Queries include player counts, card
+ * popularity metrics, unclaimed cards, and latest card releases. Database connection
+ * parameters are loaded from the {@code configDB.properties} resource bundle.
+ * </p>
+ *
+ * @author Brayan, Adam, Oihan and Asier
+ * @see StatsDAO
+ */
 public class ImplStatsBD implements StatsDAO {
 
+    /** The active JDBC connection to the database. */
     private Connection connection;
+
+    /** The prepared statement used for executing SQL queries. */
     private PreparedStatement statement;
+
+    /** The resource bundle containing database configuration properties. */
     private ResourceBundle configFile;
+
+    /** The JDBC driver class name. */
     private String driverBD;
+
+    /** The JDBC connection URL. */
     private String urlBD;
+
+    /** The database username. */
     private String userBD;
+
+    /** The database password. */
     private String passwordBD;
 
     // SQL statements
@@ -35,6 +60,10 @@ public class ImplStatsBD implements StatsDAO {
             "FROM Cards WHERE CardId NOT IN (SELECT CardID FROM PlayersCards)";
     final String SQLLATESTCARDS = "SELECT * FROM Cards ORDER BY CardId DESC LIMIT ?";
 
+    /**
+     * Constructs a new {@code ImplStatsBD} instance and loads database configuration
+     * from the {@code configDB.properties} resource bundle.
+     */
     public ImplStatsBD() {
         this.configFile = ResourceBundle.getBundle("configDB");
         this.driverBD = this.configFile.getString("Driver");
@@ -43,6 +72,9 @@ public class ImplStatsBD implements StatsDAO {
         this.passwordBD = this.configFile.getString("DBPass");
     }
 
+    /**
+     * Opens a JDBC connection to the database using the configured driver and credentials.
+     */
     private void openConnection() {
         try {
             Class.forName(this.driverBD);
@@ -52,6 +84,12 @@ public class ImplStatsBD implements StatsDAO {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Counts the total number of rows in the {@code Players} table.
+     * </p>
+     */
     @Override
     public int getActivePlayersCount() {
         int count = 0;
@@ -71,6 +109,13 @@ public class ImplStatsBD implements StatsDAO {
         return count;
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Joins the {@code Cards} and {@code PlayersCards} tables, groups by card,
+     * and selects the card with the highest total quantity across all players.
+     * </p>
+     */
     @Override
     public Card getMostCommonCard() {
         Card card = null;
@@ -92,6 +137,12 @@ public class ImplStatsBD implements StatsDAO {
         return card;
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Returns the sum of quantities for the most commonly owned card across all players.
+     * </p>
+     */
     @Override
     public int getMostCommonCardQuantity() {
         int qty = 0;
@@ -111,6 +162,13 @@ public class ImplStatsBD implements StatsDAO {
         return qty;
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Joins the {@code Cards} and {@code PlayersCards} tables, groups by card,
+     * and selects the card with the lowest total quantity across all players.
+     * </p>
+     */
     @Override
     public Card getLeastFoundCard() {
         Card card = null;
@@ -132,6 +190,12 @@ public class ImplStatsBD implements StatsDAO {
         return card;
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Returns the sum of quantities for the least commonly owned card across all players.
+     * </p>
+     */
     @Override
     public int getLeastFoundCardQuantity() {
         int qty = 0;
@@ -151,6 +215,13 @@ public class ImplStatsBD implements StatsDAO {
         return qty;
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Selects all cards from the {@code Cards} table whose IDs do not appear
+     * in the {@code PlayersCards} table (i.e., no player owns them).
+     * </p>
+     */
     @Override
     public List<Card> getUnclaimedCards() {
         List<Card> cards = new ArrayList<>();
@@ -172,6 +243,13 @@ public class ImplStatsBD implements StatsDAO {
         return cards;
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Queries the {@code Cards} table ordered by {@code CardId} descending,
+     * limited to the specified number of results.
+     * </p>
+     */
     @Override
     public List<Card> getLatestCards(int limit) {
         List<Card> cards = new ArrayList<>();

@@ -25,7 +25,13 @@ import org.springframework.ui.Model;
 import com.dami.tcg.modelo.CardDAO;
 
 /**
- * This class works as a controller for all the methods related to the shop.
+ * Controller responsible for handling all shop-related HTTP requests.
+ * <p>
+ * Manages the in-game shop, including card pack opening (free and paid),
+ * individual card purchases from the Flash Acquisitions shop, and coin
+ * bundle purchases with real-money simulation.
+ * </p>
+ *
  * @author Brayan, Adam, Oihan and Asier
  */
 @Controller
@@ -34,11 +40,17 @@ public class ShopController {
 	CardDAO cardDao = new ImplCardBD();
 
 	/**
-	 * This method is used to show the pack opening screen, it also checks if there is a player logged and if there's no player logged it returns the user to the login screen. Finally, it sets the price of the pack if the player has the free pack. 
-	 * @param session is used to get the logged player's information.
-	 * @param model is used to add attributes to the html code like the price of the pack.
+	 * Handles GET requests to {@code /pack} and displays the pack opening screen.
+	 * <p>
+	 * Checks if the player is authenticated and determines the pack price:
+	 * free (0 coins) if the player has a free pack available, or 500 coins otherwise.
+	 * </p>
+	 *
+	 * @param session the {@link HttpSession} used to retrieve the logged player's information
+	 * @param model   the {@link Model} used to pass pack availability and price to the view
+	 * @return the name of the view template ({@code "pack"}), or a redirect to
+	 *         {@code /login} if the player is not authenticated
 	 * @author Brayan
-	 * @return if the player is not logged returns to the login screen and if it's logged it redirects to the pack screen.
 	 */
 	@GetMapping("/pack")
 	public String showPacks(HttpSession session, Model model) {
@@ -57,6 +69,15 @@ public class ShopController {
 		return "pack";
 	}
 
+	/**
+	 * REST endpoint that returns the current pack price for the logged player.
+	 * <p>
+	 * Returns 0 if the player has a free pack available, or 500 otherwise.
+	 * </p>
+	 *
+	 * @param session the {@link HttpSession} used to retrieve the logged player's information
+	 * @return a {@link Map} containing the pack price under the key {@code "price"}
+	 */
 	@GetMapping("/pack/price")
 	@ResponseBody
 	public Map<String, Object> getPackPrice(HttpSession session) {
@@ -71,12 +92,19 @@ public class ShopController {
 	}
 
 	/**
-	 * This method is called when clicking the the open pack button and it generates 5 random cards with set chances depending the cards rarity. 
-	 * @param model is used to add parameters to the html.
-	 * @param session is used to get the logged player's information.
-	 * @param redirectAttributes is used add and show error messages.  
+	 * Handles POST requests to {@code /pack} and processes pack opening.
+	 * <p>
+	 * Generates 5 random cards with rarity-based probabilities. If the pack is free,
+	 * marks the free pack as used. If paid, deducts 500 coins from the player's balance.
+	 * Each generated card is added to the player's collection.
+	 * </p>
+	 *
+	 * @param model              the {@link Model} used to pass the generated cards to the view
+	 * @param session            the {@link HttpSession} used to retrieve and update the logged player
+	 * @param redirectAttributes the {@link RedirectAttributes} used to pass error flash messages
+	 * @return the name of the view template ({@code "pack"}) with opened cards, a redirect to
+	 *         {@code /pack} if insufficient coins, or {@code /login} if unauthenticated
 	 * @author Adam
-	 * @return if the player isn't logged it redirects to the loging page and if the player is logged it sends the user to the pack opening screen
 	 */
 	@PostMapping("/pack")
 	public String openPack(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
@@ -123,11 +151,17 @@ public class ShopController {
 	}
 
 	/**
-	 * This method shows the webs shop screen it also gets the cards that each player has in the shop, the current time and if the players have the free pack available and it sends them to the html to show them.
-	 * @param model sends if the player has the free pack available, the cards  to the html. 
-	 * @param session gets the information of the logged player.
+	 * Handles GET requests to {@code /shop} and displays the shop page.
+	 * <p>
+	 * Retrieves the shop cards available for the logged player, their purchase
+	 * statuses, the current server time (for countdown timers), and free pack
+	 * availability. Unauthenticated users see default random cards.
+	 * </p>
+	 *
+	 * @param model   the {@link Model} used to pass shop data to the view
+	 * @param session the {@link HttpSession} used to retrieve the logged player's information
+	 * @return the name of the view template ({@code "shop"})
 	 * @author Oihan
-	 * @return it sends the users to the shop.
 	 */
 	@GetMapping("/shop")
 	public String showShop(Model model, HttpSession session) {
@@ -153,12 +187,20 @@ public class ShopController {
 	}
 
 	/**
-	 * 
-	 * @param cardId
-	 * @param redirectAttributes
-	 * @param session
+	 * Handles POST requests to {@code /shopCards} with action {@code buy-card} and processes
+	 * the purchase of an individual card from the shop.
+	 * <p>
+	 * Verifies the card exists in the player's shop listing, checks that the player
+	 * has sufficient coins, deducts the purchase price, adds the card to the player's
+	 * collection, and marks it as purchased in the shop.
+	 * </p>
+	 *
+	 * @param cardId             the ID of the card to purchase
+	 * @param model              the {@link Model} used to pass data to the view
+	 * @param redirectAttributes the {@link RedirectAttributes} used to pass error flash messages
+	 * @param session            the {@link HttpSession} used to retrieve the logged player
+	 * @return a redirect to {@code /shop}, or {@code /login} if unauthenticated
 	 * @author Asier
-	 * @return
 	 */
 	@PostMapping(value = "/shopCards", params = "action=buy-card")
 	public String buyCards(@RequestParam int cardId, Model model, RedirectAttributes redirectAttributes, HttpSession session) {
@@ -191,13 +233,18 @@ public class ShopController {
 	}
 
 	/**
-	 * This method checks if there's a player logged and if there's any when clicking at the bundle it sends the player to the a screen to confirm the purchase of coins.
-	 * @param price is the price of the coin bundle selected.
-	 * @param coins is the amount of coins for the bundle selected.
-	 * @param redirectAttributes is used to send the price and the amount of gold of the bundle selected as attributes when redirecting to the confirmPurchase screen.
-	 * @param session gets the information of the logged player.
+	 * Handles POST requests to {@code /shop} with action {@code buy} and redirects
+	 * the player to the coin purchase confirmation page.
+	 * <p>
+	 * Passes the selected bundle's price and coin amount as redirect attributes.
+	 * </p>
+	 *
+	 * @param price              the real-money price of the coin bundle
+	 * @param coins              the amount of in-game coins in the bundle
+	 * @param redirectAttributes the {@link RedirectAttributes} used to pass bundle details
+	 * @param session            the {@link HttpSession} used to verify authentication
+	 * @return a redirect to {@code /confirmPurchase}, or {@code /login} if unauthenticated
 	 * @author Brayan
-	 * @return it sends the user to the screen to confirm the coins purchase.
 	 */
 	@PostMapping(value = "/shop", params = "action=buy")
 	public String buyCoins(@RequestParam int price, @RequestParam int coins, RedirectAttributes redirectAttributes,
@@ -212,13 +259,19 @@ public class ShopController {
 	}
 
 	/**
-	 * 
-	 * @param price
-	 * @param coins
-	 * @param model
-	 * @param session
+	 * Handles GET requests to {@code /confirmPurchase} and displays the payment confirmation page.
+	 * <p>
+	 * Shows the selected bundle's price and coin amount for the player to confirm
+	 * before completing the purchase.
+	 * </p>
+	 *
+	 * @param price   the real-money price of the coin bundle
+	 * @param coins   the amount of in-game coins in the bundle
+	 * @param model   the {@link Model} used to pass bundle details to the view
+	 * @param session the {@link HttpSession} used to verify authentication
+	 * @return the name of the view template ({@code "confirmPurchase"}), or a redirect
+	 *         to {@code /login} if unauthenticated
 	 * @author Adam
-	 * @return
 	 */
 	@GetMapping("/confirmPurchase")
 	public String paymentPage(@RequestParam int price, @RequestParam int coins, Model model, HttpSession session) {
@@ -232,13 +285,17 @@ public class ShopController {
 	}
 
 	/**
-	 * This method shows a new window to confirm the purchase of coins.
-	 * @param price is the price of the coin bundle
-	 * @param coins is the amount of coins that the bundle selected has.
-	 * @param model sends the price of the bundle and the amount of coins to the html. 
-	 * @param session gets the information of the logged player.
+	 * Handles POST requests to {@code /confirmPurchase} and completes the coin purchase.
+	 * <p>
+	 * Adds the purchased coins to the player's balance and updates the session
+	 * with the new coin count.
+	 * </p>
+	 *
+	 * @param coins              the amount of in-game coins to add
+	 * @param redirectAttributes the {@link RedirectAttributes} (available for future use)
+	 * @param session            the {@link HttpSession} used to retrieve and update the logged player
+	 * @return a redirect to {@code /shop}, or {@code /login} if unauthenticated
 	 * @author Adam
-	 * @return if theres no logged player it sends the user to the login page and if there's any it shows the confirm purchase page.
 	 */
 	@PostMapping(value = "/confirmPurchase")
 	public String buyCoins(@RequestParam int coins, RedirectAttributes redirectAttributes, HttpSession session) {

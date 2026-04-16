@@ -8,17 +8,41 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
+/**
+ * JDBC-based implementation of the {@link PlayerDAO} interface.
+ * <p>
+ * Provides concrete database operations for {@link Player} entities using
+ * direct JDBC connections. Handles player authentication, card inventory management,
+ * coin transactions, and free pack availability. Database connection parameters are
+ * loaded from the {@code configDB.properties} resource bundle.
+ * </p>
+ *
+ * @author Brayan, Adam, Oihan and Asier
+ * @see PlayerDAO
+ */
 public class ImplPlayerBD implements PlayerDAO {
 	// Attributes
+	/** The active JDBC connection to the database. */
 	private Connection connection;
+
+	/** The prepared statement used for executing SQL queries. */
 	private PreparedStatement statement;
 
 	// The following attributes are used to collect the values from the
 	// configuration file
+	/** The resource bundle containing database configuration properties. */
 	private ResourceBundle configFile;
+
+	/** The JDBC driver class name. */
 	private String driverBD;
+
+	/** The JDBC connection URL. */
 	private String urlBD;
+
+	/** The database username. */
 	private String userBD;
+
+	/** The database password. */
 	private String passwordBD;
 
 	// SQL Statements
@@ -38,6 +62,10 @@ public class ImplPlayerBD implements PlayerDAO {
 	final String SQLUPDATEFREEPACK = "UPDATE Players SET PackAvilable = 0 WHERE PlayerId=?";
 	final String SQLSELECTDECK = "SELECT * FROM Decks WHERE DeckID = ?";
 
+	/**
+	 * Constructs a new {@code ImplPlayerBD} instance and loads database configuration
+	 * from the {@code configDB.properties} resource bundle.
+	 */
 	public ImplPlayerBD() {
 		this.configFile = ResourceBundle.getBundle("configDB");
 		this.driverBD = this.configFile.getString("Driver");
@@ -46,6 +74,9 @@ public class ImplPlayerBD implements PlayerDAO {
 		this.passwordBD = this.configFile.getString("DBPass");
 	}
 
+	/**
+	 * Opens a JDBC connection to the database using the configured driver and credentials.
+	 */
 	private void openConnection() {
 		try {
 			Class.forName(this.driverBD);
@@ -61,6 +92,12 @@ public class ImplPlayerBD implements PlayerDAO {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Checks for the existence of the player by querying the database using the player's ID.
+	 * </p>
+	 */
 	@Override
 	public boolean checkPlayer(Player player) {
 		boolean existe = false;
@@ -82,6 +119,13 @@ public class ImplPlayerBD implements PlayerDAO {
 		return existe;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Inserts the player with their username, hashed password, and initial coin balance.
+	 * The player is only inserted if they do not already exist in the database.
+	 * </p>
+	 */
 	@Override
 	public boolean insertPlayer(Player player) {
 		boolean ok = false;
@@ -104,6 +148,12 @@ public class ImplPlayerBD implements PlayerDAO {
 		return ok;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Deletes the player only if they exist in the database.
+	 * </p>
+	 */
 	@Override
 	public boolean deletePlayer(Player player) {
 		boolean ok = false;
@@ -124,6 +174,12 @@ public class ImplPlayerBD implements PlayerDAO {
 		return ok;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Updates the player's password. The player must already exist in the database.
+	 * </p>
+	 */
 	@Override
 	public boolean updatePlayer(Player player) {
 		boolean ok = false;
@@ -145,6 +201,13 @@ public class ImplPlayerBD implements PlayerDAO {
 		return ok;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Retrieves the player by their ID and eagerly loads their card collection
+	 * via {@link #queryPlayerCards(int)}.
+	 * </p>
+	 */
 	@Override
 	public Player queryPlayer(int playerId) {
 		Player player = null;
@@ -171,6 +234,13 @@ public class ImplPlayerBD implements PlayerDAO {
 		return player;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Queries the {@code PlayersCards} table to retrieve all card IDs and their
+	 * quantities for the given player.
+	 * </p>
+	 */
 	@Override
 	public HashMap<Integer, Integer> queryPlayerCards(int playerID) {
 		HashMap<Integer, Integer> cards = new HashMap<Integer, Integer>();
@@ -191,6 +261,13 @@ public class ImplPlayerBD implements PlayerDAO {
 		return cards;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Searches the {@code Players} table by the {@code Username} column and
+	 * eagerly loads the player's card collection.
+	 * </p>
+	 */
 	@Override
 	public Player queryPlayerByUsername(String username) {
 		Player player = null;
@@ -218,6 +295,13 @@ public class ImplPlayerBD implements PlayerDAO {
 		return player;
 	}
 
+	/**
+	 * Retrieves the quantity of a specific card owned by a player.
+	 *
+	 * @param player the {@link Player} to query
+	 * @param card   the {@link Card} to check
+	 * @return the quantity of the card owned by the player, or 0 if not owned
+	 */
 	public int queryCardQuantity(Player player, Card card) {
 		int quantity = 0;
 		this.openConnection();
@@ -238,6 +322,13 @@ public class ImplPlayerBD implements PlayerDAO {
 		return quantity;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * If the player already owns the card, increments the quantity in the
+	 * {@code PlayersCards} table. Otherwise, inserts a new row with quantity 1.
+	 * </p>
+	 */
 	@Override
 	public boolean addCard(Player player, Card card) {
 		boolean ok = false;
@@ -270,6 +361,12 @@ public class ImplPlayerBD implements PlayerDAO {
 		return ok;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Deducts 500 coins from the player's balance if they have sufficient funds.
+	 * </p>
+	 */
 	@Override
 	public void buyPack(Player player) {
 		// boolean ok = false;
@@ -292,6 +389,13 @@ public class ImplPlayerBD implements PlayerDAO {
 
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Queries the {@code Coins} column from the {@code Players} table for the
+	 * specified player.
+	 * </p>
+	 */
 	@Override
 	public int getGold(Player player) {
 		int coins = 0;
@@ -312,6 +416,13 @@ public class ImplPlayerBD implements PlayerDAO {
 		return coins;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Adds the specified amount of coins to the player's current balance.
+	 * Negative values can be used to subtract coins.
+	 * </p>
+	 */
 	@Override
 	public void addCoins(Player player, int gold) {
 		int coins = this.getGold(player);
@@ -328,6 +439,13 @@ public class ImplPlayerBD implements PlayerDAO {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Queries the {@code PackAvilable} column from the {@code Players} table
+	 * for the specified player.
+	 * </p>
+	 */
 	@Override
 	public boolean checkFreePack(Player player) {
 		boolean avilable = false;
@@ -348,6 +466,13 @@ public class ImplPlayerBD implements PlayerDAO {
 		return avilable;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Sets the {@code PackAvilable} column to 0 (false) in the {@code Players}
+	 * table for the specified player.
+	 * </p>
+	 */
 	@Override
 	public boolean freePackOpend(Player player) {
 		boolean ok = false;

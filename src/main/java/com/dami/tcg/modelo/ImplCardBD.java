@@ -9,17 +9,40 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * JDBC-based implementation of the {@link CardDAO} interface.
+ * <p>
+ * Provides concrete database operations for {@link Card} entities using
+ * direct JDBC connections. Database connection parameters are loaded from
+ * the {@code configDB.properties} resource bundle.
+ * </p>
+ *
+ * @author Brayan, Adam, Oihan and Asier
+ * @see CardDAO
+ */
 public class ImplCardBD implements CardDAO {
 	// Attributes
+	/** The active JDBC connection to the database. */
 	private Connection connection;
+
+	/** The prepared statement used for executing SQL queries. */
 	private PreparedStatement statement;
 
 	// The following attributes are used to collect the values from the
 	// configuration file
+	/** The resource bundle containing database configuration properties. */
 	private ResourceBundle configFile;
+
+	/** The JDBC driver class name. */
 	private String driverBD;
+
+	/** The JDBC connection URL. */
 	private String urlBD;
+
+	/** The database username. */
 	private String userBD;
+
+	/** The database password. */
 	private String passwordBD;
 
 	// SQL Statements
@@ -35,6 +58,10 @@ public class ImplCardBD implements CardDAO {
 	final String SQLQUERYDEFAULTSHOPCARDS = "SELECT * FROM Cards ORDER BY RAND() LIMIT 3";
 	final String SQLSELECTCARDSHOPID = "SELECT Purchased FROM ShopCards WHERE CardId = ? AND PlayerID=?";
 
+	/**
+	 * Constructs a new {@code ImplCardBD} instance and loads database configuration
+	 * from the {@code configDB.properties} resource bundle.
+	 */
 	public ImplCardBD() {
 		this.configFile = ResourceBundle.getBundle("configDB");
 		this.driverBD = this.configFile.getString("Driver");
@@ -43,6 +70,9 @@ public class ImplCardBD implements CardDAO {
 		this.passwordBD = this.configFile.getString("DBPass");
 	}
 
+	/**
+	 * Opens a JDBC connection to the database using the configured driver and credentials.
+	 */
 	private void openConnection() {
 		try {
 			Class.forName(this.driverBD);
@@ -58,6 +88,12 @@ public class ImplCardBD implements CardDAO {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Checks for the existence of the card by querying the database using the card's ID.
+	 * </p>
+	 */
 	@Override
 	public boolean checkCard(Card card) {
 		boolean existe = false;
@@ -79,6 +115,12 @@ public class ImplCardBD implements CardDAO {
 		return existe;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Inserts the card only if it does not already exist in the database.
+	 * </p>
+	 */
 	@Override
 	public boolean insertCard(Card card) {
 		boolean ok = false;
@@ -101,6 +143,12 @@ public class ImplCardBD implements CardDAO {
 		return ok;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Deletes the card only if it exists in the database.
+	 * </p>
+	 */
 	@Override
 	public boolean deleteCard(Card card) {
 		boolean ok = false;
@@ -121,6 +169,13 @@ public class ImplCardBD implements CardDAO {
 		return ok;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Updates the card's name, quality, and description. The card must already exist
+	 * in the database.
+	 * </p>
+	 */
 	@Override
 	public boolean updateCard(Card card) {
 		boolean ok = false;
@@ -144,6 +199,13 @@ public class ImplCardBD implements CardDAO {
 		return ok;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Retrieves all cards from the {@code Cards} table, including their purchase
+	 * and sell prices.
+	 * </p>
+	 */
 	@Override
 	public List<Card> queryAll() {
 		List<Card> cards = new ArrayList<>();
@@ -165,6 +227,12 @@ public class ImplCardBD implements CardDAO {
 		return cards;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Searches for a card by its {@code CardName} column value.
+	 * </p>
+	 */
 	@Override
 	public Card queryCard(String name) {
 		Card card = null;
@@ -191,6 +259,12 @@ public class ImplCardBD implements CardDAO {
 		return card;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Searches for a card by its {@code CardId} column value.
+	 * </p>
+	 */
 	@Override
 	public Card queryCardId(int cardId) {
 		Card card = null;
@@ -217,6 +291,19 @@ public class ImplCardBD implements CardDAO {
 		return card;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Selects a random card from the database based on rarity probabilities:
+	 * <ul>
+	 *   <li>Mythic: 1% chance</li>
+	 *   <li>Legendary: 4% chance</li>
+	 *   <li>Epic: 10% chance</li>
+	 *   <li>Rare: 25% chance</li>
+	 *   <li>Common: 60% chance</li>
+	 * </ul>
+	 * </p>
+	 */
 	@Override
 	public Card queryRandomCard() {
 		double r = Math.random();
@@ -252,6 +339,14 @@ public class ImplCardBD implements CardDAO {
 		return card;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * If {@code playerId} is 0, returns 3 random cards as a default shop display
+	 * for unauthenticated users. Otherwise, queries the {@code ShopCards} table
+	 * for the player's assigned shop cards.
+	 * </p>
+	 */
 	@Override
 	public ArrayList<Card> queryShopCards(int playerId) {
 		ArrayList<Card> cards = new ArrayList<Card>();
@@ -282,6 +377,13 @@ public class ImplCardBD implements CardDAO {
 		return cards;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Sets the {@code Purchased} flag to {@code true} in the {@code ShopCards} table
+	 * for the given card and player combination.
+	 * </p>
+	 */
 	@Override
 	public boolean purchaseShopCard(Card card, Player player) {
 		boolean purchased=false;
@@ -302,6 +404,13 @@ public class ImplCardBD implements CardDAO {
 		return purchased;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Queries the {@code ShopCards} table to determine if the specified card
+	 * has been purchased by the given player.
+	 * </p>
+	 */
 	@Override
 	public boolean queryPurchasedCard(Card card, Player player) {
 		boolean purchased=false;
