@@ -105,4 +105,6 @@ public interface CardDAO {
      * @return an {@link ArrayList} of {@link Card} objects available in the shop
      */
     public ArrayList<Card> queryShopCards(int playerId);
+    
+    public ArrayList<Card> serchCard (String name);
 }

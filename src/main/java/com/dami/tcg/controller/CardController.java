@@ -1,9 +1,12 @@
 package com.dami.tcg.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dami.tcg.modelo.*;
 
@@ -97,4 +100,13 @@ public class CardController {
         model.addAttribute("cards", cards);
         return "cards";
     }
+    
+    @PostMapping("/cards")
+    public String screenCards(@RequestParam String cardName, Model model) {
+    	ArrayList<Card> cards =dao.serchCard(cardName);
+    	model.addAttribute("cards", cards);
+    	return "cards";
+	}
+    
+    
 }

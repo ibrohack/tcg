@@ -57,6 +57,7 @@ public class ImplCardBD implements CardDAO {
 	final String SQLUPDATESHOPSTATUS = "UPDATE ShopCards SET Purchased=? WHERE CardID=? AND PlayerID=?";
 	final String SQLQUERYDEFAULTSHOPCARDS = "SELECT * FROM Cards ORDER BY RAND() LIMIT 3";
 	final String SQLSELECTCARDSHOPID = "SELECT Purchased FROM ShopCards WHERE CardId = ? AND PlayerID=?";
+	final String SQLQUERISERCHCARD = "SELECT * FROM Cards WHERE CardName LIKE ?";
 
 	/**
 	 * Constructs a new {@code ImplCardBD} instance and loads database configuration
@@ -430,5 +431,32 @@ public class ImplCardBD implements CardDAO {
 			System.out.println("Error updating card: " + e.getMessage());
 		}
 		return purchased;
+	}
+
+	@Override
+	//	 SQLQUERISERCHCARD = "SELECT * FROM Cards WHERE CardName LIKE %?%";
+	public ArrayList<Card> serchCard(String name) {
+		ArrayList<Card> cards = new ArrayList<Card>();
+		this.openConnection();
+		try {
+			statement = connection.prepareStatement(SQLQUERISERCHCARD);
+			statement.setString(1,"%" + name +"%");
+			ResultSet resultado = statement.executeQuery();
+			while(resultado.next()) {
+				Card card = new Card();
+				card.setCardID(resultado.getInt("CardID"));
+				card.setName(resultado.getString("CardName"));
+				card.setDescription(resultado.getString("CardDescription"));
+				card.setQuality(resultado.getString("Quality"));
+				card.setPurchasePrice(resultado.getInt("PurchasePrice"));
+				card.setSellPrice(resultado.getInt("SellPrice"));
+				cards.add(card);
+			}
+			statement.close();
+			connection.close();
+		} catch (SQLException e) {
+			System.out.println("Error getting card by name: " + e.getMessage());
+		}	
+		return cards;
 	}
 }
