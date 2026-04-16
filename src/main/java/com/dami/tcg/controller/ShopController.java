@@ -78,7 +78,7 @@ public class ShopController {
 	 * @param session the {@link HttpSession} used to retrieve the logged player's information
 	 * @return a {@link Map} containing the pack price under the key {@code "price"}
 	 */
-	@GetMapping("/pack/price")
+	@GetMapping("/pack/availability")
 	@ResponseBody
 	public Map<String, Object> getPackAvailablety(HttpSession session) {
 		
