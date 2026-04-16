@@ -3,15 +3,16 @@ $(document).ready(function () {
     if (packConfig.length === 0) return;
 
     function updatePackPrice() {
-        $.get('/pack/price', function (data) {
-            var newPrice = data.price;
-            var currentPrice = parseInt($('#packPrice').text().trim(), 10);
-            if (newPrice !== currentPrice) {
-                $('#packPrice').text(newPrice);
-            }
+        $.get('/pack/availability', function (data) {
+            var packAvailability = data.packAvailability;
+            if (!packAvailability) {
+                $('#packPrice').text("500");
+            }else{
+				$('#packPrice').text("0");
+			}
         });
     }
-
-    setInterval(updatePackPrice, 5000);
+	
+    setInterval(updatePackPrice, 1000);
     updatePackPrice();
 });

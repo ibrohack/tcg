@@ -80,15 +80,12 @@ public class ShopController {
 	 */
 	@GetMapping("/pack/price")
 	@ResponseBody
-	public Map<String, Object> getPackPrice(HttpSession session) {
-		int price;
+	public Map<String, Object> getPackAvailablety(HttpSession session) {
+		
 		Player player = (Player) session.getAttribute("loggedPlayer");
-		if (!playerDao.checkFreePack(player)) {
-			price = 500;
-		} else {
-			price = 0;
-		}
-		return Map.of("price", price);
+		boolean isAvailable = false;
+		isAvailable = playerDao.checkFreePack(player);
+		return Map.of("packAvailability",isAvailable );
 	}
 
 	/**
@@ -128,7 +125,7 @@ public class ShopController {
 					cards.add(card);
 					playerDao.addCard(player, card);
 				}
-//				playerDao.buyPack(player);
+				playerDao.buyPack(player);
 				model.addAttribute("cards", cards);
 				player.setCoins(playerDao.getGold(player));
 				session.setAttribute("loggedPlayer", player);
@@ -178,7 +175,7 @@ public class ShopController {
 			for(Card c : cards) {
 				cardsPurchase.put(c.getCardID(),cardDao.queryPurchasedCard(c,player));
 			}
-		}
+		};
 		model.addAttribute("cardsPurchase", cardsPurchase);
 		model.addAttribute("cards", cards);
 		model.addAttribute("packAvailable", isPackAvailable);
@@ -203,7 +200,7 @@ public class ShopController {
 	 * @author Asier
 	 */
 	@PostMapping(value = "/shopCards", params = "action=buy-card")
-	public String buyCards(@RequestParam int cardId, Model model, RedirectAttributes redirectAttributes, HttpSession session) {
+	public String buyCards(@RequestParam int cardId, RedirectAttributes redirectAttributes, HttpSession session) {
 		Player player = (Player) session.getAttribute("loggedPlayer");
 		if (player == null) {
 			return "redirect:/login";
@@ -212,6 +209,7 @@ public class ShopController {
 		for (Card c : cardDao.queryShopCards(player.getPlayerId())) {
 			if (c.getCardID() == cardId) {
 				card = c;
+				break;
 			}
 		}
 
@@ -224,12 +222,11 @@ public class ShopController {
 			playerDao.addCoins(player, Math.negateExact(card.getPurchasePrice()));
 			player.setCoins(playerDao.getGold(player));
 			playerDao.addCard(player, card);
-			cardDao.purchaseShopCard(card, player);
 		} else {
 			redirectAttributes.addFlashAttribute("error", "Not enough coins to buy the card");
 			return "redirect:/shop";
 		}
-		return "redirect:/shop";
+		return "redirect:/";
 	}
 
 	/**
@@ -298,12 +295,8 @@ public class ShopController {
 	 * @author Adam
 	 */
 	@PostMapping(value = "/confirmPurchase")
-	public String buyCoins(@RequestParam int coins, RedirectAttributes redirectAttributes, HttpSession session) {
+	public String buyCoins(@RequestParam int coins, HttpSession session) {
 		Player player = (Player) session.getAttribute("loggedPlayer");
-		if (player == null) {
-			return "redirect:/login";
-		}
-		redirectAttributes.addAttribute("coins", coins);
 		playerDao.addCoins(player, coins);
 		player.setCoins(playerDao.getGold(player));
 		session.setAttribute("loggedPlayer", player);

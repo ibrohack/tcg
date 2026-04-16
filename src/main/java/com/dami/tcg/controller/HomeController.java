@@ -48,14 +48,14 @@ public class HomeController {
         model.addAttribute("mostCommonQty", mostCommonQty);
         model.addAttribute("leastFoundCard", leastFoundCard);
         model.addAttribute("leastFoundQty", leastFoundQty);
-
+        
         if (unclaimedCards != null && !unclaimedCards.isEmpty()) {
             model.addAttribute("unclaimedCard", unclaimedCards.get(0));
             model.addAttribute("hasUnclaimed", true);
         } else {
             model.addAttribute("hasUnclaimed", false);
         }
-
+        
         model.addAttribute("latestCards", latestCards);
 
         return "home";

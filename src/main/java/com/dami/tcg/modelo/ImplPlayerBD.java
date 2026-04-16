@@ -50,6 +50,11 @@ public class ImplPlayerBD implements PlayerDAO {
 	final String SQLINSERT = "INSERT INTO Players (Username, PlayerPassword, Coins) VALUES (?,?,?)";
 	final String SQLCONSULTA = "SELECT * FROM Players";
 	final String SQLBORRAR = "DELETE FROM Players WHERE PlayerId=?";
+	final String SQLBORRAR_DECKSCARDS = "DELETE FROM DecksCards WHERE DeckID IN (SELECT DeckID FROM Decks WHERE PlayerID = ?)";
+	final String SQLBORRAR_DECKS = "DELETE FROM Decks WHERE PlayerID = ?";
+	final String SQLBORRAR_PLAYERSCARDS = "DELETE FROM PlayersCards WHERE PlayerID = ?";
+	final String SQLBORRAR_SHOPCARDS = "DELETE FROM ShopCards WHERE PlayerID = ?";
+	final String SQLBORRAR_PLAYER = "DELETE FROM Players WHERE PlayerID = ?";
 	final String SQLMODIFICAR = "UPDATE Players SET PlayerPassword=? WHERE PlayerId=?";
 	final String SQLSELECTCARDS = "SELECT * FROM PlayersCards WHERE PlayerId=?";
 	final String SQLSELECTBYUSERNAME = "SELECT * FROM Players WHERE Username = ?";
@@ -157,18 +162,38 @@ public class ImplPlayerBD implements PlayerDAO {
 	@Override
 	public boolean deletePlayer(Player player) {
 		boolean ok = false;
+		String[] sqls = { SQLBORRAR_DECKSCARDS, SQLBORRAR_DECKS, SQLBORRAR_PLAYERSCARDS, SQLBORRAR_SHOPCARDS,
+				SQLBORRAR_PLAYER };
 		if (checkPlayer(player)) {
 			this.openConnection();
 			try {
-				statement = connection.prepareStatement(SQLBORRAR);
-				statement.setInt(1, player.getPlayerId());
-				if (statement.executeUpdate() > 0) {
-					ok = true;
+
+				connection.setAutoCommit(false);
+
+				for (String sql : sqls) {
+					statement = connection.prepareStatement(sql);
+					statement.setInt(1, player.getPlayerId());
+					statement.executeUpdate();
 				}
-				statement.close();
-				connection.close();
+				connection.commit();
+				ok = true;
 			} catch (SQLException e) {
 				System.out.println("Error deleting player: " + e.getMessage());
+				try {
+					if (connection != null) {
+						connection.rollback();
+					}
+				} catch (SQLException rollbackEx) {
+					System.out.println("Error during rollback: " + rollbackEx.getMessage());
+				}
+			} finally {
+				try {
+					if (connection != null) {
+						connection.close();
+					}
+				} catch (SQLException closeEx) {
+					System.out.println("Error closing resources: " + closeEx.getMessage());
+				}
 			}
 		}
 		return ok;
