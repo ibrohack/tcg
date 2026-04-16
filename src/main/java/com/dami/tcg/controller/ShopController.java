@@ -209,7 +209,6 @@ public class ShopController {
 		for (Card c : cardDao.queryShopCards(player.getPlayerId())) {
 			if (c.getCardID() == cardId) {
 				card = c;
-				break;
 			}
 		}
 
@@ -222,11 +221,12 @@ public class ShopController {
 			playerDao.addCoins(player, Math.negateExact(card.getPurchasePrice()));
 			player.setCoins(playerDao.getGold(player));
 			playerDao.addCard(player, card);
+			cardDao.purchaseShopCard(card, player);
 		} else {
 			redirectAttributes.addFlashAttribute("error", "Not enough coins to buy the card");
 			return "redirect:/shop";
 		}
-		return "redirect:/";
+		return "redirect:/shop";
 	}
 
 	/**
