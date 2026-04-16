@@ -14,10 +14,11 @@
 
 			<main class="flex-1 px-6 lg:px-20 py-8">
 				<!-- Section Header: Primal Exchange -->
-				<div th:if="${error}" class="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm font-medium text-center">
-                    <span class="material-symbols-outlined text-sm align-middle mr-1">error</span>
-                    <span th:text="${error}">Registration failed</span>
-                </div>
+				<div th:if="${error}"
+					class="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm font-medium text-center">
+					<span class="material-symbols-outlined text-sm align-middle mr-1">error</span>
+					<span th:text="${error}">Registration failed</span>
+				</div>
 				<header
 					class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-primary/5 pb-6">
 					<div>
@@ -66,7 +67,7 @@
 									<span class="material-symbols-outlined text-sm"
 										data-icon="card_giftcard">card_giftcard</span>
 								</button>
-								<div id = "pack-timer"
+								<div id="pack-timer"
 									class="flex items-center gap-2 text-primary/60 text-[10px] font-bold uppercase tracking-wider px-4 py-2 border border-primary/10 rounded-lg">
 									<span class="material-symbols-outlined text-sm">schedule</span>
 									One every minute
@@ -99,13 +100,15 @@
 							             'border border-white/20'))))">
 
 							<div class="aspect-[3/4] relative overflow-hidden">
-								<img th:src="${cardsPurchase.get(card.getCardID())} ? @{'/images/cards/Purchased.png'} : @{'/images/cards/' + ${card.cardID} + '.png'}" th:alt="${card.name}"
+								<img th:src="${cardsPurchase.get(card.getCardID())} ? @{'/images/cards/Purchased.png'} : @{'/images/cards/' + ${card.cardID} + '.png'}"
+									th:alt="${card.name}"
 									class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
 								<div
 									class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent z-10">
 								</div>
 								<!-- Rarity badge -->
-								<div th:if="${cardsPurchase.get(card.getCardID())==false}" class="absolute top-3 left-3 z-20 backdrop-blur-md px-2 py-1 rounded text-[10px] font-bold uppercase tracking-tighter"
+								<div th:if="${cardsPurchase.get(card.getCardID())==false}"
+									class="absolute top-3 left-3 z-20 backdrop-blur-md px-2 py-1 rounded text-[10px] font-bold uppercase tracking-tighter"
 									th:classappend="${card.quality.equalsIgnoreCase('Common')} ? 'bg-card-common/20 border border-card-common/50' :
 							                    (${card.quality.equalsIgnoreCase('Rare')} ? 'bg-card-rare/20 border border-card-rare/50' :
 							                    (${card.quality.equalsIgnoreCase('Epic')} ? 'bg-card-epic/20 border border-card-epic/50' :
@@ -115,45 +118,50 @@
 									Quality</div>
 							</div>
 							<div class="px-3 pb-4 space-y-3">
-								<h4 th:if="${cardsPurchase.get(card.getCardID())==false}" class="text-lg font-bold font-headline leading-tight text-primary"
+								<h4 th:if="${cardsPurchase.get(card.getCardID())==false}"
+									class="text-lg font-bold font-headline leading-tight text-primary"
 									th:text="${card.name}"></h4>
-									
-									<button id="popupOpen" th:if="${cardsPurchase.get(card.getCardID())==false}"
-										class="w-full bg-primary text-background-dark flex items-center justify-between px-4 py-2.5 rounded transition-all active:scale-95 hover:brightness-110 shadow-lg shadow-primary/20">
-										<span class="text-[12px] font-black uppercase tracking-widest">Purchase</span>
-										<div class="flex items-center gap-1">
-											<span class="material-symbols-outlined text-lg"
-												data-icon="monetization_on">monetization_on</span>
-											<span class="font-bold" th:text="${card.purchasePrice}">Price</span>
-										</div>
-									</button>
+
+								<button id="popupOpen" th:if="${cardsPurchase.get(card.getCardID())==false}"
+									th:name="@{/shopCards(cardId=${card.cardID})}"
+									class="w-full bg-primary text-background-dark flex items-center justify-between px-4 py-2.5 rounded transition-all active:scale-95 hover:brightness-110 shadow-lg shadow-primary/20">
+									<span class="text-[12px] font-black uppercase tracking-widest">Purchase</span>
+									<div class="flex items-center gap-1">
+										<span class="material-symbols-outlined text-lg"
+											data-icon="monetization_on">monetization_on</span>
+										<span class="font-bold" th:text="${card.purchasePrice}">Price</span>
+									</div>
+								</button>
 							</div>
-							<!-- Pop up-->
-							<div id="popup" class="fixed inset-0 z-[100] hidden bg-black/80 flex items-center justify-center p-4">
-			                    <div
-			                        class="bg-white dark:bg-background-dark rounded-xl max-w-lg w-full overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
-			                        <div class="p-6 border-b border-slate-200 dark:border-primary/10">
-			                            <h2 class="text-2xl font-bold text-green-500">Confirm purchase</h2>
-			                            <p class="text-slate-500 dark:text-slate-400 text-sm mt-1" th:text="'Are you sure you want to buy the card for ' + ${card.purchasePrice} + '  banana-coins?'"></p>
-			                        </div>
-			                        <div class="flex justify-between p-4 space-x-2">
-			                            <button id="popupClose"
-			                                class="flex items-center gap-2 bg-primary text-background-dark px-6 py-2 rounded-lg font-bold hover:bg-primary/80 transition-all">
-			                                <span class="material-symbols-outlined">cancel</span>
-			                                <span>Cancel</span>
-			                            </button>
-										<form th:action="@{/shopCards(cardId=${card.cardID}, action='buy-card')}" method="post">
-											<button type="submit" class="flex items-center gap-2 bg-primary text-background-dark px-6 py-2 rounded-lg font-bold hover:bg-primary/60 transition-all cursor-pointer">
-												<span class="material-symbols-outlined">price_check</span>
-												<span>Confirm Purchase</span>
-											</button>
-			                            </form>							
-			                        </div>
-			                    </div>
-			                </div>
 						</div>
 					</div>
 				</section>
+				<!-- Pop up-->
+				<div id="popup" class="fixed inset-0 z-[100] hidden bg-black/80 flex items-center justify-center p-4">
+					<div
+						class="bg-white dark:bg-background-dark rounded-xl max-w-lg w-full overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
+						<div class="p-6 border-b border-slate-200 dark:border-primary/10">
+							<h2 class="text-2xl font-bold text-green-500">Confirm purchase</h2>
+							<p class="text-slate-500 dark:text-slate-400 text-sm mt-1"
+								th:text="'Are you sure you want to buy the card?'">
+							</p>
+						</div>
+						<div class="flex justify-between p-4 space-x-2">
+							<button id="popupClose"
+								class="flex items-center gap-2 bg-primary text-background-dark px-6 py-2 rounded-lg font-bold hover:bg-primary/80 transition-all">
+								<span class="material-symbols-outlined">cancel</span>
+								<span>Cancel</span>
+							</button>
+							<a id="modify-form" href="">
+								<button type=" button"
+									class="flex items-center gap-2 bg-primary text-background-dark px-6 py-2 rounded-lg font-bold hover:bg-primary/60 transition-all cursor-pointer">
+									<span class="material-symbols-outlined">price_check</span>
+									<span>Confirm Purchase</span>
+								</button>
+							</a>
+						</div>
+					</div>
+				</div>
 				<!-- Gold Purchase -->
 				<section id="gold-purchase-section" class="space-y-6 mt-6">
 					<h2 class="text-[15px] font-black uppercase tracking-[0.3em] text-primary">Gold Purchase</h2>
@@ -238,7 +246,7 @@
 						</div>
 					</div>
 				</section>
-				
+
 				<!-- Booster Packs -->
 				<section class="space-y-6 mt-6">
 					<h3 class="text-[15px] font-black uppercase tracking-[0.3em] text-primary">Premium Protocols</h3>
@@ -276,7 +284,8 @@
 			<footer th:replace="~{fragments/layout :: footer}"></footer>
 		</div>
 	</div>
-	<div id="shop-config" th:data-server-time="${serverTime}" th:data-pack-available="${packAvailable}" class="hidden"></div>
+	<div id="shop-config" th:data-server-time="${serverTime}" th:data-pack-available="${packAvailable}" class="hidden">
+	</div>
 	<script th:src="@{/js/shop-timer.js}"></script>
 </body>
 

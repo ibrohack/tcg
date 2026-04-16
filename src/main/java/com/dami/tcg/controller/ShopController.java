@@ -43,11 +43,14 @@ public class ShopController {
 	 * Handles GET requests to {@code /pack} and displays the pack opening screen.
 	 * <p>
 	 * Checks if the player is authenticated and determines the pack price:
-	 * free (0 coins) if the player has a free pack available, or 500 coins otherwise.
+	 * free (0 coins) if the player has a free pack available, or 500 coins
+	 * otherwise.
 	 * </p>
 	 *
-	 * @param session the {@link HttpSession} used to retrieve the logged player's information
-	 * @param model   the {@link Model} used to pass pack availability and price to the view
+	 * @param session the {@link HttpSession} used to retrieve the logged player's
+	 *                information
+	 * @param model   the {@link Model} used to pass pack availability and price to
+	 *                the view
 	 * @return the name of the view template ({@code "pack"}), or a redirect to
 	 *         {@code /login} if the player is not authenticated
 	 * @author Brayan
@@ -75,32 +78,40 @@ public class ShopController {
 	 * Returns 0 if the player has a free pack available, or 500 otherwise.
 	 * </p>
 	 *
-	 * @param session the {@link HttpSession} used to retrieve the logged player's information
+	 * @param session the {@link HttpSession} used to retrieve the logged player's
+	 *                information
 	 * @return a {@link Map} containing the pack price under the key {@code "price"}
 	 */
 	@GetMapping("/pack/availability")
 	@ResponseBody
 	public Map<String, Object> getPackAvailablety(HttpSession session) {
-		
+
 		Player player = (Player) session.getAttribute("loggedPlayer");
 		boolean isAvailable = false;
 		isAvailable = playerDao.checkFreePack(player);
-		return Map.of("packAvailability",isAvailable );
+		return Map.of("packAvailability", isAvailable);
 	}
 
 	/**
 	 * Handles POST requests to {@code /pack} and processes pack opening.
 	 * <p>
-	 * Generates 5 random cards with rarity-based probabilities. If the pack is free,
-	 * marks the free pack as used. If paid, deducts 500 coins from the player's balance.
+	 * Generates 5 random cards with rarity-based probabilities. If the pack is
+	 * free,
+	 * marks the free pack as used. If paid, deducts 500 coins from the player's
+	 * balance.
 	 * Each generated card is added to the player's collection.
 	 * </p>
 	 *
-	 * @param model              the {@link Model} used to pass the generated cards to the view
-	 * @param session            the {@link HttpSession} used to retrieve and update the logged player
-	 * @param redirectAttributes the {@link RedirectAttributes} used to pass error flash messages
-	 * @return the name of the view template ({@code "pack"}) with opened cards, a redirect to
-	 *         {@code /pack} if insufficient coins, or {@code /login} if unauthenticated
+	 * @param model              the {@link Model} used to pass the generated cards
+	 *                           to the view
+	 * @param session            the {@link HttpSession} used to retrieve and update
+	 *                           the logged player
+	 * @param redirectAttributes the {@link RedirectAttributes} used to pass error
+	 *                           flash messages
+	 * @return the name of the view template ({@code "pack"}) with opened cards, a
+	 *         redirect to
+	 *         {@code /pack} if insufficient coins, or {@code /login} if
+	 *         unauthenticated
 	 * @author Adam
 	 */
 	@PostMapping("/pack")
@@ -156,7 +167,8 @@ public class ShopController {
 	 * </p>
 	 *
 	 * @param model   the {@link Model} used to pass shop data to the view
-	 * @param session the {@link HttpSession} used to retrieve the logged player's information
+	 * @param session the {@link HttpSession} used to retrieve the logged player's
+	 *                information
 	 * @return the name of the view template ({@code "shop"})
 	 * @author Oihan
 	 */
@@ -165,17 +177,18 @@ public class ShopController {
 		Player player = (Player) session.getAttribute("loggedPlayer");
 		int playerId = 0;
 		boolean isPackAvailable = true;
-		HashMap<Integer,Boolean> cardsPurchase = new HashMap<Integer,Boolean>();
+		HashMap<Integer, Boolean> cardsPurchase = new HashMap<Integer, Boolean>();
 		ArrayList<Card> cards = null;
 		cards = cardDao.queryShopCards(playerId);
 		if (player != null) {
 			playerId = player.getPlayerId();
 			isPackAvailable = playerDao.checkFreePack(player);
 			cards = cardDao.queryShopCards(playerId);
-			for(Card c : cards) {
-				cardsPurchase.put(c.getCardID(),cardDao.queryPurchasedCard(c,player));
+			for (Card c : cards) {
+				cardsPurchase.put(c.getCardID(), cardDao.queryPurchasedCard(c, player));
 			}
-		};
+		}
+		;
 		model.addAttribute("cardsPurchase", cardsPurchase);
 		model.addAttribute("cards", cards);
 		model.addAttribute("packAvailable", isPackAvailable);
@@ -184,22 +197,26 @@ public class ShopController {
 	}
 
 	/**
-	 * Handles POST requests to {@code /shopCards} with action {@code buy-card} and processes
+	 * Handles POST requests to {@code /shopCards} with action {@code buy-card} and
+	 * processes
 	 * the purchase of an individual card from the shop.
 	 * <p>
 	 * Verifies the card exists in the player's shop listing, checks that the player
-	 * has sufficient coins, deducts the purchase price, adds the card to the player's
+	 * has sufficient coins, deducts the purchase price, adds the card to the
+	 * player's
 	 * collection, and marks it as purchased in the shop.
 	 * </p>
 	 *
 	 * @param cardId             the ID of the card to purchase
 	 * @param model              the {@link Model} used to pass data to the view
-	 * @param redirectAttributes the {@link RedirectAttributes} used to pass error flash messages
-	 * @param session            the {@link HttpSession} used to retrieve the logged player
+	 * @param redirectAttributes the {@link RedirectAttributes} used to pass error
+	 *                           flash messages
+	 * @param session            the {@link HttpSession} used to retrieve the logged
+	 *                           player
 	 * @return a redirect to {@code /shop}, or {@code /login} if unauthenticated
 	 * @author Asier
 	 */
-	@PostMapping(value = "/shopCards", params = "action=buy-card")
+	@PostMapping("/shopCards")
 	public String buyCards(@RequestParam int cardId, RedirectAttributes redirectAttributes, HttpSession session) {
 		Player player = (Player) session.getAttribute("loggedPlayer");
 		if (player == null) {
@@ -238,9 +255,12 @@ public class ShopController {
 	 *
 	 * @param price              the real-money price of the coin bundle
 	 * @param coins              the amount of in-game coins in the bundle
-	 * @param redirectAttributes the {@link RedirectAttributes} used to pass bundle details
-	 * @param session            the {@link HttpSession} used to verify authentication
-	 * @return a redirect to {@code /confirmPurchase}, or {@code /login} if unauthenticated
+	 * @param redirectAttributes the {@link RedirectAttributes} used to pass bundle
+	 *                           details
+	 * @param session            the {@link HttpSession} used to verify
+	 *                           authentication
+	 * @return a redirect to {@code /confirmPurchase}, or {@code /login} if
+	 *         unauthenticated
 	 * @author Brayan
 	 */
 	@PostMapping(value = "/shop", params = "action=buy")
@@ -256,7 +276,8 @@ public class ShopController {
 	}
 
 	/**
-	 * Handles GET requests to {@code /confirmPurchase} and displays the payment confirmation page.
+	 * Handles GET requests to {@code /confirmPurchase} and displays the payment
+	 * confirmation page.
 	 * <p>
 	 * Shows the selected bundle's price and coin amount for the player to confirm
 	 * before completing the purchase.
@@ -266,7 +287,8 @@ public class ShopController {
 	 * @param coins   the amount of in-game coins in the bundle
 	 * @param model   the {@link Model} used to pass bundle details to the view
 	 * @param session the {@link HttpSession} used to verify authentication
-	 * @return the name of the view template ({@code "confirmPurchase"}), or a redirect
+	 * @return the name of the view template ({@code "confirmPurchase"}), or a
+	 *         redirect
 	 *         to {@code /login} if unauthenticated
 	 * @author Adam
 	 */
@@ -282,15 +304,18 @@ public class ShopController {
 	}
 
 	/**
-	 * Handles POST requests to {@code /confirmPurchase} and completes the coin purchase.
+	 * Handles POST requests to {@code /confirmPurchase} and completes the coin
+	 * purchase.
 	 * <p>
 	 * Adds the purchased coins to the player's balance and updates the session
 	 * with the new coin count.
 	 * </p>
 	 *
 	 * @param coins              the amount of in-game coins to add
-	 * @param redirectAttributes the {@link RedirectAttributes} (available for future use)
-	 * @param session            the {@link HttpSession} used to retrieve and update the logged player
+	 * @param redirectAttributes the {@link RedirectAttributes} (available for
+	 *                           future use)
+	 * @param session            the {@link HttpSession} used to retrieve and update
+	 *                           the logged player
 	 * @return a redirect to {@code /shop}, or {@code /login} if unauthenticated
 	 * @author Adam
 	 */
