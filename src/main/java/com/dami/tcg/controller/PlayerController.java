@@ -46,7 +46,8 @@ public class PlayerController {
      * </p>
      *
      * @param username the username to check
-     * @return a {@link Map} containing a single key {@code "available"} with a boolean value
+     * @return a {@link Map} containing a single key {@code "available"} with a
+     *         boolean value
      */
     @GetMapping("/api/check-username")
     @ResponseBody
@@ -67,8 +68,10 @@ public class PlayerController {
      * If the player is already authenticated, redirects to the player profile page.
      * </p>
      *
-     * @param session the {@link HttpSession} used to check for an existing logged-in player
-     * @return the name of the view template ({@code "login"}), or a redirect to {@code /player}
+     * @param session the {@link HttpSession} used to check for an existing
+     *                logged-in player
+     * @return the name of the view template ({@code "login"}), or a redirect to
+     *         {@code /player}
      */
     @GetMapping("/login")
     public String showLogin(HttpSession session) {
@@ -82,15 +85,19 @@ public class PlayerController {
      * Handles POST requests to {@code /login} and processes player authentication.
      * <p>
      * Verifies the provided credentials using BCrypt password hashing. On success,
-     * stores the player in the session and redirects to the profile page. On failure,
+     * stores the player in the session and redirects to the profile page. On
+     * failure,
      * displays an error message.
      * </p>
      *
      * @param username           the username submitted in the login form
      * @param password           the password submitted in the login form
-     * @param session            the {@link HttpSession} to store the authenticated player
-     * @param redirectAttributes the {@link RedirectAttributes} used to pass error flash messages
-     * @return a redirect to {@code /player} on success, or {@code /login} on failure
+     * @param session            the {@link HttpSession} to store the authenticated
+     *                           player
+     * @param redirectAttributes the {@link RedirectAttributes} used to pass error
+     *                           flash messages
+     * @return a redirect to {@code /player} on success, or {@code /login} on
+     *         failure
      */
     @PostMapping("/login")
     public String processLogin(@RequestParam String username,
@@ -113,8 +120,10 @@ public class PlayerController {
      * If the player is already authenticated, redirects to the player profile page.
      * </p>
      *
-     * @param session the {@link HttpSession} used to check for an existing logged-in player
-     * @return the name of the view template ({@code "register"}), or a redirect to {@code /player}
+     * @param session the {@link HttpSession} used to check for an existing
+     *                logged-in player
+     * @return the name of the view template ({@code "register"}), or a redirect to
+     *         {@code /player}
      */
     @GetMapping("/register")
     public String showRegister(HttpSession session) {
@@ -125,19 +134,24 @@ public class PlayerController {
     }
 
     /**
-     * Handles POST requests to {@code /register} and processes new player registration.
+     * Handles POST requests to {@code /register} and processes new player
+     * registration.
      * <p>
-     * Validates that passwords match and meet strength requirements (minimum 8 characters,
+     * Validates that passwords match and meet strength requirements (minimum 8
+     * characters,
      * at least one uppercase, one lowercase, one digit, and one special character).
-     * Checks for duplicate usernames. On success, creates the player with 1000 initial coins
+     * Checks for duplicate usernames. On success, creates the player with 1000
+     * initial coins
      * and a BCrypt-hashed password.
      * </p>
      *
      * @param username           the desired username
      * @param password           the desired password
      * @param confirmPassword    the password confirmation
-     * @param redirectAttributes the {@link RedirectAttributes} used to pass flash messages
-     * @return a redirect to {@code /login} on success, or {@code /register} on failure
+     * @param redirectAttributes the {@link RedirectAttributes} used to pass flash
+     *                           messages
+     * @return a redirect to {@code /login} on success, or {@code /register} on
+     *         failure
      */
     @PostMapping("/register")
     public String processRegister(@RequestParam String username,
@@ -194,7 +208,8 @@ public class PlayerController {
     // ==================== EXISTING ENDPOINTS ====================
 
     /**
-     * Handles GET requests to {@code /playerCheck} and displays player verification information.
+     * Handles GET requests to {@code /playerCheck} and displays player verification
+     * information.
      *
      * @param model  the {@link Model} used to pass the player data to the view
      * @param player the {@link Player} object bound from request parameters
@@ -233,7 +248,8 @@ public class PlayerController {
     }
 
     /**
-     * Handles GET requests to {@code /playerUpdate} and updates a player's information.
+     * Handles GET requests to {@code /playerUpdate} and updates a player's
+     * information.
      *
      * @param model  the {@link Model} used to pass the update result to the view
      * @param player the {@link Player} object with updated data
@@ -253,10 +269,13 @@ public class PlayerController {
      * authenticated, redirects to the login page.
      * </p>
      *
-     * @param model    the {@link Model} used to pass player and deck data to the view
-     * @param session  the {@link HttpSession} containing the logged player's information
+     * @param model    the {@link Model} used to pass player and deck data to the
+     *                 view
+     * @param session  the {@link HttpSession} containing the logged player's
+     *                 information
      * @param playerId optional player ID to view a specific player's profile
-     * @return the name of the view template ({@code "player"}), or a redirect to {@code /login}
+     * @return the name of the view template ({@code "player"}), or a redirect to
+     *         {@code /login}
      */
     @GetMapping("/player")
     public String queryPlayer(Model model, HttpSession session,
@@ -277,7 +296,8 @@ public class PlayerController {
     }
 
     /**
-     * Handles GET requests to {@code /playerCards} and displays a player's card inventory.
+     * Handles GET requests to {@code /playerCards} and displays a player's card
+     * inventory.
      *
      * @param model    the {@link Model} used to pass card data to the view
      * @param playerID the ID of the player whose cards to retrieve (defaults to 1)
@@ -292,14 +312,17 @@ public class PlayerController {
     // ==================== PROFILE EDIT ENDPOINTS ====================
 
     /**
-     * Handles GET requests to {@code /profile/edit} and displays the profile editing form.
+     * Handles GET requests to {@code /profile/edit} and displays the profile
+     * editing form.
      * <p>
      * Retrieves the current player's data and avatar for display in the edit view.
      * </p>
      *
      * @param model   the {@link Model} used to pass player data to the view
-     * @param session the {@link HttpSession} containing the logged player's information
-     * @return the name of the view template ({@code "profile-edit"}), or a redirect to
+     * @param session the {@link HttpSession} containing the logged player's
+     *                information
+     * @return the name of the view template ({@code "profile-edit"}), or a redirect
+     *         to
      *         {@code /login} if the player is not authenticated
      */
     @GetMapping("/profile/edit")
@@ -319,10 +342,14 @@ public class PlayerController {
      * <p>
      * Supports two types of updates:
      * <ul>
-     *   <li><strong>Password change:</strong> Validates the current password, checks that
-     *       new passwords match and meet strength requirements, then updates the hash.</li>
-     *   <li><strong>Profile picture upload:</strong> Saves the uploaded image to the external
-     *       {@code data/images/players} directory using the player's ID as the filename.</li>
+     * <li><strong>Password change:</strong> Validates the current password, checks
+     * that
+     * new passwords match and meet strength requirements, then updates the
+     * hash.</li>
+     * <li><strong>Profile picture upload:</strong> Saves the uploaded image to the
+     * external
+     * {@code data/images/players} directory using the player's ID as the
+     * filename.</li>
      * </ul>
      * </p>
      *
@@ -330,9 +357,12 @@ public class PlayerController {
      * @param newPassword        the new password to set (optional)
      * @param confirmPassword    the new password confirmation (optional)
      * @param profilePicture     the uploaded profile picture file (optional)
-     * @param session            the {@link HttpSession} containing the logged player's information
-     * @param redirectAttributes the {@link RedirectAttributes} used to pass flash messages
-     * @return a redirect to {@code /profile/edit}, or {@code /login} if not authenticated
+     * @param session            the {@link HttpSession} containing the logged
+     *                           player's information
+     * @param redirectAttributes the {@link RedirectAttributes} used to pass flash
+     *                           messages
+     * @return a redirect to {@code /profile/edit}, or {@code /login} if not
+     *         authenticated
      */
     @PostMapping("/profile/edit")
     public String processProfileEdit(
@@ -408,10 +438,42 @@ public class PlayerController {
     }
 
     /**
+     * Handles Player deletion.
+     * <p>
+     * Deletes the logged-in player's account and invalidates the session.
+     * </p>
+     *
+     * @param session            the {@link HttpSession} containing the logged
+     *                           player's information
+     * @param redirectAttributes the {@link RedirectAttributes} used to pass flash
+     *                           messages
+     * @return a redirect to {@code /login} after successful deletion, or
+     *         {@code /login} if not authenticated, or {@code /profile/edit} if
+     *         deletion fails
+     */
+    @GetMapping("/profile/delete")
+    public String playerDelete(HttpSession session, RedirectAttributes redirectAttributes) {
+        Player player = (Player) session.getAttribute("loggedPlayer");
+        if (player == null) {
+            return "redirect:/login";
+        }
+        boolean deleted = dao.deletePlayer(dao.queryPlayer(player.getPlayerId()));
+        if (deleted) {
+            session.invalidate();
+            redirectAttributes.addFlashAttribute("success", "Player deleted successfully");
+            return "redirect:/login";
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Error deleting player");
+            return "redirect:/profile/edit";
+        }
+    }
+
+    /**
      * Populates the player's avatar URL by scanning the external images directory
      * for a file matching the player's ID with a supported image extension.
      * <p>
-     * Supported extensions: {@code .png}, {@code .jpg}, {@code .jpeg}, {@code .webp}, {@code .gif}.
+     * Supported extensions: {@code .png}, {@code .jpg}, {@code .jpeg},
+     * {@code .webp}, {@code .gif}.
      * If no matching file is found, the avatar URL is set to {@code null}.
      * </p>
      *
