@@ -88,7 +88,7 @@ INSERT INTO Cards (CardName, Quality, CardDescription, PurchasePrice, SellPrice)
 ('Woolly Monkey', 'Common', 'Soft to the touch but incredibly strong and sturdy.',500,10),
 ('Pygmy Marmoset', 'Common', 'So small he can easily hide behind a single large leaf.',500,10),
 ('Diana Monkey', 'Rare', 'Named after the goddess of the hunt for his regal look.',1000,25),
-('Jade Mandrill', 'Mythic', 'A mandrill mutated by ancient mystical energies.',3000,250),
+('Jade Mandrill', 'Legendary', 'A mandrill mutated by ancient mystical energies.',3000,250),
 ('Albino Gorilla', 'Legendary', 'Extremely rare; he is considered a living ghost of the jungle.',2000,150),
 ('Cosmonaut Chimpanzee', 'Epic', 'A pioneer who has traveled far beyond the stratosphere.',1500,75),
 ('Carnival Monkey', 'Common', 'Plays the cymbals in exchange for a handful of peanuts.',500,10),
@@ -109,7 +109,7 @@ INSERT INTO Cards (CardName, Quality, CardDescription, PurchasePrice, SellPrice)
 ('Red Colobus', 'Epic', 'Often targeted by chimpanzees, he relies on speed to survive.',1500,75),
 ('Wolf Monkey', 'Rare', 'Distinguished by unique tufted ears and a curious nature.',1000,25),
 ('Anubis Baboon', 'Common', 'Named after the jackal-headed god of ancient Egypt.',500,10),
-('Silverback Gorilla', 'Mythic', 'The ultimate alpha male and protector of the jungle.',3000,250),
+('Silverback Gorilla', 'Legendary', 'The ultimate alpha male and protector of the jungle.',3000,250),
 ('Rebel Chimpanzee', 'Common', 'Known for throwing mud at anyone who gets too close.',500,10),
 ('Mandrill Warrior', 'Rare', 'Natural war paint adorns his face for intimidation.',1000,25),
 ('Tapanuli Orangutan', 'Legendary', 'The rarest great ape species currently known to man.',2000,150),
@@ -157,13 +157,20 @@ INSERT INTO Cards (CardName, Quality, CardDescription, PurchasePrice, SellPrice)
 ('Van Beneden Colobus', 'Epic', 'Hides his young deep within the thickest vegetation.',1500,75),
 ('Black-Faced Uakari', 'Rare', 'A dark-faced ghost of the flooded Amazonian forests.',1000,25),
 ('Bornean Gibbon', 'Common', 'An untiring acrobat of the high tropical forest canopy.',500,10),
-('Infinite Monkey', 'Mythic', 'Given enough time and a typewriter, he will write Shakespeare.',3000,250),
+('Infinite Monkey', 'Legendary', 'Given enough time and a typewriter, he will write Shakespeare.',3000,250),
 ('SleepIvan','Mythic','Not even in a party can not stop him from sleeping.',3000,250),
-('Vaquero','Mythic','Vaquero',3000,250),
-('Navarro','Mythic','Navarro',3000,250),
-('Santi','Mythic','Santi Santi Santi',3000,250),
+('Vaquero','Mythic','The mighty monkey warrior.',3000,250),
+('Navarro','Mythic','The wise disabled monkey.',3000,250),
+('Santi','Mythic','The bulkyest bodybuilder monkey all over the world.',3000,250),
+('Ibarguren','Mythic','Crazy monkey style.',3000,250),
+('Enio','Mythic','Lets go gambling.',3000,250),
+('Galder','Mythic','The orangutan god.',3000,250),
+('Irene','Mythic','The queen monkey.',3000,250),
+('Hodei','Mythic','The PATRON monkey.',3000,250),
 ('Kora', 'Arok', 'I´m Kora',500000000,0);
 
+
+select count(*) from cards;
 /* 
 Player table population with Stored Procedure
 */
@@ -262,7 +269,7 @@ BEGIN
     DECLARE newCardID INT;
     SELECT COUNT(*) INTO playerCount FROM Players; -- How many players are already in the DB
     SET noPlayer = 0;
-    DELETE FROM ShopCards WHERE CardID BETWEEN 1 AND 100;
+    DELETE FROM ShopCards WHERE CardID BETWEEN 1 AND 110;
     WHILE noPlayer < playerCount DO -- Loop until reached the amount of players registered
 		SET noCard = 0;
 		SET noPlayer = noPlayer + 1;
