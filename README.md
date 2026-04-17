@@ -65,3 +65,6 @@ Designed and developed by **Brayan, Adam, Oihan, and Asier**.
 *   **`/src/main/resources/static/`**: Client side JS logic, raw CSS inputs, and game images.
 *   **`/database/`**: Contains the critical `Chaos&MonkeysDatabase.sql` dump.
 *   **`/data/images/players/`**: Managed external volume allowing safe storage for user avatars outside the classpath.
+
+## 📚 Knowledgebase
+For comprehensive documentation on the project architecture, features, and database design, please visit our [Project Knowledgebase](https://deepwiki.com/ibrohack/tcg).
