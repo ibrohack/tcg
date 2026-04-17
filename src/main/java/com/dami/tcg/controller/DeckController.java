@@ -17,7 +17,8 @@ import org.springframework.ui.Model;
  * Controller responsible for handling deck-related HTTP requests.
  * <p>
  * Manages the creation, deletion, viewing, and editing of player decks.
- * All deck operations require the player to be authenticated via the HTTP session.
+ * All deck operations require the player to be authenticated via the HTTP
+ * session.
  * Unauthenticated users are redirected to the login page.
  * </p>
  *
@@ -40,15 +41,18 @@ public class DeckController {
 	}
 
 	/**
-	 * Handles GET requests to {@code /deckcreate} and displays the deck creation form.
+	 * Handles GET requests to {@code /deckcreate} and displays the deck creation
+	 * form.
 	 * <p>
 	 * Retrieves the logged player's available cards and their quantities
 	 * to populate the deck creation view.
 	 * </p>
 	 *
 	 * @param model   the {@link Model} used to pass data to the view
-	 * @param session the {@link HttpSession} containing the logged player's information
-	 * @return the name of the view template ({@code "deckcreate"}), or a redirect to
+	 * @param session the {@link HttpSession} containing the logged player's
+	 *                information
+	 * @return the name of the view template ({@code "deckcreate"}), or a redirect
+	 *         to
 	 *         {@code /login} if the player is not authenticated
 	 */
 	@GetMapping("/deckcreate")
@@ -75,10 +79,14 @@ public class DeckController {
 	 * </p>
 	 *
 	 * @param model              the {@link Model} used to pass data to the view
-	 * @param redirectAttributes the {@link RedirectAttributes} used to pass flash messages
-	 * @param session            the {@link HttpSession} containing the logged player's information
-	 * @param deck               the {@link Deck} object bound from the form submission
-	 * @return a redirect to {@code /player} on success, {@code /deckcreate} on failure,
+	 * @param redirectAttributes the {@link RedirectAttributes} used to pass flash
+	 *                           messages
+	 * @param session            the {@link HttpSession} containing the logged
+	 *                           player's information
+	 * @param deck               the {@link Deck} object bound from the form
+	 *                           submission
+	 * @return a redirect to {@code /player} on success, {@code /deckcreate} on
+	 *         failure,
 	 *         or {@code /login} if the player is not authenticated
 	 */
 	@PostMapping("/deckcreate")
@@ -89,14 +97,18 @@ public class DeckController {
 			return "redirect:/login";
 		}
 		deck.setPlayerID(player.getPlayerId());
-
-		boolean created = dao.insertDeck(deck);
-		if (created) {
-			redirectAttributes.addFlashAttribute("success", "Deck created successfully");
-			return "redirect:/player";
-		} else {
-			redirectAttributes.addFlashAttribute("error", "Error creating deck");
+		if (deck.getCards().isEmpty()) {
+			redirectAttributes.addFlashAttribute("error", "Deck must have cards");
 			return "redirect:/deckcreate";
+		} else {
+			boolean created = dao.insertDeck(deck);
+			if (created) {
+				redirectAttributes.addFlashAttribute("success", "Deck created successfully");
+				return "redirect:/player";
+			} else {
+				redirectAttributes.addFlashAttribute("error", "Error creating deck");
+				return "redirect:/deckcreate";
+			}
 		}
 	}
 
@@ -108,10 +120,13 @@ public class DeckController {
 	 * </p>
 	 *
 	 * @param model              the {@link Model} used to pass data to the view
-	 * @param session            the {@link HttpSession} containing the logged player's information
+	 * @param session            the {@link HttpSession} containing the logged
+	 *                           player's information
 	 * @param deckId             the ID of the deck to delete
-	 * @param redirectAttributes the {@link RedirectAttributes} used to pass flash messages
-	 * @return a redirect to {@code /deckcheck}, or {@code /login} if the player is not authenticated
+	 * @param redirectAttributes the {@link RedirectAttributes} used to pass flash
+	 *                           messages
+	 * @return a redirect to {@code /deckcheck}, or {@code /login} if the player is
+	 *         not authenticated
 	 */
 	@GetMapping("/deckdelete")
 	public String deckDelete(Model model, HttpSession session, @RequestParam int deckId,
@@ -131,16 +146,20 @@ public class DeckController {
 	}
 
 	/**
-	 * Handles GET requests to {@code /deckcheck} and displays the player's deck list.
+	 * Handles GET requests to {@code /deckcheck} and displays the player's deck
+	 * list.
 	 * <p>
 	 * Retrieves all decks belonging to the authenticated player. If no decks exist,
 	 * a message is displayed to the user.
 	 * </p>
 	 *
 	 * @param model              the {@link Model} used to pass data to the view
-	 * @param session            the {@link HttpSession} containing the logged player's information
-	 * @param deck               the {@link Deck} object (bound from request parameters)
-	 * @param redirectAttributes the {@link RedirectAttributes} used to pass flash messages
+	 * @param session            the {@link HttpSession} containing the logged
+	 *                           player's information
+	 * @param deck               the {@link Deck} object (bound from request
+	 *                           parameters)
+	 * @param redirectAttributes the {@link RedirectAttributes} used to pass flash
+	 *                           messages
 	 * @return the name of the view template ({@code "deckcheck"}), or a redirect to
 	 *         {@code /login} if the player is not authenticated
 	 */
@@ -162,18 +181,25 @@ public class DeckController {
 	}
 
 	/**
-	 * Handles GET requests to {@code /deckview} and displays the contents of a specific deck.
+	 * Handles GET requests to {@code /deckview} and displays the contents of a
+	 * specific deck.
 	 * <p>
-	 * Retrieves the deck by ID and resolves the full card details for each card in the deck.
-	 * If the deck is empty or not found, redirects to the deck list with an error message.
+	 * Retrieves the deck by ID and resolves the full card details for each card in
+	 * the deck.
+	 * If the deck is empty or not found, redirects to the deck list with an error
+	 * message.
 	 * </p>
 	 *
 	 * @param model              the {@link Model} used to pass data to the view
-	 * @param session            the {@link HttpSession} containing the logged player's information
-	 * @param redirectAttributes the {@link RedirectAttributes} used to pass flash messages
+	 * @param session            the {@link HttpSession} containing the logged
+	 *                           player's information
+	 * @param redirectAttributes the {@link RedirectAttributes} used to pass flash
+	 *                           messages
 	 * @param deckId             the ID of the deck to view
-	 * @return the name of the view template ({@code "deckview"}), a redirect to {@code /deckcheck}
-	 *         if the deck is empty, or {@code /login} if the player is not authenticated
+	 * @return the name of the view template ({@code "deckview"}), a redirect to
+	 *         {@code /deckcheck}
+	 *         if the deck is empty, or {@code /login} if the player is not
+	 *         authenticated
 	 */
 	@GetMapping("/deckview")
 	public String deckView(Model model, HttpSession session, RedirectAttributes redirectAttributes,
@@ -203,15 +229,20 @@ public class DeckController {
 	 * Handles GET requests to {@code /deckedit} and displays the deck editing form.
 	 * <p>
 	 * Retrieves the deck by ID and resolves the full card details for editing.
-	 * If the deck is empty or not found, redirects to the deck list with an error message.
+	 * If the deck is empty or not found, redirects to the deck list with an error
+	 * message.
 	 * </p>
 	 *
 	 * @param model              the {@link Model} used to pass data to the view
-	 * @param session            the {@link HttpSession} containing the logged player's information
-	 * @param redirectAttributes the {@link RedirectAttributes} used to pass flash messages
+	 * @param session            the {@link HttpSession} containing the logged
+	 *                           player's information
+	 * @param redirectAttributes the {@link RedirectAttributes} used to pass flash
+	 *                           messages
 	 * @param deckId             the ID of the deck to edit
-	 * @return the name of the view template ({@code "deckedit"}), a redirect to {@code /deckcheck}
-	 *         if the deck is empty, or {@code /login} if the player is not authenticated
+	 * @return the name of the view template ({@code "deckedit"}), a redirect to
+	 *         {@code /deckcheck}
+	 *         if the deck is empty, or {@code /login} if the player is not
+	 *         authenticated
 	 */
 	@GetMapping("/deckedit")
 	public String deckEdit(Model model, HttpSession session, RedirectAttributes redirectAttributes,
