@@ -69,13 +69,6 @@
 
         <!-- Right side: Logged-in player info OR Login/Register buttons -->
         <th:block th:if="${session.loggedPlayer != null}">
-            <!-- Logged-in: show notifications, settings, avatar, logout -->
-            <div class="flex gap-2">
-                <button
-                    class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-primary/10 text-slate-900 dark:text-primary transition-colors hover:bg-primary/20">
-                    <span class="material-symbols-outlined">notifications</span>
-                </button>
-            </div>
             <a th:href="@{/shop#gold-purchase-section}">
                 <div
                     class="flex items-center gap-2 bg-primary text-background-dark px-4 py-1.5 rounded-lg font-bold text-sm">
