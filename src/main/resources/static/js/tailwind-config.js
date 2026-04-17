@@ -4,6 +4,7 @@ module.exports = {
         "./src/main/resources/static/**/*.js"
     ],
     darkMode: "class",
+
     theme: {
         extend: {
             colors: {
@@ -75,6 +76,28 @@ module.exports = {
                 "xl": "0.75rem",
                 "full": "9999px"
             },
+            keyframes: {
+                packShake: {
+                    '0%, 100%': { translate: '1px 1px', rotate: '0deg' },
+                    '10%': { translate: '-1px -2px', rotate: '-1deg' },
+                    '20%': { translate: '-3px 0px', rotate: '1deg' },
+                    '30%': { translate: '3px 2px', rotate: '0deg' },
+                    '40%': { translate: '1px -1px', rotate: '1deg' },
+                    '50%': { translate: '-1px 2px', rotate: '-1deg' },
+                    '60%': { translate: '-3px 1px', rotate: '0deg' },
+                    '70%': { translate: '3px 1px', rotate: '-1deg' },
+                    '80%': { translate: '-1px -1px', rotate: '1deg' },
+                    '90%': { translate: '1px 2px', rotate: '0deg' },
+                },
+                packGlow: {
+                    '0%': { filter: 'brightness(1) blur(0px)', scale: '1' },
+                    '50%': { filter: 'brightness(1.5) blur(2px)', scale: '1.1' },
+                    '100%': { filter: 'brightness(5) blur(10px)', scale: '1.2', opacity: '0' },
+                }
+            },
+            animation: {
+                'pack-open': 'packShake 0.5s ease-in-out infinite, packGlow 4.8s ease-in-out forwards',
+            }
         },
     },
     plugins: [
