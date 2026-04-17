@@ -1,6 +1,5 @@
 package com.dami.tcg.modelo;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,9 +18,11 @@ import static org.mockito.Mockito.*;
 /**
  * Unit tests for the {@link ImplCardBD} class.
  * <p>
- * Uses Mockito to mock JDBC objects ({@link Connection}, {@link PreparedStatement},
+ * Uses Mockito to mock JDBC objects ({@link Connection},
+ * {@link PreparedStatement},
  * {@link ResultSet}) so tests can run without a real database.
- * The class under test is instantiated via a package-private subclass that overrides
+ * The class under test is instantiated via a package-private subclass that
+ * overrides
  * the connection logic.
  * </p>
  *
@@ -40,38 +41,6 @@ class ImplCardBDTest {
     private ResultSet mockResultSet;
 
     private ImplCardBD implCardBD;
-
-    /**
-     * Sets up a testable version of ImplCardBD by mocking DriverManager
-     * to return our mock connection.
-     */
-    @BeforeEach
-    void setUp() throws Exception {
-        // We create the ImplCardBD instance using a static mock of DriverManager
-        // so we can intercept openConnection() calls.
-        // We'll use reflection to inject the mock connection after construction.
-    }
-
-    /**
-     * Helper to create an ImplCardBD and inject the mock connection via reflection.
-     */
-    private ImplCardBD createTestableImplCardBD() throws Exception {
-        ImplCardBD impl;
-        // Mock ResourceBundle and DriverManager during construction
-        try (MockedStatic<DriverManager> driverMock = mockStatic(DriverManager.class)) {
-            driverMock.when(() -> DriverManager.getConnection(anyString(), anyString(), anyString()))
-                    .thenReturn(mockConnection);
-
-            impl = new ImplCardBD();
-        }
-
-        // Inject mock connection via reflection so openConnection is bypassed
-        var connectionField = ImplCardBD.class.getDeclaredField("connection");
-        connectionField.setAccessible(true);
-        connectionField.set(impl, mockConnection);
-
-        return impl;
-    }
 
     // ======================== checkCard ========================
 
@@ -115,6 +84,21 @@ class ImplCardBDTest {
             boolean result = implCardBD.checkCard(card);
 
             assertFalse(result);
+        }
+    }
+
+    @Test
+    @DisplayName("checkCard should throw NullPointerException when card is null")
+    void checkCard_NullCard_ThrowsException() {
+        try (MockedStatic<DriverManager> driverMock = mockStatic(DriverManager.class)) {
+            driverMock.when(() -> DriverManager.getConnection(anyString(), anyString(), anyString()))
+                    .thenReturn(mockConnection);
+
+            implCardBD = new ImplCardBD();
+
+            assertThrows(NullPointerException.class, () -> {
+                implCardBD.checkCard(null);
+            }, "Calling checkCard with a null card should throw a NullPointerException");
         }
     }
 

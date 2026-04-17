@@ -63,4 +63,11 @@ public interface StatsDAO {
      * @return a {@link List} of the latest {@link Card} objects
      */
     public List<Card> getLatestCards(int limit);
+
+    /**
+     * Retrieves the rarest card using the SQL function rarestCard().
+     *
+     * @return the rarest {@link Card}, or {@code null} if no cards exist
+     */
+    public Card getRarestCard();
 }

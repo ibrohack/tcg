@@ -59,6 +59,7 @@ public class ImplStatsBD implements StatsDAO {
     final String SQLUNCLAIMEDCARDS = "SELECT * " +
             "FROM Cards WHERE CardId NOT IN (SELECT CardID FROM PlayersCards)";
     final String SQLLATESTCARDS = "SELECT * FROM Cards ORDER BY CardId DESC LIMIT ?";
+    final String SQLRARESTCARD = "SELECT * FROM Cards WHERE CardId = rarestCard()";
 
     /**
      * Constructs a new {@code ImplStatsBD} instance and loads database configuration
@@ -270,5 +271,33 @@ public class ImplStatsBD implements StatsDAO {
             e.printStackTrace();
         }
         return cards;
+    }
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Selects the card using the SQL function {@code rarestCard()} which returns
+     * the ID of the card with the lowest overall quantity.
+     * </p>
+     */
+    @Override
+    public Card getRarestCard() {
+        Card card = null;
+        this.openConnection();
+        try {
+            statement = connection.prepareStatement(SQLRARESTCARD);
+            ResultSet resultado = statement.executeQuery();
+            if (resultado.next()) {
+                card = new Card(resultado.getInt("CardId"), resultado.getString("CardName"),
+                        resultado.getString("Quality"), resultado.getString("CardDescription"),
+                        resultado.getInt("PurchasePrice"), resultado.getInt("SellPrice"));
+            }
+            resultado.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return card;
     }
 }
