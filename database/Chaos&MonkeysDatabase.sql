@@ -170,7 +170,7 @@ INSERT INTO Cards (CardName, Quality, CardDescription, PurchasePrice, SellPrice)
 ('Kora', 'Arok', 'I´m Kora',500000000,0);
 
 
-select count(*) from cards;
+
 /* 
 Player table population with Stored Procedure
 */
@@ -180,7 +180,7 @@ CREATE PROCEDURE PopulatePlayers()
 BEGIN
     DECLARE playerCount INT DEFAULT 0;
 
-    WHILE playerCount < 1000 DO
+    WHILE playerCount < 10 DO
         INSERT INTO Players (Username, PlayerPassword, Coins)
         VALUES (
             CONCAT('monkey', LPAD(playerCount, 3, '0')),
@@ -205,7 +205,7 @@ BEGIN
     DECLARE qtyCardsIdToInsert INT;
     DECLARE jsonCards JSON;
 
-    WHILE player <= 1000 DO
+    WHILE player <= 10 DO
 
         -- Random number of diferent cards between 20 and 80
         SET qtyCardsIdToInsert = FLOOR(20 + RAND() * 60);
