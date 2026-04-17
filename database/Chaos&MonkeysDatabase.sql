@@ -159,14 +159,14 @@ INSERT INTO Cards (CardName, Quality, CardDescription, PurchasePrice, SellPrice)
 ('Bornean Gibbon', 'Common', 'An untiring acrobat of the high tropical forest canopy.',500,10),
 ('Infinite Monkey', 'Legendary', 'Given enough time and a typewriter, he will write Shakespeare.',3000,250),
 ('SleepIvan','Mythic','Not even in a party can not stop him from sleeping.',3000,250),
-('Vaquero','Mythic','The mighty monkey warrior.',3000,250),
-('Navarro','Mythic','The wise disabled monkey.',3000,250),
-('Santi','Mythic','The bulkyest bodybuilder monkey all over the world.',3000,250),
-('Ibarguren','Mythic','Crazy monkey style.',3000,250),
-('Enio','Mythic','Lets go gambling.',3000,250),
-('Galder','Mythic','The orangutan god.',3000,250),
-('Irene','Mythic','The queen monkey.',3000,250),
-('Hodei','Mythic','The PATRON monkey.',3000,250),
+('Sun Wukero','Mythic','The mighty monkey warrior.',3000,250),
+('Lil-LimpAritz','Mythic','The wise disabled monkey.',3000,250),
+('Gymbro','Mythic','The bulkyest bodybuilder monkey all over the world.',3000,250),
+('Crazy MF','Mythic','Crazy monkey style.',3000,250),
+('All-Enio','Mythic','Lets go gambling.',3000,250),
+('GalGod','Mythic','The orangutan god.',3000,250),
+('Queirene','Mythic','The queen monkey.',3000,250),
+('Él PATRÓN','Mythic','The PATRON monkey.',3000,250),
 ('Kora', 'Arok', 'I´m Kora',500000000,0);
 
 
