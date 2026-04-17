@@ -87,6 +87,21 @@ class ImplCardBDTest {
         }
     }
 
+    @Test
+    @DisplayName("checkCard should throw NullPointerException when card is null")
+    void checkCard_NullCard_ThrowsException() {
+        try (MockedStatic<DriverManager> driverMock = mockStatic(DriverManager.class)) {
+            driverMock.when(() -> DriverManager.getConnection(anyString(), anyString(), anyString()))
+                    .thenReturn(mockConnection);
+
+            implCardBD = new ImplCardBD();
+
+            assertThrows(NullPointerException.class, () -> {
+                implCardBD.checkCard(null);
+            }, "Calling checkCard with a null card should throw a NullPointerException");
+        }
+    }
+
     // ======================== insertCard ========================
 
     @Test
