@@ -7,6 +7,9 @@ Chaos & Monkeys allows players to collect, buy, and trade a wide variety of prim
 ## 👥 Authors
 Designed and developed by **Brayan, Adam, Oihan, and Asier**.
 
+## 📚 Knowledgebase
+For comprehensive documentation on the project architecture, features, and database design, please visit our [Project Knowledgebase](https://deepwiki.com/ibrohack/tcg).
+
 ## ✨ Features
 *   **Player Authentication & Profiles:** Secure registration and login using jBCrypt. Players can customize their profile and upload avatars.
 *   **Booster Packs:** Test your luck by opening card packs with dynamic rarity probabilities. Earn free packs periodically!
@@ -66,5 +69,4 @@ Designed and developed by **Brayan, Adam, Oihan, and Asier**.
 *   **`/database/`**: Contains the critical `Chaos&MonkeysDatabase.sql` dump.
 *   **`/data/images/players/`**: Managed external volume allowing safe storage for user avatars outside the classpath.
 
-## 📚 Knowledgebase
-For comprehensive documentation on the project architecture, features, and database design, please visit our [Project Knowledgebase](https://deepwiki.com/ibrohack/tcg).
+
